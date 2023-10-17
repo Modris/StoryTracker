@@ -1,6 +1,5 @@
 package com.modris.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,23 +26,24 @@ public class Tracker {
 	@NotNull
 	private String name;
 	
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category")
 	private Categories category;
 	
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "status")
 	private Status status;
 	
-	@NotNull
 	//page number, chapter number, series number or whatever
 	private String progress;
 	
 	@CreationTimestamp
-	private LocalDate createdOn;
+	private LocalDateTime createdOn;
 
 	@UpdateTimestamp
-	private LocalDateTime lastModified;
+	private LocalDateTime lastRead;
 	
 	public Tracker() {}
 	
@@ -87,6 +87,33 @@ public class Tracker {
 
 	public void setProgress(String progress) {
 		this.progress = progress;
+	}
+
+
+	public LocalDateTime getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(LocalDateTime createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public LocalDateTime getLastRead() {
+		return lastRead;
+	}
+
+	public void setLastRead(LocalDateTime lastRead) {
+		this.lastRead = lastRead;
+	}
+
+	@Override
+	public String toString() {
+		return "Tracker [id=" + id + ", name=" + name + ", category=" + category + ", status=" + status + ", progress="
+				+ progress + ", createdOn=" + createdOn + ", lastRead=" + lastRead + ", getId()=" + getId()
+				+ ", getName()=" + getName() + ", getCategory()=" + getCategory() + ", getStatus()=" + getStatus()
+				+ ", getProgress()=" + getProgress() + ", getCreatedOn()=" + getCreatedOn() + ", getLastRead()="
+				+ getLastRead() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
 	
 	
