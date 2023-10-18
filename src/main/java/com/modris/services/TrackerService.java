@@ -1,5 +1,7 @@
 package com.modris.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ public class TrackerService {
 		trackerRepository.save(tracker);
 	}
 	
+	public List<Tracker> findAll() {
+		return trackerRepository.findAll();
+	}
 	
 	//create
 	//read

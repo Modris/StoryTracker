@@ -6,13 +6,12 @@ CREATE TABLE tracker(
     category smallint UNSIGNED,
     status smallint UNSIGNED,
     progress varchar(40),
-    last_updated DATETIME,
+    created_on DATETIME,
     last_read DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (category) REFERENCES categories(id),
     FOREIGN KEY (status) REFERENCES status(id)
 );
-DROP TABLE tracker;
 CREATE TABLE users(
 	id smallint UNSIGNED AUTO_INCREMENT,
     username VARCHAR(40),

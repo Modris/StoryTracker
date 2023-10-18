@@ -34,8 +34,10 @@ public class MainController {
 	public String mainPage(Model model) {
 		List<Categories> categoriesList = categoriesService.findAll();
 		List<Status> statusList = statusService.findAll();
+		List<Tracker> trackerList = trackerService.findAll();
 		model.addAttribute("categoriesList", categoriesList);
 		model.addAttribute("statusList",statusList);
+		model.addAttribute("trackerList",trackerList);
 		return "Welcome.html";
 	}
 
