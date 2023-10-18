@@ -53,8 +53,7 @@ button:hover {
 	<div class = "form-container">
 		<form action="/addTracker" method="post">
 				<label> Story Name:</label>
-				<input type="text" name = "name"/> 
-	
+	 			<input name = "name" pattern=".{1,100}" required title="1 characters minimum, 100 maximum">
 				<label> Category: </label>
 					<select  name = "category">
 					<option th:each="c :${categoriesList}"
@@ -71,8 +70,7 @@ button:hover {
 				<br><br>
 			
 				<label> Track Progress With Notes: 
-					<input type="text" name = "progress"/>
-					
+					  <input name = "progress" pattern=".{1,40}" required title="1 character minimum, 100 maximum">
 				<button  class = "button" type="Add">Add a Story</button>	
 			</form>
 		</div>
