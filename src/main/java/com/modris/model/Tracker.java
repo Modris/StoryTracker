@@ -26,12 +26,12 @@ public class Tracker {
 	@NotNull
 	private String name;
 	
-	@NotNull
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category")
 	private Categories category;
 	
-	@NotNull
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "status")
 	private Status status;
@@ -51,7 +51,12 @@ public class Tracker {
 		this.category = category;
 		this.status = status;
 	}
-
+	public Tracker(String name, Categories category, Status status, String progress) {
+		this.name = name;
+		this.category = category;
+		this.status = status;
+		this.progress = progress;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -109,11 +114,8 @@ public class Tracker {
 	@Override
 	public String toString() {
 		return "Tracker [id=" + id + ", name=" + name + ", category=" + category + ", status=" + status + ", progress="
-				+ progress + ", createdOn=" + createdOn + ", lastRead=" + lastRead + ", getId()=" + getId()
-				+ ", getName()=" + getName() + ", getCategory()=" + getCategory() + ", getStatus()=" + getStatus()
-				+ ", getProgress()=" + getProgress() + ", getCreatedOn()=" + getCreatedOn() + ", getLastRead()="
-				+ getLastRead() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ progress + ", createdOn=" + createdOn + ", lastRead=" + lastRead;
+		
 	}
 	
 	

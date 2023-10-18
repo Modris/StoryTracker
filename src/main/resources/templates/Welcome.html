@@ -13,25 +13,25 @@
 	
 	<form action="/addTracker" method="post">
 		<label> Story Name:</label>
-		<input type="text" name = "name"/>
+		<input type="text" name = "name"/> 
 		<br><br>
-	<label> Category: </label>	<select id = "category">
-			<option value="0">select category</option>
+	<label> Category: </label>
+			<select  name = "category">
 			<option th:each="c :${categoriesList}"
 			th:value = "${c.id}"
 			th:text = "${c.name}"/>
 		</select>
 		<br><br>
 	<label> Status: </label>
-		<select id = "status">
-			<option value="0">select status</option>
+		<select name = "status">
 			<option th:each="s :${statusList}"
 			th:value = "${s.id}"
 			th:text = "${s.name}"/>
 		</select>
 		<br><br>
+		
 		<label> Track Progress: (Page number or similar)
-					<input type="text" name = "progress"/><br>
+			<input type="text" name = "progress"/><br> 
 		<br>
 		<button type="Add">Add a Story</button>	
 		</form>

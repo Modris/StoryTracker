@@ -38,12 +38,10 @@ public class MainController {
 		model.addAttribute("statusList",statusList);
 		return "Welcome.html";
 	}
-	
+
 	@PostMapping("/addTracker")
-	public String addTracker(Tracker t, Categories c, Status s, Model model) {
-		t.setCategory(c);
-		t.setStatus(s);
-		System.out.println(t.toString());
+	public String addTracker(Tracker t, Model model) {
+
 		trackerService.addTracker(t);
 		return "redirect:/";
 	}
