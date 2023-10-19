@@ -1,6 +1,7 @@
 package com.modris.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -116,6 +117,23 @@ public class Tracker {
 		return "Tracker [id=" + id + ", name=" + name + ", category=" + category + ", status=" + status + ", progress="
 				+ progress + ", createdOn=" + createdOn + ", lastRead=" + lastRead;
 		
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tracker other = (Tracker) obj;
+		return Objects.equals(id, other.id);
 	}
 	
 	

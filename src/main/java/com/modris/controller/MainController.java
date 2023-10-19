@@ -21,6 +21,7 @@ public class MainController {
 	private final TrackerService trackerService;
 	private final CategoriesService categoriesService;
 	private final StatusService statusService;
+	
 	@Autowired
 	public MainController(TrackerService trackerService, 
 			CategoriesService categoriesService,
@@ -43,7 +44,6 @@ public class MainController {
 
 	@PostMapping("/addTracker")
 	public String addTracker(Tracker t, Model model) {
-
 		trackerService.addTracker(t);
 		return "redirect:/";
 	}
