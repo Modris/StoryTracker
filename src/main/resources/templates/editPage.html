@@ -79,40 +79,7 @@ button:hover {
 			</form>
 		</div>
 		
-	<table align="center">
-		<tr>
-			<th>id</th>
-			<th>Name</th>
-			<th>Category</th>
-			<th>Status</th>
-			<th>Progress</th>
-			<th>Created On</th>
-			<th>Last Read</th>
-			<th> Actions </th>
-		</tr>
-		<th:if "${trackerList!=null}">
-				<tr th:each="tracker : ${trackerList}"> 
-					<td th:text="${tracker.id}" />
-					<td th:text="${tracker.name}"/>
-					<td th:text="${tracker.category.name}"/>
-					<td th:text="${tracker.status.name}"/>
-					<td th:text="${tracker.progress}"/>
-					<td th:text="${tracker.createdOn}"/>
-					<td th:text="${tracker.lastRead}"/>		
-					<td class="form-container">
-							<form action="edit" method="get" id="edit_form">
-							<input type="hidden" name="editId" th:value="${tracker.id}">
-							<input type="submit" value="Edit">
-						</form> &nbsp;
-						<form action="delete" method="post"
-							id="delete_form">
-							<input type="hidden" name="idDelete" th:value="${tracker.id}">
-							<input type="submit" value="Delete">
-						</form>
-					</td>
-				</tr>
-				
-		</table>
+	
 		
 </div>
 

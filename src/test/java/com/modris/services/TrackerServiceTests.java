@@ -1,9 +1,9 @@
 package com.modris.services;
 
-
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -41,12 +41,12 @@ public class TrackerServiceTests {
 
 	
 	  @ServiceConnection static MySQLContainer mySQLContainer = new
-	  MySQLContainer("mysql:8.1") .withDatabaseName("testcontainer")
+	  MySQLContainer("mysql:8.0") .withDatabaseName("testcontainers2")
 	  .withUsername("sa") .withPassword("123");
 	  
 	  
 	  static { mySQLContainer.start(); }
-	 
+	
 	@BeforeAll
 	 void beforeAll() {
 		var c = new Categories("Movie");
@@ -61,14 +61,13 @@ public class TrackerServiceTests {
 		  statusRepository.save(s2);
 		  trackerService.addTracker(pulp);
 		  trackerService.addTracker(piece);
-		 
 	}
+
 	
 	@Test
 	@Transactional
-	@DisplayName("TestService saving Tracker class into TestContainers MySQL with trackerRepository")
+	@DisplayName("TrackerService saving Tracker class into TestContainers MySQL with trackerRepository")
 	public void trackerServiceSavingIntoDBTest() {
-		System.out.println("Yes");
 		List<Tracker> trackerList = trackerService.findAll();
 		assertAll(
 				()-> assertEquals(2, trackerList.size()),
@@ -81,6 +80,38 @@ public class TrackerServiceTests {
 		
 	}
 	
+	@Test
+	@Transactional
+	@DisplayName("TrackerService deleteById test happy flow.")
+	public void trackerServiceDeleteByIdTest() {
+		long sizeBefore = trackerRepository.findAll().spliterator().getExactSizeIfKnown();
+		trackerService.deleteById(2L);
+		long sizeAfter = trackerRepository.findAll().spliterator().getExactSizeIfKnown();
+		Tracker t = trackerService.findById(1L);
 	
+
+		assertAll(
+				()-> assertEquals(2, sizeBefore),
+				()-> assertEquals(1, sizeAfter),
+				()->assertEquals("Pulp Fiction",t.getName())
+				);
+	}
+
+	@Test
+	@Transactional
+	@DisplayName("TrackerService.editSaved method works. Happy flow.")
+	public void trackerServiceEditSavedTest() {
+		//Tracker beforeUpdate = trackerService.findById(2L);
+		
+		LocalDateTime now = LocalDateTime.now();
+		trackerRepository.updateWithId("One Piece 2", 1L,4L, now, "Now2", 2L);
+		
+		assertAll(
+				()->assertEquals("One Piece 2",trackerRepository.findByIdReturnTracker(2L).getName()),
+				()->assertEquals("Movies",trackerRepository.findByIdReturnTracker(2L).getCategory().getName()),
+				()->assertEquals("Dropped",trackerRepository.findByIdReturnTracker(2L).getStatus().getName()),
+				()->assertEquals("Now2",trackerRepository.findByIdReturnTracker(2L).getProgress())
+				);
+	}
 	
 }

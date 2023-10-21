@@ -1,6 +1,5 @@
 package com.modris.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,6 @@ public class MainController {
 		model.addAttribute("statusList",statusList);
 		model.addAttribute("trackerList",trackerList);
 		return "Welcome.html";
-		//return "test.html";
 	}
 
 	@PostMapping("/addTracker")
@@ -50,6 +48,7 @@ public class MainController {
 		trackerService.addTracker(t);
 		return "redirect:/";
 	}
+	
 	//EDIT PAGE 
 	@PostMapping("/edit")
 	public String editStory(@RequestParam(name="editId") Long id , Model model) {
@@ -63,10 +62,7 @@ public class MainController {
 	}
 	
 	@PostMapping("editSaved")
-	public String editSaved(Tracker t, @RequestParam("id") Long id, @RequestParam("createdOn") LocalDateTime createdOn) {
-		t.setCreatedOn(createdOn);
-		System.out.println("======");
-		System.out.println(t.getCreatedOn());
+	public String editSaved(Tracker t, @RequestParam("id") Long id) {
 		trackerService.editSaved(t.getName(),
 				t.getCategory().getId(),
 				t.getStatus().getId(),
@@ -76,11 +72,9 @@ public class MainController {
 		return "redirect:/";
 	}
 	
-	
-	
 	//------------------
 	@PostMapping("/delete")
-	public String deleteWhereId(@RequestParam(name="idDelete") Long id) {
+	public String deleteWhereId(@RequestParam(required=false,name="idDelete") Long id) {
 		trackerService.deleteById(id);
 		return "redirect:/";
 	}
