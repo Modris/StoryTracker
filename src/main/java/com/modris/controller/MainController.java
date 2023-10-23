@@ -37,6 +37,7 @@ public class MainController {
 		List<Categories> categoriesList = categoriesService.findAll();
 		List<Status> statusList = statusService.findAll();
 		List<Tracker> trackerList = trackerService.findAll();
+		
 		model.addAttribute("categoriesList", categoriesList);
 		model.addAttribute("statusList",statusList);
 		model.addAttribute("trackerList",trackerList);
@@ -58,17 +59,19 @@ public class MainController {
 		model.addAttribute("categoriesList", categoriesList);
 		model.addAttribute("statusList",statusList);
 		model.addAttribute("tracker", t);
-		return "editPage.html";
+		return "editStory.html";
 	}
 	
 	@PostMapping("editSaved")
 	public String editSaved(Tracker t, @RequestParam("id") Long id) {
-		trackerService.editSaved(t.getName(),
+		trackerService.editSavedHibernate(t,id);
+		/*trackerService.editSaved(t.getName(),
 				t.getCategory().getId(),
 				t.getStatus().getId(),
 				t.getCreatedOn(),
 				t.getProgress(),
 				id);
+				*/
 		return "redirect:/";
 	}
 	

@@ -111,6 +111,7 @@ button:hover {
 		<th>Story Name</th>
 		<th>Notes name</th>
 		<th> Created On </th>
+		<th> Last Modified </th>
 		<th> Last Read </th>
 		<th> Actions </th>
 	</tr>
@@ -121,7 +122,10 @@ button:hover {
 	            <td th:text="${notes.id}" />
 	            <td th:text="${notes.tracker.name}" />
 	            <td th:text="${notes.name}" />
-	            <td th:text="${notes.createdOn}" />
+	           <td th:text="${notes.createdOn}" /> 
+	           <td th:text="${notes.lastModified}"/>
+	           <!--  <td th:text="${notes.getCreatedOnConvertedToDate}" />-->
+	           <!--  <td th:text="${notes.getLastModifiedConvertedToDate}"/> -->
 	            <td th:text="${notes.lastRead}" />
 	            <td class="form-container">
 	                <form action="editNote" method="post" id="edit_form">

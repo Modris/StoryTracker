@@ -39,6 +39,16 @@ public class TrackerService {
 		return trackerRepository.findByIdReturnTracker(id);
 	}
 	@Transactional
+	public void editSavedHibernate(Tracker tEdited,Long id) {
+		Tracker original = trackerRepository.findByIdReturnTracker(id);
+		original.setName(tEdited.getName());
+		original.setCategory(tEdited.getCategory());
+		original.setStatus(tEdited.getStatus());
+		original.setProgress(tEdited.getProgress());
+		trackerRepository.save(original);
+	}
+	
+	@Transactional
 	public void editSaved(String name,
 			Long categoryId, 
 			Long statusId,

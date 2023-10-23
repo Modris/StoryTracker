@@ -107,6 +107,7 @@
 			<th>Status</th>
 			<th>Progress</th>
 			<th>Created On</th>
+			<th> Last Modified</th>
 			<th>Last Read</th>
 			<th> Actions </th>
 			<th> Notes </th>
@@ -118,7 +119,10 @@
 					<td th:text="${tracker.category.name}"/>
 					<td th:text="${tracker.status.name}"/>
 					<td th:text="${tracker.progress}"/>
-					<td th:text="${tracker.createdOn}"/>
+					<td th:text="${tracker.createdOn}"/>  
+			<!--		<td th:text="${tracker.getCreatedOnConvertedToDate}" /> -->
+			<!--	<td th:text="${tracker.getLastModifiedConvertedToDate}"/> -->
+					<td th:text="${tracker.getLastModified}" />
 					<td th:text="${tracker.lastRead}"/>		
 					<td class="form-container">
 							<form  action="edit" method="post" id="edit_form">
@@ -135,6 +139,7 @@
 							<input type="hidden" name = "storyId" th:value="${tracker.id}">
 							<input type="hidden" name = "trackerName" th:value="${tracker.name}">			
 							<input type="submit" value="Notes"/>
+						</form>
 					</td>
 				</tr>
 				

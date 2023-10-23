@@ -87,7 +87,7 @@ public class NotesController {
 								@RequestParam("trackerName") String trackerName,
 								RedirectAttributes redirectAttributes) {
 		
-		notesService.updateNote(notesId,notesName,notesComment);
+		notesService.updateNoteHibernate(notesId,notesName,notesComment);
 		
 		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		redirectAttributes.addAttribute("trackerName",trackerName);

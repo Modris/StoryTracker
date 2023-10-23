@@ -1,5 +1,6 @@
 package com.modris.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,6 +35,13 @@ public class Notes {
 	private LocalDateTime createdOn;
 
 	@UpdateTimestamp
+	private LocalDateTime lastModified;
+
+	
+	@PreUpdate
+	public void onUpdate() {
+		this.lastModified = LocalDateTime.now();
+	}
 	private LocalDateTime lastRead;
 	
 	public Notes() {}
@@ -40,6 +49,14 @@ public class Notes {
 	public Notes(String name, String comments) {
 		this.name = name;
 		this.comments = comments;
+	}
+
+	public LocalDateTime getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(LocalDateTime lastModified) {
+		this.lastModified = lastModified;
 	}
 
 	public String getComments() {
@@ -50,6 +67,12 @@ public class Notes {
 		this.comments = comments;
 	}
 
+	public LocalDate getCreatedOnConvertedToDate() {
+		return this.createdOn.toLocalDate();
+	}
+	public LocalDate getLastModifiedConvertedToDate() {
+		return this.lastModified.toLocalDate();
+	}
 	public LocalDateTime getCreatedOn() {
 		return createdOn;
 	}

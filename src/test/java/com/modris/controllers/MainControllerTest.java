@@ -193,7 +193,7 @@ public class MainControllerTest {
 				.andExpect(model().attribute("categoriesList",equalTo(categoriesList)))
 				.andExpect(model().attribute("statusList",equalTo(statusList)))
 				.andExpect(status().isOk())
-				.andExpect(view().name("editPage.html"));	
+				.andExpect(view().name("editStory.html"));	
 	}
 	
 	

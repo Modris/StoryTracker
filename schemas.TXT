@@ -7,6 +7,7 @@ CREATE TABLE tracker(
     status smallint UNSIGNED,
     progress varchar(40),
     created_on DATETIME,
+    last_modified DATETIME,
     last_read DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (category) REFERENCES categories(id),
@@ -33,7 +34,8 @@ CREATE TABLE notes(
 	name VARCHAR(20),
     comments TEXT,
     created_on DATETIME,
-    last_read  DATETIME,
+    last_modified  DATETIME,
+    last_read DATETIME,
     tracker_id int UNSIGNED,
     PRIMARY KEY (id),
     FOREIGN KEY (tracker_id) REFERENCES tracker(id)

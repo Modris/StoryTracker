@@ -39,6 +39,15 @@ public class NotesService {
 	public void deleteById(Long id) {
 		notesRepository.deleteById(id);
 	}
+	
+	@Transactional
+	public void updateNoteHibernate(Long notesId,String notesNameEdited, String notesCommentEdited) {
+		Notes original = notesRepository.findById2(notesId);
+		original.setName(notesNameEdited);
+		original.setComments(notesCommentEdited);
+		
+		notesRepository.save(original);
+	}
 	@Transactional
 	public void updateNote(Long notesId,String notesName, String notesComment) {
 		notesRepository.updateNote(notesId,notesName,notesComment);

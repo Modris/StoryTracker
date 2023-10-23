@@ -1,9 +1,11 @@
 package com.modris.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Entity;
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -44,7 +47,18 @@ public class Tracker {
 	private LocalDateTime createdOn;
 
 	@UpdateTimestamp
-	private LocalDateTime lastRead;
+	private LocalDateTime lastModified;
+	
+	@PreUpdate
+	public void onUpdate() {
+		this.lastModified = LocalDateTime.now();
+	}
+	@Formula("(SELECT timestampdiff(HOUR, t.last_modified, current_timestamp()) FROM Tracker t WHERE t.id = id)")
+	private Long lastRead;
+
+
+	//private Audit audit;
+	
 	
 	public Tracker() {}
 	
@@ -58,6 +72,17 @@ public class Tracker {
 		this.status = status;
 		this.progress = progress;
 	}
+	
+	
+
+	public LocalDateTime getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(LocalDateTime lastModified) {
+		this.lastModified = lastModified;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -100,15 +125,23 @@ public class Tracker {
 		return createdOn;
 	}
 
+	public LocalDate getCreatedOnConvertedToDate() {
+		return this.createdOn.toLocalDate();
+	}
+	public LocalDate getLastModifiedConvertedToDate() {
+		return this.lastModified.toLocalDate();
+	}
 	public void setCreatedOn(LocalDateTime createdOn) {
 		this.createdOn = createdOn;
 	}
 
-	public LocalDateTime getLastRead() {
+	
+
+	public Long getLastRead() {
 		return lastRead;
 	}
 
-	public void setLastRead(LocalDateTime lastRead) {
+	public void setLastRead(Long lastRead) {
 		this.lastRead = lastRead;
 	}
 
