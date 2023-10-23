@@ -59,7 +59,7 @@ button:hover {
 	 
  }
  .comment-cell {
-    max-height: 50px; /* Adjust the value as needed to set the initial fixed height */
+    max-height: 70px; /* Adjust the value as needed to set the initial fixed height */
     max-width:500px;
     overflow-y: auto; /* Add a vertical scrollbar when content exceeds the fixed height */
 	   white-space: normal;
@@ -72,7 +72,7 @@ button:hover {
 <body>
 
 
-	<h1> Add notes to your Story TEST HTML! </h1>
+	<h1> Add notes to your Story! </h1>
 	<p> The main idea here is to capture the moment. </p>
 	<p> Thoughts/Speculation/Refresher for when you come back!</p>
 	<table class ="table">
@@ -106,21 +106,36 @@ button:hover {
 		<br><br>
 
 <table class="table">
+	<tr>
+		<th> id </th>
+		<th>Story Name</th>
+		<th>Notes name</th>
+		<th> Created On </th>
+		<th> Last Read </th>
+		<th> Actions </th>
+	</tr>
+	
     <th:if="${notesList != null}">
         <th:block th:each="notes, stat : ${notesList}">
 			<tr>
 	            <td th:text="${notes.id}" />
-	            <td th:text="${notes.name}" />
 	            <td th:text="${notes.tracker.name}" />
+	            <td th:text="${notes.name}" />
 	            <td th:text="${notes.createdOn}" />
 	            <td th:text="${notes.lastRead}" />
 	            <td class="form-container">
-	                <form action="edit" method="post" id="edit_form">
-	                    <input type="hidden" name="editId" th:value="${notes.id}" />
+	                <form action="editNote" method="post" id="edit_form">
+	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
+	                    	<input type="hidden" name = "storyId" th:value="${storyId}">
+						<input type="hidden" name = "trackerName" th:value="${trackerName}">
+	                    <input type="hidden" name="notesComment" th:value="${notes.comments}" />
+	                   <input type="hidden" name="notesName" th:value="${notes.name}" />
 	                    <input type="submit" value="Edit" />
 	                </form> &nbsp;
-	                <form action="delete" method="post" id="delete_form">
-	                    <input type="hidden" name="idDelete" th:value="${notes.id}" />
+	                <form action="deleteNote" method="post" id="delete_form">
+						<input type="hidden" name = "storyId" th:value="${storyId}">
+						<input type="hidden" name = "trackerName" th:value="${trackerName}">
+	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
 	                    <input type="submit" value="Delete" />
 	                </form>
 	            </td>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+  body {
+    text-align: center; /* Center everything horizontally */
+        }
+
+td, th {
+	text-align: center;
+	border: 1px solid black;
+	padding: 8px;
+}
+
+table {
+	margin:auto;
+	align: center;
+	text-align: center;
+	border: 1px solid black;
+	border-collapse: collapse;
+	table-layout: fixed;
+	white-space: nowrap;
+}
+.form-container {
+	text-align: center;
+	justify-content: center; /* Center horizontally */
+	align-items: center; /* Center vertically */
+	display: flex
+	}
+td {
+    vertical-align: middle;
+    }
+    
+div {
+	text-align: center;
+}
+
+.button {
+  	background-color: #e7e7e7; /* Green */
+  	border:none;
+ 	color: black;
+	padding: 10px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	border-radius:8px;
+	transition-duration: 0.4s;
+	}
+
+button:hover {
+    background-color: Gray;
+    }
+  
+.bolder{
+	font-weight: bold; 
+	 
+ }
+ .comment-cell {
+    max-height: 70px; /* Adjust the value as needed to set the initial fixed height */
+    max-width:500px;
+    overflow-y: auto; /* Add a vertical scrollbar when content exceeds the fixed height */
+	   white-space: normal;
+}
+
+
+		</style>
+</head>
+
+<body>
+
+
+	<h1> Edit specific Note </h1>
+	<table class ="table">
+		<tr>
+			<th>Story Name</th>
+			<th>Edit Notes name</th>
+			<th>Edit Comment</th>
+			<th> Save changes </th>
+		</tr>
+		<tr>
+			<form action="/updateNote" method="post">
+				<td>
+					<label class="bolder" th:text="${trackerName}"/>
+		 		</td>
+		 		<td> 
+		 			<input th:value="${notesName}" size="10" name = "notesName" pattern=".{1,20}" required title="1 characters minimum, 20 maximum">
+				</td>
+				<td>
+						  <input th:value="${notesComment}" size="40" name = "notesComment" pattern=".{1,}" required title="1 character minimum">
+				</td>
+				<td>
+					<input type="hidden" name = "notesId" th:value="${notesId}">
+					<input type="hidden" name = "storyId" th:value="${storyId}">
+					<input type="hidden" name = "trackerName" th:value="${trackerName}">
+					<button  class = "button" type="Add">Save</button>	
+				</td>
+				</form>
+		</tr>
+
+		</table>
+
+
+		
+	
+</body>
+</html>

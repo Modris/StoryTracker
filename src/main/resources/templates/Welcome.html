@@ -56,28 +56,46 @@
 	
 	<h3> Make a new Story to track! </h3>
 	
-		<form action="/addTracker" method="post">
-				<label> Story Name:</label>
+	<table>
+		<tr>
+			<th>Story Name</th>
+			<th>Category</th>
+			<th>Status</th>
+			<th>Progress</th>
+			<th> Submit </th>
+		</tr>
+		<tr>
+			<form action="/addTracker" method="post">
+			<td>
 	 			<input name = "name" pattern=".{1,100}" required title="1 characters minimum, 100 maximum">
-				<label> Category: </label>
+			</td>
+			<td>	
 					<select  name = "category">
 					<option th:each="c :${categoriesList}"
 					th:value = "${c.id}"
 					th:text = "${c.name}"/>
 				</select>
-	
-				<label> Status: </label>
+			</td>
+			<td>
 				<select name = "status">
 					<option th:each="s :${statusList}"
 					th:value = "${s.id}"
 					th:text = "${s.name}"/>
 				</select>
-				<br><br>
-			
-				<label> Track Progress With Notes: 
-					  <input name = "progress" pattern=".{1,40}" required title="1 character minimum, 100 maximum">
+			</td>
+			<td>
+				<input name = "progress" pattern=".{1,40}" required title="1 character minimum, 40 maximum">
+			</td>
+			<td>
 				<button  class = "button" type="Add">Add a Story</button>	
+			</td>
 			</form>
+			
+		</tr>
+		
+	</table>
+	
+	
 	
 		<br><br>
 		
@@ -91,10 +109,11 @@
 			<th>Created On</th>
 			<th>Last Read</th>
 			<th> Actions </th>
+			<th> Notes </th>
 		</tr>
 		<th:if "${trackerList!=null}">
 				<tr th:each="tracker : ${trackerList}"> 
-					<td th:text="${tracker.id}" />
+					<td th:text="${tracker.id}"/>
 					<td th:text="${tracker.name}"/>
 					<td th:text="${tracker.category.name}"/>
 					<td th:text="${tracker.status.name}"/>
@@ -110,6 +129,12 @@
 							<input type="hidden" name="idDelete" th:value="${tracker.id}">
 							<input  type="submit" value="Delete">
 						</form>
+					</td>
+					<td> 
+						<form action="notes" method="get" id="notes_form">
+							<input type="hidden" name = "storyId" th:value="${tracker.id}">
+							<input type="hidden" name = "trackerName" th:value="${tracker.name}">			
+							<input type="submit" value="Notes"/>
 					</td>
 				</tr>
 				

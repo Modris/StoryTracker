@@ -78,4 +78,6 @@ public class MainController {
 		trackerService.deleteById(id);
 		return "redirect:/";
 	}
+
+	
 }

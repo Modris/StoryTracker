@@ -58,6 +58,7 @@ public class MainControllerTest {
 	    Tracker tracker = new Tracker("Pulp Fiction",
 	    		category, status,"Some progress");
 
+
 	    mockMvc.perform(post("/addTracker")
 				    .param("name", "Pulp Fiction")
 		            .param("category","Movies") 
@@ -151,7 +152,7 @@ public class MainControllerTest {
 		Long id = 10L;
 		t.setCreatedOn(LocalDateTime.now());
 		
-		
+
 		mockMvc.perform(post("/editSaved")
 				.param("name", t.getName())
 				.param("category",t.getCategory().getName())
@@ -179,19 +180,22 @@ public class MainControllerTest {
 		
 		Long editId = 11L;
 
-		List<Status> statusList = statusService.findAll();
-		List<Categories> categoriesList = categoriesService.findAll();
+		List<Status> statusList = new ArrayList<>();
+		List<Categories> categoriesList = new ArrayList<>();
 		
 	    when(trackerService.findById(editId)).thenReturn(t);
-	    
+	    when(categoriesService.findAll()).thenReturn(categoriesList);
+		when(statusService.findAll()).thenReturn(statusList);
+
 		mockMvc.perform(post("/edit")
 				.param("editId", String.valueOf(editId)))
 				.andExpect(model().attribute("tracker", equalTo(t)))
 				.andExpect(model().attribute("categoriesList",equalTo(categoriesList)))
 				.andExpect(model().attribute("statusList",equalTo(statusList)))
 				.andExpect(status().isOk())
-				.andExpect(view().name("editPage.html"));
-		
+				.andExpect(view().name("editPage.html"));	
 	}
+	
+	
 	
 }

@@ -26,3 +26,13 @@ CREATE TABLE tracker(
     FOREIGN KEY (category) REFERENCES categories(id),
     FOREIGN KEY (status) REFERENCES status(id)
 );
+CREATE TABLE notes(
+	id smallint UNSIGNED AUTO_INCREMENT,
+	name VARCHAR(20),
+    comments TEXT,
+    created_on DATETIME,
+    last_read  DATETIME,
+    tracker_id int UNSIGNED,
+    PRIMARY KEY (id),
+    FOREIGN KEY (tracker_id) REFERENCES tracker(id)
+);
