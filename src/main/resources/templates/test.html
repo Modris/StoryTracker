@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            text-align: center; /* Center everything horizontally */
+        }
+
+        table {
+            margin: 0 auto; /* Center the table horizontally */
+            
+            border: 1px solid black;
+            border-collapse: collapse;
+            table-layout: fixed;
+            white-space: nowrap;
+        }
+.table2{
+	margin: 0 auto;
+           
+            border: 1px solid black;
+            border-collapse: collapse;
+            table-layout: fixed;
+            white-space: nowrap;
+}
+.table2 td{
+	padding: 5px;
+}
+.table2 th{
+	padding: 5px;
+}
+        td, th {
+            text-align: center;
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        /* Add vertical-align for td elements */
+        td {
+            vertical-align: middle;
+        }
+        .button {
+		  background-color: #e7e7e7; /* Green */
+		  border:none;
+		  color: black;
+		  padding: 10px 26px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  border-radius:12px;
+		  transition-duration: 0.4s;
+		}
+		button:hover {
+		  background-color: Gray;
+		  }
+		  
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 26px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.round {
+  border-radius: 50%;
+}
+  
+    </style>
+</head>
+
+<body>
+ <h1> Story Tracker Test </h1>
+	
+	<h3> Make a new Story to track! </h3>
+	
+	<table>
+		<tr>
+			<th>Story Name</th>
+			<th>Category</th>
+			<th>Status</th>
+			<th>Progress</th>
+			<th> Submit </th>
+		</tr>
+		<tr>
+			<form action="/addTracker" method="post">
+			<td>
+	 			<input name = "name" pattern=".{1,100}" required title="1 characters minimum, 100 maximum">
+			</td>
+			<td>	
+					<select  name = "category">
+					<option th:each="c :${categoriesList}"
+					th:value = "${c.id}"
+					th:text = "${c.name}"/>
+				</select>
+			</td>
+			<td>
+				<select name = "status">
+					<option th:each="s :${statusList}"
+					th:value = "${s.id}"
+					th:text = "${s.name}"/>
+				</select>
+			</td>
+			<td>
+				<input name = "progress" pattern=".{1,40}" required title="1 character minimum, 40 maximum">
+			</td>
+			<td>
+				<button  class = "button" type="Add">Add a Story</button>	
+			</td>
+			</form>
+			
+		</tr>
+		
+	</table>
+	
+	
+	
+		<br>
+
+	<table class = "table2">
+		<tr> 
+			<th> </th>		
+			<th> Created on </th>
+			<th> Last Modified </th>
+			<th> Last Read </th>
+			<th>  </th>
+		</tr>
+		<tr>
+			<form action = "show" method = "get">
+						<input type="hidden" name="currentPage" th:value="${pageNum}">
+		<td> Show/Hide columns: </td>
+		<td><input type="checkbox" name="createdOn" th:checked="${createdOnAnswer}" /></td> 
+		<td> <input type="checkbox" name="lastModified" th:checked="${lastModifiedAnswer != null}" /></td> 
+		<td> <input type="checkbox" name="lastRead" th:checked="${lastReadAnswer != null}" /></td> 
+		<td> 		<input  type="submit" value="Apply"> </td> 
+		</form>
+		</tr>
+	</table>
+	
+			<table class = "table">
+		<tr>
+			<th>id</th>
+			<th>Name</th>
+			<th>Category</th>
+			<th>Status</th>
+			<th>Progress</th>
+			<th th:if="${createdOnAnswer == on}">Created On</th>
+			<th th:if="${lastModifiedAnswer == on}"> Last Modified</th>
+			<th th:if="${lastReadAnswer == on}">Last Read</th>
+			<th> Actions </th>
+			<th> Notes </th>
+		</tr>
+		<th:if "${trackerListPaged!=null}">
+				<tr th:each="tracker : ${	trackerListPaged}"> 
+					<td th:text="${tracker.id}"/>
+					<td th:text="${tracker.name}"/>
+					<td th:text="${tracker.category.name}"/>
+					<td th:text="${tracker.status.name}"/>
+					<td th:text="${tracker.progress}"/>
+					<td th:if="${createdOnAnswer ==  on}" th:text="${tracker.getCreatedOnConvertedToDate}"/>  
+			<!--		<td th:text="${tracker.getCreatedOnConvertedToDate}" /> -->
+			<!--	<td th:text="${tracker.getLastModifiedConvertedToDate}"/> -->
+					<td th:if="${lastModifiedAnswer ==  on}" th:text="${tracker.getLastModifiedConvertedToDate}" />
+					<td th:if="${lastReadAnswer ==  on}" th:text="${tracker.lastRead} + ' hour(s)'"/>		
+					<td class="form-container">
+							<form  action="edit" method="post" id="edit_form">
+							<input type="hidden" name = "editId" th:value="${tracker.id}">
+							<input  type="submit" value="Edit">
+						</form> &nbsp;
+						<form  action="delete" method="post" id="delete_form">
+							<input type="hidden" name="idDelete" th:value="${tracker.id}">
+							<input  type="submit" value="Delete">
+						</form>
+					</td>
+					<td> 
+						<form action="notes" method="get" id="notes_form">
+							<input type="hidden" name = "storyId" th:value="${tracker.id}">
+							<input type="hidden" name = "trackerName" th:value="${tracker.name}">			
+							<input type="submit" value="Notes"/>
+						</form>
+					</td>
+				</tr>
+				
+		</table>
+		<br>
+	<!--
+		<span> Items per page: </span>
+		<div class="form-container">
+		<form action="test" method="get" id="myForm">
+		<select name = "itemsPerPage"  onchange="document.getElementById('myForm').submit()">
+					<option value="item10">10</option>
+					<option value="item25">25</option>
+					<option value="item50">50</option>
+					<option value="item100">100</option>
+				</select>
+		</form>
+		-->
+		</div>
+		<a class="previous round"  th:if="${pageNum>1}"  th:href="'/page/' + ${pageNum - 1}">&#8249;</a>
+		&nbsp;
+		<a class="next round" th:if="${pageNum<totalPages}" th:href="'/page/' + ${pageNum+1}" >&#8250;</a>
+  <!--
+		<br> <br>
+			<input type="text" th:value="${pageNum}"/>
+	<input type="text" th:value="${totalPages}"/>
+		<input type="text" th:value="${totalItems}"/>
+	-->
+		
+</body>
+</html>

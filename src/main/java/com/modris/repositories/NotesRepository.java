@@ -2,14 +2,14 @@ package com.modris.repositories;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.modris.model.Notes;
 
-public interface NotesRepository extends CrudRepository<Notes,Long> {
+public interface NotesRepository extends JpaRepository<Notes,Long> {
 
 	List<Notes> findAll();
 

@@ -3,9 +3,11 @@ package com.modris.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -37,37 +39,58 @@ public class MainController {
 	public String mainPage(@RequestParam(value = "createdOn",required=false) String createdOn,
 			@RequestParam(value = "lastModified",required=false) String lastModified,
 			@RequestParam(value = "lastRead",required=false) String lastRead,
+			@RequestParam(value="pageNum", required=false) String pageNum,
+			Model model,
+		 RedirectAttributes redirectAttributes) {
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		return viewPage(1,createdOn, lastModified, lastRead, model);
+	}
+	
+	@GetMapping("/page/{pageNum}")
+	public String viewPage(@PathVariable(name = "pageNum") int pageNum,
+			@RequestParam(value = "createdOn",required=false) String createdOnAnswer,
+			@RequestParam(value = "lastModified",required=false) String lastModifiedAnswer,
+			@RequestParam(value = "lastRead",required=false) String lastReadAnswer,
 			Model model) {
 		
-		List<Categories> categoriesList = categoriesService.findAll();
+	 	List<Categories> categoriesList = categoriesService.findAll();
 		List<Status> statusList = statusService.findAll();
-		List<Tracker> trackerList = trackerService.findAll();
 
-		model.addAttribute("createdOnAnswer",createdOn);
-		model.addAttribute("lastModifiedAnswer",lastModified);
-		model.addAttribute("lastReadAnswer",lastRead);
+		model.addAttribute("createdOnAnswer",createdOnAnswer);
+		model.addAttribute("lastModifiedAnswer",lastModifiedAnswer);
+		model.addAttribute("lastReadAnswer",lastReadAnswer);
 		model.addAttribute("categoriesList", categoriesList);
 		model.addAttribute("statusList",statusList);
-		model.addAttribute("trackerList",trackerList);
-		return "Welcome.html";
+		
+
+		Page<Tracker> paged = trackerService.findAllPaged(pageNum);
+		List<Tracker> trackerListPaged = paged.getContent();
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", paged.getTotalPages());
+		model.addAttribute("totalItems", paged.getTotalElements());
+		model.addAttribute("trackerListPaged",trackerListPaged);
+		
+		
+		return "test.html";
 	}
-	@GetMapping("/show")
+	
+	@GetMapping("/page/show")
 	public String showHideColumns(@RequestParam(value = "createdOn",required=false) String createdOn,
 								@RequestParam(value = "lastModified",required=false) String lastModified,
 								@RequestParam(value = "lastRead",required=false) String lastRead,
+								@RequestParam(value="currentPage") String currentPage,
 								Model model,
 								RedirectAttributes redirectAttributes){
-
+		redirectAttributes.addAttribute("pageNum", currentPage);
 		redirectAttributes.addAttribute("createdOn",createdOn);
 		redirectAttributes.addAttribute("lastModified",lastModified);
 		redirectAttributes.addAttribute("lastRead",lastRead);
-		return "redirect:/";
+		//return "redirect:/";
+		return viewPage(Integer.valueOf(currentPage),createdOn, lastModified, lastRead, model);
 	}
-	/*
-	<input type="checkbox" name="createdOn"/>
-	<input type="checkbox" name="LastModified"/>
-	<input type="checkbox" name="LastRead"/
-	*/
+
 	@PostMapping("/addTracker")
 	public String addTracker(Tracker t) {
 		trackerService.addTracker(t);

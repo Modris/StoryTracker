@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.modris.model.Tracker;
@@ -29,6 +32,13 @@ public class TrackerService {
 	public List<Tracker> findAll() {
 		return trackerRepository.findAll();
 	}
+	
+	public Page<Tracker> findAllPaged(int pageNumber){
+		int pageSize=3;
+		Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
+		return trackerRepository.findAll(pageable);
+	}
+	
 	
 	@Transactional
 	public void deleteById(Long id) {

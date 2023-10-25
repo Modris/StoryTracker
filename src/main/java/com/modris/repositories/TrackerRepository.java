@@ -3,20 +3,20 @@ package com.modris.repositories;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.modris.model.Tracker;
 
 @Repository
-public interface TrackerRepository extends CrudRepository<Tracker,Long>, PagingAndSortingRepository<Tracker, Long>{
+public interface TrackerRepository extends JpaRepository<Tracker,Long>{
 
 	@Query("SELECT t FROM Tracker t")
 	List<Tracker> findAll();
+	
 	
 	@Query("SELECT t FROM Tracker t WHERE t.id = :id")
 	Tracker findByIdReturnTracker(@Param("id") Long id);
