@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Entity;
@@ -42,7 +43,8 @@ public class Notes {
 	public void onUpdate() {
 		this.lastModified = LocalDateTime.now();
 	}
-	private LocalDateTime lastRead;
+	@Formula("(SELECT timestampdiff(HOUR, t.last_modified, current_timestamp()) FROM Notes t WHERE t.id = id)")
+	private Long lastRead;
 	
 	public Notes() {}
 	
@@ -81,11 +83,12 @@ public class Notes {
 		this.createdOn = createdOn;
 	}
 
-	public LocalDateTime getLastRead() {
+
+	public Long getLastRead() {
 		return lastRead;
 	}
 
-	public void setLastRead(LocalDateTime lastRead) {
+	public void setLastRead(Long lastRead) {
 		this.lastRead = lastRead;
 	}
 

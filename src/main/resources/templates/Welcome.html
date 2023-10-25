@@ -9,12 +9,26 @@
 
         table {
             margin: 0 auto; /* Center the table horizontally */
+            
             border: 1px solid black;
             border-collapse: collapse;
             table-layout: fixed;
             white-space: nowrap;
         }
-
+.table2{
+	margin: 0 auto;
+           
+            border: 1px solid black;
+            border-collapse: collapse;
+            table-layout: fixed;
+            white-space: nowrap;
+}
+.table2 td{
+	padding: 5px;
+}
+.table2 th{
+	padding: 5px;
+}
         td, th {
             text-align: center;
             border: 1px solid black;
@@ -97,8 +111,26 @@
 	
 	
 	
-		<br><br>
-		
+		<br>
+	<table class = "table2">
+		<tr> 
+			<th> </th>		
+			<th> Created on </th>
+			<th> Last Modified </th>
+			<th> Last Read </th>
+			<th>  </th>
+		</tr>
+		<tr>
+			<form action = "show" method = "get">
+		<td> Show/Hide columns:
+		<td><input type="checkbox" name="createdOn" th:checked="${createdOnAnswer}" /></td> 
+		<td> <input type="checkbox" name="lastModified" th:checked="${lastModifiedAnswer != null}" /></td> 
+		<td> <input type="checkbox" name="lastRead" th:checked="${lastReadAnswer != null}" /></td> 
+		<td> 		<input  type="submit" value="Apply"> </td> 
+		</form>
+		</tr>
+	</table>
+
 	<table class = "table">
 		<tr>
 			<th>id</th>
@@ -106,9 +138,9 @@
 			<th>Category</th>
 			<th>Status</th>
 			<th>Progress</th>
-			<th>Created On</th>
-			<th> Last Modified</th>
-			<th>Last Read</th>
+			<th th:if="${createdOnAnswer == on}">Created On</th>
+			<th th:if="${lastModifiedAnswer == on}"> Last Modified</th>
+			<th th:if="${lastReadAnswer == on}">Last Read</th>
 			<th> Actions </th>
 			<th> Notes </th>
 		</tr>
@@ -119,11 +151,11 @@
 					<td th:text="${tracker.category.name}"/>
 					<td th:text="${tracker.status.name}"/>
 					<td th:text="${tracker.progress}"/>
-					<td th:text="${tracker.createdOn}"/>  
+					<td th:if="${createdOnAnswer ==  on}" th:text="${tracker.getCreatedOnConvertedToDate}"/>  
 			<!--		<td th:text="${tracker.getCreatedOnConvertedToDate}" /> -->
 			<!--	<td th:text="${tracker.getLastModifiedConvertedToDate}"/> -->
-					<td th:text="${tracker.getLastModified}" />
-					<td th:text="${tracker.lastRead}"/>		
+					<td th:if="${lastModifiedAnswer ==  on}" th:text="${tracker.getLastModifiedConvertedToDate}" />
+					<td th:if="${lastReadAnswer ==  on}" th:text="${tracker.lastRead} + ' hour(s)'"/>		
 					<td class="form-container">
 							<form  action="edit" method="post" id="edit_form">
 							<input type="hidden" name = "editId" th:value="${tracker.id}">

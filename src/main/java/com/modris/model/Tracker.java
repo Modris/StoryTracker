@@ -56,7 +56,7 @@ public class Tracker {
 	@Formula("(SELECT timestampdiff(HOUR, t.last_modified, current_timestamp()) FROM Tracker t WHERE t.id = id)")
 	private Long lastRead;
 
-
+	
 	//private Audit audit;
 	
 	

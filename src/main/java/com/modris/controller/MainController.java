@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.modris.model.Categories;
 import com.modris.model.Status;
@@ -33,17 +34,40 @@ public class MainController {
 	}
 	
 	@GetMapping("/")
-	public String mainPage(Model model) {
+	public String mainPage(@RequestParam(value = "createdOn",required=false) String createdOn,
+			@RequestParam(value = "lastModified",required=false) String lastModified,
+			@RequestParam(value = "lastRead",required=false) String lastRead,
+			Model model) {
+		
 		List<Categories> categoriesList = categoriesService.findAll();
 		List<Status> statusList = statusService.findAll();
 		List<Tracker> trackerList = trackerService.findAll();
-		
+
+		model.addAttribute("createdOnAnswer",createdOn);
+		model.addAttribute("lastModifiedAnswer",lastModified);
+		model.addAttribute("lastReadAnswer",lastRead);
 		model.addAttribute("categoriesList", categoriesList);
 		model.addAttribute("statusList",statusList);
 		model.addAttribute("trackerList",trackerList);
 		return "Welcome.html";
 	}
+	@GetMapping("/show")
+	public String showHideColumns(@RequestParam(value = "createdOn",required=false) String createdOn,
+								@RequestParam(value = "lastModified",required=false) String lastModified,
+								@RequestParam(value = "lastRead",required=false) String lastRead,
+								Model model,
+								RedirectAttributes redirectAttributes){
 
+		redirectAttributes.addAttribute("createdOn",createdOn);
+		redirectAttributes.addAttribute("lastModified",lastModified);
+		redirectAttributes.addAttribute("lastRead",lastRead);
+		return "redirect:/";
+	}
+	/*
+	<input type="checkbox" name="createdOn"/>
+	<input type="checkbox" name="LastModified"/>
+	<input type="checkbox" name="LastRead"/
+	*/
 	@PostMapping("/addTracker")
 	public String addTracker(Tracker t) {
 		trackerService.addTracker(t);
