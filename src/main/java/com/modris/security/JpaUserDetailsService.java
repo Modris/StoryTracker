@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.modris.model.Users;
 import com.modris.repositories.UserRepository;
 import com.modris.repositories.UserRolesRepository;
 
@@ -24,9 +25,12 @@ public class JpaUserDetailsService implements UserDetailsService {
 		
 		var user = userRepository.findByUsername(username);
 		
-		return user.map(u -> new SecurityUser(u,userRolesRepository))
-				.orElseThrow( () -> new UsernameNotFoundException("No Such Username found."));
-		
+		if (user.isPresent()) {
+	        Users u = user.get();
+	        return new SecurityUser(u, userRolesRepository);
+	    } else {
+	        throw new UsernameNotFoundException("No Such Username found.");
+	    }
 		
 	}
 }

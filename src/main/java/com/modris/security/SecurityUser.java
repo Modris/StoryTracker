@@ -21,7 +21,7 @@ public class SecurityUser implements UserDetails{
 		this.user = user;
 		this.userRolesRepository = userRolesRepository;
 	}
-
+	
 	@Override
 	public String getUsername() {
 		return user.getUsername();

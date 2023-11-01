@@ -2,6 +2,7 @@ package com.modris.services;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.modris.model.Authority;
@@ -17,12 +18,14 @@ public class RegistrationService {
 	private final UserRepository userRepository;
 	private final UserRolesRepository userRolesRepository;
 	private final AuthorityRepository authorityRepository;
+	private final BCryptPasswordEncoder passwordEncoder;
 
 	public RegistrationService(UserRepository userRepository, UserRolesRepository userRolesRepository,
-			AuthorityRepository authorityRepository) {
+			AuthorityRepository authorityRepository, BCryptPasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.userRolesRepository = userRolesRepository;
 		this.authorityRepository = authorityRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public boolean taken(String username) {
@@ -35,11 +38,15 @@ public class RegistrationService {
 	}
 	
 	public void register(Users user) {
+		
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
+		
 		userRepository.save(user);
-	Optional<Authority> manager = authorityRepository.findById(3L); //3L is Manager.
-	Authority managerExtracted = manager.get();
-	UserRoles userRoles = new UserRoles(managerExtracted,user);
-	userRolesRepository.save(userRoles);
+		Optional<Authority> manager = authorityRepository.findById(3L); //3L is Manager.
+		Authority managerExtracted = manager.get();
+		UserRoles userRoles = new UserRoles(managerExtracted,user);
+		userRolesRepository.save(userRoles);
 	
 	}
 }
