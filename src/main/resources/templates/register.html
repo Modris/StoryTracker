@@ -53,31 +53,29 @@
 </head>
 
 <body>
-		<h1>Please Log In</h1>
-		<div th:if="${param.error}">
-			Invalid username and password.</div>
-		<div th:if="${param.logout}">
-			You have been logged out.</div>
-		<th:if="${registration != null}">
-			<p th:text="${registration}"/>
+		<h1>Please Register</h1>
+		<th:if="${usernameTaken != null}">
+			<p th:text="${usernameTaken}"/>
 		</th:if>
-		<form th:action="@{/login}" method="post">
+	<form th:action="@{/registerSave}" method="post">
 			<br>
-			<input type="text" name="username" placeholder="Username"/>
+			<input type="text" name="username" placeholder="New Username"
+					pattern=".{1,40}" required title="1 character minimum, 40 maximum"/>
 			<br><br>
-			<input type="password" name="password" placeholder="Password"/>
+			<input type="password" name="password" placeholder="Enter Password"
+					pattern=".{1,40}" required title="1 character minimum, 40 maximum"/>
 			<br><br> 
-			
 			<table>
-				<th> 	<input type="submit" value="Log in" /> </th>
-				</form>
-				<form th:action="@{/register}" method="get">
-				<th>
-							<input type="submit" value="Register" />
-				 </th>
-				 </form>
+   			<th>
+			 <input type="submit" value="Sign Up" />	 
+			 </th>
+		</form>
+		<form th:action="@{/login}" method="get">		
+			<th> <input type="submit" value="Back to Login" />
+			</th>
+			</form>
 			</table>
-
-
+	
+	
 </body>
 </html>

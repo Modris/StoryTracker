@@ -17,12 +17,17 @@ public class ProjectConfig {
 		http.httpBasic(Customizer.withDefaults());
 		
 		//http.csrf(c->c.disable());
-		http.authorizeHttpRequests(c -> c.anyRequest().authenticated());
+		http.authorizeHttpRequests(
+				c -> c.requestMatchers("/register").permitAll()
+				.requestMatchers("registerSave").permitAll()
+				.anyRequest().authenticated());
 		
 		http.formLogin(
 				c->c.defaultSuccessUrl("/",true)
 				.loginPage("/login")
 				.permitAll()
+				
+				
 			
 				);
 		

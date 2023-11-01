@@ -35,15 +35,7 @@ public class MainController {
 		this.categoriesService = categoriesService;
 		this.statusService = statusService;
 	}
-	
-	@GetMapping("/login")
-	public String loginpage() {
-		return "login.html";
-	}
-	@PostMapping("/logout")
-	public String logout() {
-		return "redirect:/login?logout";
-	}
+
 	@GetMapping("/")
 	public String mainPage(@RequestParam(value = "createdOn",required=false) String createdOn,
 			@RequestParam(value = "lastModified",required=false) String lastModified,

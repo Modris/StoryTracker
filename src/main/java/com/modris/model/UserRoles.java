@@ -18,6 +18,7 @@ public class UserRoles {
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "authority_id")
 	private Authority authority;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
