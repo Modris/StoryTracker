@@ -62,14 +62,14 @@
 		  background-color: Gray;
 		  }
 		  
-a {
+.aButtons {
   text-decoration: none;
   display: inline-block;
   padding: 8px 16px;
   font-size: 26px;
 }
 
-a:hover {
+.aButtons a:hover {
   background-color: #ddd;
   color: black;
 }
@@ -149,7 +149,7 @@ a:hover {
 		</tr>
 		<tr>
 			<form action = "show" method = "get">
-						<input type="hidden" name="currentPage" th:value="${pageNum}">
+						<input type="hidden" name="currentPage" th:value="${currentPage}">
 		<td> Show/Hide columns: </td>
 		<td><input type="checkbox" name="createdOn" th:checked="${createdOnAnswer}" /></td> 
 		<td> <input type="checkbox" name="lastModified" th:checked="${lastModifiedAnswer != null}" /></td> 
@@ -161,14 +161,30 @@ a:hover {
 	
 			<table class = "table">
 		<tr>
-			<th>id</th>
-			<th>Name</th>
-			<th>Category</th>
-			<th>Status</th>
-			<th>Progress</th>
-			<th th:if="${createdOnAnswer == on}">Created On</th>
-			<th th:if="${lastModifiedAnswer == on}"> Last Modified</th>
-			<th th:if="${lastReadAnswer == on}">Last Read</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}">id</a>
+				</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}">Name</a>
+			</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=category&sortDir=' + ${reverseSortDir}">Category</a>
+			</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir}">Status</a>
+			</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=progress&sortDir=' + ${reverseSortDir}">progress</a>
+			</th>
+			<th th:if="${createdOnAnswer == on}">
+				<a th:href="'/page/' + ${currentPage} + '?sortField=createdOn&sortDir=' + ${reverseSortDir}">Created On</a>
+			</th>
+			<th th:if="${lastModifiedAnswer == on}"> 
+				<a th:href="'/page/' + ${currentPage} + '?sortField=lastModified&sortDir=' + ${reverseSortDir}">Last Modified</a>
+			</th>
+			<th th:if="${lastReadAnswer == on}">
+				<a th:href="'/page/' + ${currentPage} + '?sortField=lastRead&sortDir=' + ${reverseSortDir}">Last Read</a>
+			</th>
 			<th> Actions </th>
 			<th> Notes </th>
 		</tr>
@@ -217,13 +233,19 @@ a:hover {
 				</select>
 		</form>
 		-->
-		</div>
-		<a class="previous round"  th:if="${pageNum>1}"  th:href="'/page/' + ${pageNum - 1}">&#8249;</a>
-		&nbsp;
-		<a class="next round" th:if="${pageNum<totalPages}" th:href="'/page/' + ${pageNum+1}" >&#8250;</a>
+			
+		<span><i>Sorted by [[${sortField}]] in [[${sortDir}]] order</i></span>
+		&nbsp;&nbsp;
+		<span> Total items: [[${totalItems}]]</span> 
+		<a class="aButtons previous round"  th:if="${currentPage>1}"  th:href="'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}">&#8249;</a>
+	
+		&nbsp;&nbsp;
+		<a class="aButtons next round" th:if="${currentPage<totalPages}" th:href="'/page/' + ${currentPage+1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}" >&#8250;</a>
+
+		
   <!--
 		<br> <br>
-			<input type="text" th:value="${pageNum}"/>
+			<input type="text" th:value="${currentPage}"/>
 	<input type="text" th:value="${totalPages}"/>
 		<input type="text" th:value="${totalItems}"/>
 	-->

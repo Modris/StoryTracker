@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.modris.model.Tracker;
@@ -33,9 +34,12 @@ public class TrackerService {
 		return trackerRepository.findAll();
 	}
 	
-	public Page<Tracker> findAllPaged(int pageNumber){
+	public Page<Tracker> findAllPaged(int pageNumber, String sortField, String sortDirection){
 		int pageSize=3;
-		Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
+		Pageable pageable = PageRequest.of(pageNumber-1, pageSize,
+				sortDirection.equals("asc") ? Sort.by(sortField).ascending()
+						: Sort.by(sortField).descending());
+		
 		return trackerRepository.findAll(pageable);
 	}
 	
