@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.testcontainers.shaded.com.trilead.ssh2.log.Logger;
 
 import com.modris.model.Users;
 import com.modris.repositories.UserRolesRepository;
@@ -17,8 +16,7 @@ public class SecurityUser implements UserDetails{
 
 	private final Users user;
 	private final UserRolesRepository userRolesRepository;
-	private  Logger logger = Logger.getLogger(SecurityUser.class);
-	
+
 	public SecurityUser(Users user, UserRolesRepository userRolesRepository) {
 		this.user = user;
 		this.userRolesRepository = userRolesRepository;

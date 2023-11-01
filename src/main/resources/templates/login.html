@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            text-align: center; /* Center everything horizontally */
+        }
+
+        table {
+            margin: 0 auto; /* Center the table horizontally */
+            
+            border: 1px solid black;
+            border-collapse: collapse;
+            table-layout: fixed;
+            white-space: nowrap;
+        }
+.table2{
+	margin: 0 auto;
+           
+            border: 1px solid black;
+            border-collapse: collapse;
+            table-layout: fixed;
+            white-space: nowrap;
+}
+.table2 td{
+	padding: 5px;
+}
+.table2 th{
+	padding: 5px;
+}
+        td, th {
+            text-align: center;
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        /* Add vertical-align for td elements */
+        td {
+            vertical-align: middle;
+        }
+        .button {
+		  background-color: #e7e7e7; /* Green */
+		  border:none;
+		  color: black;
+		  padding: 10px 26px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  border-radius:12px;
+		  transition-duration: 0.4s;
+		}
+		button:hover {
+		  background-color: Gray;
+		  }
+  
+    </style>
+</head>
+
+<body>
+		<h1>Please Log In</h1>
+		<div th:if="${param.error}">
+			Invalid username and password.</div>
+		<div th:if="${param.logout}">
+			You have been logged out.</div>
+		<form th:action="@{/login}" method="post">
+			<div>
+			<input type="text" name="username" placeholder="Username"/>
+			</div>
+			<div>
+			<input type="password" name="password" placeholder="Password"/>
+			</div>
+			<input type="submit" value="Log in" />
+		</form>
+</body>
+</html>

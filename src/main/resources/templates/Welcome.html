@@ -41,7 +41,7 @@
             align-items: center;
             text-align: center;
         }
-        
+
         /* Add vertical-align for td elements */
         td {
             vertical-align: middle;
@@ -61,12 +61,38 @@
 		button:hover {
 		  background-color: Gray;
 		  }
+		  
+.aButtons {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 26px;
+}
+
+.aButtons a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.round {
+  border-radius: 50%;
+}
   
     </style>
 </head>
 
 <body>
- <h1> Story Tracker </h1>
+ <h1> Story Tracker Test </h1>
 	
 	<h3> Make a new Story to track! </h3>
 	
@@ -119,33 +145,59 @@
 			<th> Last Modified </th>
 			<th> Last Read </th>
 			<th>  </th>
+			<th> Logout </th>
 		</tr>
 		<tr>
 			<form action = "show" method = "get">
-		<td> Show/Hide columns:
+						<input type="hidden" name="currentPage" th:value="${currentPage}">
+		<td> Show/Hide columns: </td>
 		<td><input type="checkbox" name="createdOn" th:checked="${createdOnAnswer}" /></td> 
 		<td> <input type="checkbox" name="lastModified" th:checked="${lastModifiedAnswer != null}" /></td> 
 		<td> <input type="checkbox" name="lastRead" th:checked="${lastReadAnswer != null}" /></td> 
 		<td> 		<input  type="submit" value="Apply"> </td> 
 		</form>
+		    <td>
+            <form th:action="@{/logout}" method="post" id="logout">
+                <input type="submit" value="Logout" />
+            </form>
+        </td>
 		</tr>
 	</table>
 
-	<table class = "table">
+
+	
+	
+			<table class = "table">
 		<tr>
-			<th>id</th>
-			<th>Name</th>
-			<th>Category</th>
-			<th>Status</th>
-			<th>Progress</th>
-			<th th:if="${createdOnAnswer == on}">Created On</th>
-			<th th:if="${lastModifiedAnswer == on}"> Last Modified</th>
-			<th th:if="${lastReadAnswer == on}">Last Read</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}">id</a>
+				</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}">Name</a>
+			</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=category&sortDir=' + ${reverseSortDir}">Category</a>
+			</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir}">Status</a>
+			</th>
+			<th>
+				<a th:href="'/page/' + ${currentPage} + '?sortField=progress&sortDir=' + ${reverseSortDir}">progress</a>
+			</th>
+			<th th:if="${createdOnAnswer == on}">
+				<a th:href="'/page/' + ${currentPage} + '?sortField=createdOn&sortDir=' + ${reverseSortDir}">Created On</a>
+			</th>
+			<th th:if="${lastModifiedAnswer == on}"> 
+				<a th:href="'/page/' + ${currentPage} + '?sortField=lastModified&sortDir=' + ${reverseSortDir}">Last Modified</a>
+			</th>
+			<th th:if="${lastReadAnswer == on}">
+				<a th:href="'/page/' + ${currentPage} + '?sortField=lastRead&sortDir=' + ${reverseSortDir}">Last Read</a>
+			</th>
 			<th> Actions </th>
 			<th> Notes </th>
 		</tr>
-		<th:if "${trackerList!=null}">
-				<tr th:each="tracker : ${trackerList}"> 
+		<th:if "${trackerListPaged!=null}">
+				<tr th:each="tracker : ${	trackerListPaged}"> 
 					<td th:text="${tracker.id}"/>
 					<td th:text="${tracker.name}"/>
 					<td th:text="${tracker.category.name}"/>
@@ -176,5 +228,35 @@
 				</tr>
 				
 		</table>
+		<br>
+	<!--
+		<span> Items per page: </span>
+		<div class="form-container">
+		<form action="test" method="get" id="myForm">
+		<select name = "itemsPerPage"  onchange="document.getElementById('myForm').submit()">
+					<option value="item10">10</option>
+					<option value="item25">25</option>
+					<option value="item50">50</option>
+					<option value="item100">100</option>
+				</select>
+		</form>
+		-->
+			
+		<span><i>Sorted by [[${sortField}]] in [[${sortDir}]] order</i></span>
+		&nbsp;&nbsp;
+		<span> Total items: [[${totalItems}]]</span> 
+		<a class="aButtons previous round"  th:if="${currentPage>1}"  th:href="'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}">&#8249;</a>
+	
+		&nbsp;&nbsp;
+		<a class="aButtons next round" th:if="${currentPage<totalPages}" th:href="'/page/' + ${currentPage+1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}" >&#8250;</a>
+
+		
+  <!--
+		<br> <br>
+			<input type="text" th:value="${currentPage}"/>
+	<input type="text" th:value="${totalPages}"/>
+		<input type="text" th:value="${totalItems}"/>
+	-->
+		
 </body>
 </html>

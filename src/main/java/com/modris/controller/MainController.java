@@ -36,6 +36,14 @@ public class MainController {
 		this.statusService = statusService;
 	}
 	
+	@GetMapping("/login")
+	public String loginpage() {
+		return "login.html";
+	}
+	@PostMapping("/logout")
+	public String logout() {
+		return "redirect:/login?logout";
+	}
 	@GetMapping("/")
 	public String mainPage(@RequestParam(value = "createdOn",required=false) String createdOn,
 			@RequestParam(value = "lastModified",required=false) String lastModified,
@@ -82,7 +90,7 @@ public class MainController {
 		model.addAttribute("trackerListPaged",trackerListPaged);
 		
 		
-		return "test.html";
+		return "Welcome.html";
 	}
 	
 	@GetMapping("/page/show")
