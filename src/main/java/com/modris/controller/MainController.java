@@ -105,17 +105,51 @@ public class MainController {
 	}
 
 	@PostMapping("/addTracker")
-	public String addTracker(Tracker t) {
+	public String addTracker(Tracker t,
+			@RequestParam(value = "createdOnNoTrackerBind",required=false) String createdOn,
+			@RequestParam(value = "lastModifiedNoTrackerBind",required=false) String lastModified,
+			@RequestParam(value = "lastReadNoTrackerBind",required=false) String lastRead,
+			@RequestParam(value="currentPage") String currentPage,
+			@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir) {
+		
 		trackerService.addTracker(t);
-		return "redirect:/";
+		
+		
+		String url = "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
+		if(createdOn.equals("true") || createdOn.equals("on")) {
+			url+="&createdOn=on";
+		}
+		if(lastModified.equals("true") || lastModified.equals("on")) {
+			url+="&lastModified=on";
+		}
+		if(lastRead.equals("true") || lastRead.equals("on")) {
+			url+="&lastRead=on";
+		}
+		return url;
 	}
 	
 	//EDIT PAGE 
 	@PostMapping("/edit")
-	public String editStory(@RequestParam(name="editId") Long id , Model model) {
+	public String editStory(@RequestParam(name="editId") Long id , 
+			@RequestParam(value = "createdOn",required=false) String createdOn,
+			@RequestParam(value = "lastModified",required=false) String lastModified,
+			@RequestParam(value = "lastRead",required=false) String lastRead,
+			@RequestParam(value="currentPage") String currentPage,
+			@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir,
+			Model model) {
 		Tracker t = trackerService.findById(id);
 		List<Status> statusList = statusService.findAll();
 		List<Categories> categoriesList = categoriesService.findAll();
+		
+		model.addAttribute("createdOnAnswer", createdOn);
+		model.addAttribute("lastModifiedAnswer", lastModified);
+		model.addAttribute("lastReadAnswer", lastRead);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDir", sortDir);
+	
 		model.addAttribute("categoriesList", categoriesList);
 		model.addAttribute("statusList",statusList);
 		model.addAttribute("tracker", t);
@@ -123,24 +157,52 @@ public class MainController {
 	}
 	
 	@PostMapping("editSaved")
-	public String editSaved(Tracker t, @RequestParam("id") Long id) {
+	public String editSaved(Tracker t, @RequestParam("id") Long id,
+			@RequestParam(value = "createdOnNoTrackerBind",required=false) String createdOn,
+			@RequestParam(value = "lastModifiedNoTrackerBind",required=false) String lastModified,
+			@RequestParam(value = "lastReadNoTrackerBind",required=false) String lastRead,
+			@RequestParam(value="currentPage") String currentPage,
+			@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir)
+			
+			 {
 		trackerService.editSavedHibernate(t,id);
-		/*trackerService.editSaved(t.getName(),
-				t.getCategory().getId(),
-				t.getStatus().getId(),
-				t.getCreatedOn(),
-				t.getProgress(),
-				id);
-				*/
-		return "redirect:/";
+		
+		return pagedUrl(currentPage,sortField,sortDir,createdOn,lastModified,lastRead);
 	}
 	
 	//------------------
 	@PostMapping("/delete")
-	public String deleteWhereId(@RequestParam(required=false,name="idDelete") Long id) {
+	public String deleteWhereId(
+			@RequestParam(required=false,name="idDelete") Long id,
+			@RequestParam(value = "createdOn",required=false) String createdOn,
+			@RequestParam(value = "lastModified",required=false) String lastModified,
+			@RequestParam(value = "lastRead",required=false) String lastRead,
+			@RequestParam(value="currentPage") String currentPage,
+			@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir)
+										{
 		trackerService.deleteById(id);
-		return "redirect:/";
+		
+		return pagedUrl(currentPage,sortField,sortDir,createdOn,lastModified,lastRead);
+		
 	}
 
+	private String pagedUrl(String currentPage,String sortField,
+			String sortDir,String createdOn,String lastModified,String lastRead) {
+	
+		
+		String url = "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
+		if(createdOn.equals("true") || createdOn.equals("on")) {
+			url+="&createdOn=on";
+		}
+		if(lastModified.equals("true") || lastModified.equals("on")) {
+			url+="&lastModified=on";
+		}
+		if(lastRead.equals("true") || lastRead.equals("on")) {
+			url+="&lastRead=on";
+		}
+		return url;
+	}
 	
 }

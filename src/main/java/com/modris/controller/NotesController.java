@@ -36,6 +36,18 @@ public class NotesController {
 
 		return "notes.html"; //notes.html
 	}
+	@GetMapping("/page/notes")
+	public String goToNotesPage2( @RequestParam("storyId") Long trackerId,
+			@RequestParam("trackerName") String trackerName,
+			Model model,
+			RedirectAttributes redirectAttributes) {
+		List<Notes> notesList = notesService.findAllById(trackerId);
+		redirectAttributes.addAttribute("notesList", notesList); //listAll 
+		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
+		redirectAttributes.addAttribute("trackerName", trackerName); //display trackerName as hard embedded value.
+
+		return "redirect:/notes"; //notes.html
+	}
 
 	@PostMapping("/addNotes")
 	public String addNotes( @RequestParam("name") String name,

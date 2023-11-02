@@ -83,7 +83,7 @@ button:hover {
 			<th> Submit </th>
 		</tr>
 		<tr>
-			<form action="/addNotes" method="post">
+			<form th:action="@{/addNotes}" method="post">
 				<td>
 					<label class="bolder" th:text="${trackerName}"/>
 		 		</td>
@@ -128,7 +128,7 @@ button:hover {
 	           <!--  <td th:text="${notes.getLastModifiedConvertedToDate}"/> -->
 	            <td th:text="${notes.lastRead}" />
 	            <td class="form-container">
-	                <form action="editNote" method="post" id="edit_form">
+	                <form th:action="@{editNote}" method="post" id="edit_form">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
 	                    	<input type="hidden" name = "storyId" th:value="${storyId}">
 						<input type="hidden" name = "trackerName" th:value="${trackerName}">
@@ -136,7 +136,7 @@ button:hover {
 	                   <input type="hidden" name="notesName" th:value="${notes.name}" />
 	                    <input type="submit" value="Edit" />
 	                </form> &nbsp;
-	                <form action="deleteNote" method="post" id="delete_form">
+	                <form th:action="@{deleteNote}" method="post" id="delete_form">
 						<input type="hidden" name = "storyId" th:value="${storyId}">
 						<input type="hidden" name = "trackerName" th:value="${trackerName}">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />

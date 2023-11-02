@@ -81,7 +81,7 @@ button:hover {
 			<th> Save changes </th>
 		</tr>
 		<tr>
-			<form action="/updateNote" method="post">
+			<form th:action="@{/updateNote}" method="post">
 				<td>
 					<label class="bolder" th:text="${trackerName}"/>
 		 		</td>
