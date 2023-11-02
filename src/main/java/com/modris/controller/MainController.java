@@ -43,7 +43,7 @@ public class MainController {
 			@RequestParam(value="pageNum", required=false) String pageNum,
 			Model model,
 		 RedirectAttributes redirectAttributes) {
-
+		
 		if(pageNum == null) {
 			pageNum="1";
 		}
@@ -58,11 +58,11 @@ public class MainController {
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir,
 			Model model) {
-		
+
 	 	List<Categories> categoriesList = categoriesService.findAll();
 		List<Status> statusList = statusService.findAll();
 		
-		 
+		
 	    model.addAttribute("sortField", sortField);
 	    model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
@@ -85,19 +85,23 @@ public class MainController {
 		return "Welcome.html";
 	}
 	
-	@GetMapping("/page/show")
+	@PostMapping("/show")
 	public String showHideColumns(@RequestParam(value = "createdOn",required=false) String createdOn,
 								@RequestParam(value = "lastModified",required=false) String lastModified,
 								@RequestParam(value = "lastRead",required=false) String lastRead,
 								@RequestParam(value="currentPage") String currentPage,
+								@Param("sortField") String sortField,
+								@Param("sortDir") String sortDir,
 								Model model,
 								RedirectAttributes redirectAttributes){
-		redirectAttributes.addAttribute("pageNum", currentPage);
+		
+		//redirectAttributes.addAttribute("pageNum", currentPage);
 		redirectAttributes.addAttribute("createdOn",createdOn);
 		redirectAttributes.addAttribute("lastModified",lastModified);
 		redirectAttributes.addAttribute("lastRead",lastRead);
-		return "redirect:/";
-		//return viewPage(Integer.valueOf(currentPage),createdOn, lastModified, lastRead, model);
+		return "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
+	//return "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
+			
 	}
 
 	@PostMapping("/addTracker")

@@ -22,6 +22,7 @@ public class ProjectConfig {
 		this.jpaUserDetailsService = jpaUserDetailsService;
 	}
 	
+	
 	@Bean
 	SecurityFilterChain configure(HttpSecurity http) throws Exception{
 		
