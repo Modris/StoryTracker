@@ -42,13 +42,19 @@ public class MainController {
 			@RequestParam(value = "lastRead",required=false) String lastRead,
 			@RequestParam(value = "lastReadDays",required=false) String lastReadDays,
 			@RequestParam(value="pageNum", required=false) String pageNum,
+			@RequestParam(value = "pageSize",required=false) String pageSize,
 			Model model,
 		 RedirectAttributes redirectAttributes) {
 		
 		if(pageNum == null) {
 			pageNum="1";
 		}
-		return viewPage(Integer.valueOf(pageNum),createdOn, lastModified, lastRead, lastReadDays, "id", "asc",model);
+		if(pageSize == null) {
+			pageSize = "5";
+		}
+
+		return viewPage(Integer.valueOf(pageNum),createdOn, lastModified, lastRead, 
+				lastReadDays,pageSize, "id", "asc",model);
 	}
 	
 	@GetMapping("/page/{pageNum}")
@@ -57,6 +63,7 @@ public class MainController {
 			@RequestParam(value = "lastModified",required=false) String lastModifiedAnswer,
 			@RequestParam(value = "lastRead",required=false) String lastReadAnswer,
 			@RequestParam(value = "lastReadDays",required=false) String lastReadDaysAnswer,
+			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir,
 			Model model) {
@@ -64,7 +71,11 @@ public class MainController {
 	 	List<Categories> categoriesList = categoriesService.findAll();
 		List<Status> statusList = statusService.findAll();
 		
-		
+		if(pageSize == null) {
+			pageSize = "5";
+		}
+
+		 model.addAttribute("pageSize", pageSize);
 	    model.addAttribute("sortField", sortField);
 	    model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
@@ -76,7 +87,7 @@ public class MainController {
 		model.addAttribute("statusList",statusList);
 	
 		
-		Page<Tracker> paged = trackerService.findAllPaged(pageNum, sortField,sortDir);
+		Page<Tracker> paged = trackerService.findAllPaged(pageNum, Integer.valueOf(pageSize), sortField,sortDir);
 		
 		List<Tracker> trackerListPaged = paged.getContent();
 		model.addAttribute("currentPage", pageNum);
@@ -87,7 +98,22 @@ public class MainController {
 		
 		return "Welcome.html";
 	}
+	@PostMapping("/pageSizeReq")
+	public String pageSizeReq(@RequestParam(value = "createdOn",required=false) String createdOn,
+			@RequestParam(value = "lastModified",required=false) String lastModified,
+			@RequestParam(value = "lastRead",required=false) String lastRead,
+			@RequestParam(value = "lastReadDays",required=false) String lastReadDays,
+			@RequestParam(value="currentPage") String currentPage,
+			@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir,
+			@RequestParam(value = "pageSize",required=false) String pageSize,
+			Model model,
+			RedirectAttributes redirectAttributes){
+
+
+			return pagedUrl(currentPage,sortField,sortDir,pageSize, createdOn,lastModified,lastRead,lastReadDays);
 	
+	}
 	@PostMapping("/show")
 	public String showHideColumns(@RequestParam(value = "createdOn",required=false) String createdOn,
 								@RequestParam(value = "lastModified",required=false) String lastModified,
@@ -96,16 +122,19 @@ public class MainController {
 								@RequestParam(value="currentPage") String currentPage,
 								@Param("sortField") String sortField,
 								@Param("sortDir") String sortDir,
+								@RequestParam(value = "pageSize",required=false) String pageSize,
 								Model model,
 								RedirectAttributes redirectAttributes){
 		
 		//redirectAttributes.addAttribute("pageNum", currentPage);
-		redirectAttributes.addAttribute("createdOn",createdOn);
+		/*redirectAttributes.addAttribute("createdOn",createdOn);
 		redirectAttributes.addAttribute("lastModified",lastModified);
 		redirectAttributes.addAttribute("lastRead",lastRead);
 		redirectAttributes.addAttribute("lastReadDays",lastReadDays);
 		return "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
-	//return "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
+		*/
+		return pagedUrl(currentPage,sortField,sortDir,pageSize, createdOn,lastModified,lastRead,lastReadDays);
+		
 			
 	}
 
@@ -116,13 +145,14 @@ public class MainController {
 			@RequestParam(value = "lastReadNoTrackerBind",required=false) String lastRead,
 			@RequestParam(value = "lastReadDays",required=false) String lastReadDays,
 			@RequestParam(value="currentPage") String currentPage,
+			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir) {
 		
 		trackerService.addTracker(t);
 		
 		
-		return pagedUrl(currentPage,sortField,sortDir,createdOn,lastModified,lastRead,lastReadDays);
+		return pagedUrl(currentPage,sortField,sortDir,pageSize, createdOn,lastModified,lastRead,lastReadDays);
 	
 	}
 	
@@ -134,6 +164,7 @@ public class MainController {
 			@RequestParam(value = "lastRead",required=false) String lastRead,
 			@RequestParam(value = "lastReadDays",required=false) String lastReadDays,
 			@RequestParam(value="currentPage") String currentPage,
+			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir,
 			Model model) {
@@ -152,6 +183,7 @@ public class MainController {
 		model.addAttribute("categoriesList", categoriesList);
 		model.addAttribute("statusList",statusList);
 		model.addAttribute("tracker", t);
+		model.addAttribute("pageSize", pageSize);
 		return "editStory.html";
 	}
 	
@@ -162,13 +194,14 @@ public class MainController {
 			@RequestParam(value = "lastReadNoTrackerBind",required=false) String lastRead,
 			@RequestParam(value = "lastReadDaysNoTrackerBind",required=false) String lastReadDays,
 			@RequestParam(value="currentPage") String currentPage,
+			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir)
 			
 			 {
 		trackerService.editSavedHibernate(t,id);
 		
-		return pagedUrl(currentPage,sortField,sortDir,createdOn,lastModified,lastRead,lastReadDays);
+		return pagedUrl(currentPage,sortField,sortDir,pageSize, createdOn,lastModified,lastRead,lastReadDays);
 	}
 	
 	//------------------
@@ -180,30 +213,36 @@ public class MainController {
 			@RequestParam(value = "lastRead",required=false) String lastRead,
 			@RequestParam(value = "lastReadDays",required=false) String lastReadDays,
 			@RequestParam(value="currentPage") String currentPage,
+			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir)
 										{
 		trackerService.deleteById(id);
 		
-		return pagedUrl(currentPage,sortField,sortDir,createdOn,lastModified,lastRead,lastReadDays);
+		return pagedUrl(currentPage,sortField,sortDir, pageSize, createdOn,lastModified,lastRead,lastReadDays);
 		
 	}
 
-	private String pagedUrl(String currentPage,String sortField,
-			String sortDir,String createdOn,String lastModified,String lastRead, String lastReadDays) {
+	private String pagedUrl(String currentPage,String sortField, String sortDir, 
+			String pageSize,String createdOn,  String lastModified,String lastRead, 
+			String lastReadDays) {
 	
 		
 		String url = "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
-		if(createdOn.equals("true") || createdOn.equals("on")) {
+		if(createdOn !=null && (createdOn.equals("true") || createdOn.equals("on"))) {
 			url+="&createdOn=on";
 		}
-		if(lastModified.equals("true") || lastModified.equals("on")) {
+		
+		url+="&pageSize="+pageSize;
+		
+		
+		if(lastModified !=null && (lastModified.equals("true") || lastModified.equals("on"))) {
 			url+="&lastModified=on";
 		}
-		if(lastRead.equals("true") || lastRead.equals("on")) {
+		if(lastRead != null && (lastRead.equals("true") || lastRead.equals("on"))) {
 			url+="&lastRead=on";
 		}
-		if(lastReadDays.equals("true") || lastReadDays.equals("on")) {
+		if(lastReadDays != null && (lastReadDays.equals("true") || lastReadDays.equals("on"))) {
 			url+="&lastReadDays=on";
 		}
 		return url;

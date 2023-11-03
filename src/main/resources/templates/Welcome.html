@@ -99,8 +99,13 @@
 		var lastReadDays = document.getElementById("lastReadDays").checked;
 	  var currentPage = document.getElementById("currentPage").value; // Change this to the actual current page
 	  var reverseSortDir = document.getElementById("reverseSortDir").value; // Change this to the actual sort direction
+	var pageSize = document.getElementById("pageSize").value;
 	
 		var newURL = `/page/${currentPage}?sortField=${sortField}&sortDir=${reverseSortDir}`;
+	 
+	 newURL +="&pageSize="+pageSize;
+	 
+	 
 	  if (createdOn) {
 	    newURL += "&createdOn=true";
 	  }
@@ -113,7 +118,6 @@
 	    if (lastReadDays) {
 	    newURL += "&lastReadDays=true";
 	  }
-	  console.log(newURL);
 	    
 	   document.getElementById("dynamicLink").href = newURL;
 	   document.getElementById("dynamicLink1").href = newURL;
@@ -134,7 +138,7 @@
 		    document.getElementById("dynamicLink88").href = newURL;
 		  }		
 
-} 
+} console.log(newURL);
 
 	</script>
 	
@@ -150,6 +154,13 @@
 	  var sortDir = document.getElementById("sortDir").value; // Change this to the actual sort direction
 		var sortField = document.getElementById("sortField").value;
 		var newURL = `/page/${currentPage}?sortField=${sortField}&sortDir=${sortDir}`;
+		
+		
+		var pageSize = document.getElementById("pageSize").value;
+
+		 newURL +="&pageSize="+pageSize;
+		
+		
 	  if (createdOn) {
 	    newURL += "&createdOn=true";
 	  }
@@ -162,8 +173,7 @@
 	    if (lastReadDays) {
 	    newURL += "&lastReadDays=true";
 	  }		
-	  console.log(newURL);
-	
+console.log(newURL);
 	     document.getElementById("dynamicLinkPrevious").href = newURL;
 	    
 		
@@ -181,6 +191,12 @@
 	  var sortDir = document.getElementById("sortDir").value; // Change this to the actual sort direction
 		var sortField = document.getElementById("sortField").value;
 		var newURL = `/page/${currentPage}?sortField=${sortField}&sortDir=${sortDir}`;
+		
+		var pageSize = document.getElementById("pageSize").value;
+
+		 newURL +="&pageSize="+pageSize;
+		 
+		 
 	  if (createdOn) {
 	    newURL += "&createdOn=true";
 	  }
@@ -193,8 +209,8 @@
 	   if (lastReadDays) {
 	    newURL += "&lastReadDays=true";
 	  }		
-	  console.log(newURL);
-	
+
+		console.log(newURL);
 	     document.getElementById("dynamicLinkNext").href = newURL;
 	    
 		
@@ -222,11 +238,11 @@
 				<input type="hidden" name="createdOnNoTrackerBind" th:value="${createdOnAnswer}" />
 		 		<input type="hidden" name="lastModifiedNoTrackerBind" th:value="${lastModifiedAnswer}" />
 				<input type="hidden" name="lastReadNoTrackerBind" th:value="${lastReadAnswer}" />
-				<input type="hidden" name="lastReadDays" th:value="${lastReadDaysAnswer}" />
+				<input type="hidden" name="lastReadDaysNoTrackerBind" th:value="${lastReadDaysAnswer}" />
 				<input type="hidden" name="currentPage" th:value="${currentPage}">
 				<input type="hidden" name="sortField" th:value="${sortField}">
 				<input type="hidden" name="sortDir" th:value="${sortDir}">	
-			
+				<input type="hidden" id="pageSize" name="pageSize" th:value="${pageSize}">
 			
 			<td>
 	 			<input name = "name" pattern=".{1,100}" required title="1 characters minimum, 100 maximum">
@@ -275,6 +291,7 @@
 						<input type="hidden" id="currentPage" name="currentPage" th:value="${currentPage}">
 						<input type="hidden" id="sortField" name="sortField" th:value="${sortField}">
 						<input type="hidden" id="sortDir" name="sortDir" th:value="${sortDir}">
+						<input type="hidden" name="pageSize" th:value="${pageSize}">
 						<input type="hidden"  id="reverseSortDir" name="reverseSortDir" th:value="${reverseSortDir}">
 		<td> Show/Hide columns: </td>
 		<td><input type="checkbox" id="createdOn"  name="createdOn" th:checked="${createdOnAnswer}" /></td> 
@@ -339,7 +356,7 @@
 			<th th:if="${lastReadAnswer == on}">
 				<a id="dynamicLink7">
 					 <button type="button" onclick="updateURL('lastReadHours')">Last Read Hrs</button>
-				 </a>
+				 </a> 
 			</th>
 			<th> Actions </th>
 			<th> Notes </th>
@@ -366,7 +383,7 @@
 							<input type="hidden" name="currentPage" th:value="${currentPage}">
 							<input type="hidden" name="sortField" th:value="${sortField}">
 							<input type="hidden" name="sortDir" th:value="${sortDir}">	
-							
+							<input type="hidden" name="pageSize" th:value="${pageSize}">
 							<input  type="submit" value="Edit">
 						</form> &nbsp;
 						<form  th:action="@{/delete}" method="post" id="delete_form">
@@ -379,7 +396,7 @@
 							<input type="hidden" name="currentPage" th:value="${currentPage}">
 							<input type="hidden" name="sortField" th:value="${sortField}">
 							<input type="hidden" name="sortDir" th:value="${sortDir}">	
-							
+							<input type="hidden" name="pageSize" th:value="${pageSize}">
 							<input  type="submit" value="Delete">
 						</form>
 					</td>
@@ -394,19 +411,25 @@
 				
 		</table>
 		<br>
-	<!--
-		<span> Items per page: </span>
-		<div class="form-container">
-		<form action="test" method="get" id="myForm">
-		<select name = "itemsPerPage"  onchange="document.getElementById('myForm').submit()">
-					<option value="item10">10</option>
-					<option value="item25">25</option>
-					<option value="item50">50</option>
-					<option value="item100">100</option>
-				</select>
-		</form>
-		-->
-			
+	
+		<span class="form-container"> 
+			<span> Items per page: </span>
+
+			<form  th:action="@{/pageSizeReq}" method="post" id="myForm">
+							<input type="hidden" name="createdOn" th:value="${createdOnAnswer}" />
+					 		<input type="hidden" name="lastModified" th:value="${lastModifiedAnswer}" />
+							<input type="hidden" name="lastReadDays" th:value="${lastReadDaysAnswer}" />
+							<input type="hidden" name="lastRead" th:value="${lastReadAnswer}" />
+							<input type="hidden" name="currentPage" th:value="${currentPage}">
+							<input type="hidden" name="sortField" th:value="${sortField}">
+							<input type="hidden" name="sortDir" th:value="${sortDir}">	
+							
+					<input size="1" name = "pageSize" pattern="^[1-9][0-9]?$|^100$" required title="1 pages minimum, 100 maximum" th:value="${pageSize}"}>
+			    	<input type="submit" value="Confirm"/>
+			</form>
+		</span>
+		<br>
+		
 		<span><i>Sorted by [[${sortField}]] in [[${sortDir}]] order</i></span>
 		&nbsp;&nbsp;
 		<span> Total items: [[${totalItems}]]</span> 
@@ -416,6 +439,7 @@
 				 	<a id="dynamicLinkNext" th:if="${currentPage<totalPages}">
 					<button type="button" onclick="updateURLNext()">Next</button>
 				 </a>
+				<br>
   <!--
 		<br> <br>
 			<input type="text" th:value="${currentPage}"/>
