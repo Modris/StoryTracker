@@ -23,7 +23,18 @@ public interface NotesRepository extends JpaRepository<Notes,Long> {
 				@Param("notesName") String notesName,
 				@Param("notesComment") String notesComment);
 
+	@Modifying
+	@Query("DELETE FROM Notes n WHERE n.tracker.id = :trackerId")
+	void deleteByTrackerId(@Param("trackerId") Long trackerId);
 
-	@Query("SELECT n FROM Notes n WHERE id = :id")
+	@Query("SELECT n FROM Notes n WHERE n.id = :id")
 	Notes findById2(@Param("id") Long id);
+	
+	@Query("SELECT n FROM Notes n WHERE n.id = :id AND n.tracker.id = :trackerId")
+	Notes findByIdAndTrackerId(@Param("id") Long id, @Param("trackerId") Long trackerId);
+	
+	
+	//@Modifying
+	//@Query("DELETE FROM Notes n WHERE n.id = :id AND n.tracker = :trackerId")
+	//void deleteByIdAndTrackerId(@Param("id") Long id, @Param("trackerId") Long trackerId);
 }

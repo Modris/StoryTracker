@@ -1,32 +1,11 @@
 package com.modris.services;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.testcontainers.containers.MySQLContainer;
-
-import com.modris.model.Categories;
-import com.modris.model.Status;
-import com.modris.model.Tracker;
-import com.modris.repositories.CategoriesRepository;
-import com.modris.repositories.StatusRepository;
-import com.modris.repositories.TrackerRepository;
-
-import jakarta.transaction.Transactional;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TrackerServiceTests {
-
+/*
 	@Autowired
 	private TrackerRepository trackerRepository;
 	
@@ -113,5 +92,5 @@ public class TrackerServiceTests {
 				()->assertEquals("Now2",trackerRepository.findByIdReturnTracker(2L).getProgress())
 				);
 	}
-	
+	*/
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+	body {
+         text-align: center; /* Center everything horizontally */
+        }
+</style>
+</head>
+<body>
+
+	<h3> Error page </h3>
+	<th:if "${errorMsg !=null}">
+	<h1 th:text="${errorMsg}"/> 
+	</th:if>
+</body>
+</html>

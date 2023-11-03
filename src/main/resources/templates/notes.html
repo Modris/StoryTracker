@@ -117,9 +117,9 @@ button:hover {
 	</tr>
 	
     <th:if="${notesList != null}">
-        <th:block th:each="notes, stat : ${notesList}">
+        <th:block th:each="notes, index : ${notesList}">
 			<tr>
-	            <td th:text="${notes.id}" />
+	            <td th:text="${index.count}" />
 	            <td th:text="${notes.tracker.name}" />
 	            <td th:text="${notes.name}" />
 	            <td th:text="${notes.getCreatedOnConvertedToDate}" />

@@ -376,8 +376,8 @@ console.log(newURL);
 			<th> Notes </th>
 		</tr>
 		<th:if "${trackerListPaged!=null}">
-				<tr th:each="tracker : ${	trackerListPaged}"> 
-					<td th:text="${tracker.id}"/>
+				<tr th:each="tracker, index : ${	trackerListPaged}"> 
+					<td th:text="${index.count}"/>
 					<td class = "comment-cell" th:text="${tracker.name}"/>
 					<td th:text="${tracker.category.name}"/>
 					<td th:text="${tracker.status.name}"/>

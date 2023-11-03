@@ -48,6 +48,7 @@ public class MainController {
 			@RequestParam(value="pageNum", required=false) String pageNum,
 			@RequestParam(value = "pageSize",required=false) String pageSize,
 			Model model,
+			Principal principal,
 		 RedirectAttributes redirectAttributes) {
 		
 		if(pageNum == null) {
@@ -58,7 +59,7 @@ public class MainController {
 		}
 
 		return viewPage(Integer.valueOf(pageNum),createdOn, lastModified, lastRead, 
-				lastReadDays,pageSize, "id", "asc",model);
+				lastReadDays,pageSize, "id", "asc",principal,model);
 	}
 	
 	@GetMapping("/page/{pageNum}")
@@ -70,6 +71,7 @@ public class MainController {
 			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir,
+			Principal principal,
 			Model model) {
 	
 		
@@ -91,8 +93,11 @@ public class MainController {
 		model.addAttribute("categoriesList", categoriesList);
 		model.addAttribute("statusList",statusList);
 	
+		String username = principal.getName();
+		Optional<Users> userInRepo = userService.findByUsername(username);
+		Users userExtracted = userInRepo.get();
 		
-		Page<Tracker> paged = trackerService.findAllPaged(pageNum, Integer.valueOf(pageSize), sortField,sortDir);
+		Page<Tracker> paged = trackerService.findAllPaged(userExtracted.getId(),pageNum, Integer.valueOf(pageSize), sortField,sortDir);
 		
 		List<Tracker> trackerListPaged = paged.getContent();
 		model.addAttribute("currentPage", pageNum);
@@ -131,13 +136,7 @@ public class MainController {
 								Model model,
 								RedirectAttributes redirectAttributes){
 		
-		//redirectAttributes.addAttribute("pageNum", currentPage);
-		/*redirectAttributes.addAttribute("createdOn",createdOn);
-		redirectAttributes.addAttribute("lastModified",lastModified);
-		redirectAttributes.addAttribute("lastRead",lastRead);
-		redirectAttributes.addAttribute("lastReadDays",lastReadDays);
-		return "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
-		*/
+		
 		return pagedUrl(currentPage,sortField,sortDir,pageSize, createdOn,lastModified,lastRead,lastReadDays);
 		
 			
@@ -158,7 +157,7 @@ public class MainController {
 		String username = principal.getName();
 		Optional<Users> userInRepo = userService.findByUsername(username);
 		Users userExtracted = userInRepo.get();
-		t.setUserId(userExtracted.getId());
+		t.setUser(userExtracted);
 		
 		trackerService.addTracker(t);
 		
@@ -167,36 +166,47 @@ public class MainController {
 	
 	}
 	
-	//EDIT PAGE 
-	@PostMapping("/edit")
-	public String editStory(@RequestParam(name="editId") Long id , 
-			@RequestParam(value = "createdOn",required=false) String createdOn,
-			@RequestParam(value = "lastModified",required=false) String lastModified,
-			@RequestParam(value = "lastRead",required=false) String lastRead,
-			@RequestParam(value = "lastReadDays",required=false) String lastReadDays,
-			@RequestParam(value="currentPage") String currentPage,
-			@RequestParam(value = "pageSize",required=false) String pageSize,
-			@Param("sortField") String sortField,
-			@Param("sortDir") String sortDir,
-			Model model) {
-		Tracker t = trackerService.findById(id);
-		List<Status> statusList = statusService.findAll();
-		List<Categories> categoriesList = categoriesService.findAll();
+		//EDIT PAGE 
+		@PostMapping("/edit")
+		public String editStory(@RequestParam(name="editId") Long id , 
+				@RequestParam(value = "createdOn",required=false) String createdOn,
+				@RequestParam(value = "lastModified",required=false) String lastModified,
+				@RequestParam(value = "lastRead",required=false) String lastRead,
+				@RequestParam(value = "lastReadDays",required=false) String lastReadDays,
+				@RequestParam(value="currentPage") String currentPage,
+				@RequestParam(value = "pageSize",required=false) String pageSize,
+				@Param("sortField") String sortField,
+				@Param("sortDir") String sortDir,
+				Model model,
+				Principal principal) {
+			
+			String username = principal.getName();
+			Optional<Users> userInRepo = userService.findByUsername(username);
+			Users userExtracted = userInRepo.get();
+			
+			Tracker t = trackerService.findByIdAndUserId(id, userExtracted.getId());
+			if(t == null) {
+				model.addAttribute("errorMsg", "Error. Can't edit other people data.");
+				return "errorPage.html";
+			} else {
+			List<Status> statusList = statusService.findAll();
+			List<Categories> categoriesList = categoriesService.findAll();
+			
+			model.addAttribute("createdOnAnswer", createdOn);
+			model.addAttribute("lastModifiedAnswer", lastModified);
+			model.addAttribute("lastReadAnswer", lastRead);
+			model.addAttribute("lastReadDaysAnswer", lastReadDays);
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("sortField", sortField);
+			model.addAttribute("sortDir", sortDir);
 		
-		model.addAttribute("createdOnAnswer", createdOn);
-		model.addAttribute("lastModifiedAnswer", lastModified);
-		model.addAttribute("lastReadAnswer", lastRead);
-		model.addAttribute("lastReadDaysAnswer", lastReadDays);
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-	
-		model.addAttribute("categoriesList", categoriesList);
-		model.addAttribute("statusList",statusList);
-		model.addAttribute("tracker", t);
-		model.addAttribute("pageSize", pageSize);
-		return "editStory.html";
-	}
+			model.addAttribute("categoriesList", categoriesList);
+			model.addAttribute("statusList",statusList);
+			model.addAttribute("tracker", t);
+			model.addAttribute("pageSize", pageSize);
+			return "editStory.html";
+			}
+		}
 	
 	@PostMapping("editSaved")
 	public String editSaved(Tracker t, @RequestParam("id") Long id,
@@ -207,13 +217,25 @@ public class MainController {
 			@RequestParam(value="currentPage") String currentPage,
 			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
-			@Param("sortDir") String sortDir)
+			@Param("sortDir") String sortDir,
+			Principal principal,
+			Model model)
 			
 			 {
-		trackerService.editSavedHibernate(t,id);
+		
+		String username = principal.getName();
+		Optional<Users> userInRepo = userService.findByUsername(username);
+		Users userExtracted = userInRepo.get();
+		Tracker trackerInRepo = trackerService.findByIdAndUserId(id, userExtracted.getId());
+		if(trackerInRepo == null) {
+			model.addAttribute("errorMsg", "Error. Can't edit other people data.");
+			return "errorPage.html";
+		} else {
+		trackerService.editSavedHibernate(t,id,userExtracted.getId());
 		
 		return pagedUrl(currentPage,sortField,sortDir,pageSize, createdOn,lastModified,lastRead,lastReadDays);
-	}
+			}
+		}
 	
 	//------------------
 	@PostMapping("/delete")
@@ -226,12 +248,22 @@ public class MainController {
 			@RequestParam(value="currentPage") String currentPage,
 			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
-			@Param("sortDir") String sortDir)
-										{
-		trackerService.deleteById(id);
+			@Param("sortDir") String sortDir,
+			Principal principal,
+			Model model) {
+								
+		String username = principal.getName();
+		Optional<Users> userInRepo = userService.findByUsername(username);
+		Users userExtracted = userInRepo.get();
+		Tracker trackerInRepo = trackerService.findByIdAndUserId(id, userExtracted.getId());
+		if(trackerInRepo == null) {
+			model.addAttribute("errorMsg", "Error. Can't delete other people data.");
+			return "errorPage.html";
+		} else {
+		trackerService.deleteByIdAndUserId(id, userExtracted.getId());
 		
 		return pagedUrl(currentPage,sortField,sortDir, pageSize, createdOn,lastModified,lastRead,lastReadDays);
-		
+		}
 	}
 
 	private String pagedUrl(String currentPage,String sortField, String sortDir, 

@@ -3,6 +3,8 @@ package com.modris.repositories;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,8 +20,8 @@ public interface TrackerRepository extends JpaRepository<Tracker,Long>{
 	List<Tracker> findAll();
 	
 	
-	@Query("SELECT t FROM Tracker t WHERE t.id = :id")
-	Tracker findByIdReturnTracker(@Param("id") Long id);
+	@Query("SELECT t FROM Tracker t WHERE t.id = :id AND t.user.id = :userId")
+	Tracker findByIdAndUserIdReturnTracker(@Param("id") Long id,  @Param("userId") Long userId);
 	
 	@Modifying
 	@Query("Update Tracker t SET t.name = :name,t.category.id = :categoryId, t.status.id = :statusId, t.createdOn = :createdOn, t.progress = :progress WHERE t.id = :id")
@@ -31,6 +33,11 @@ public interface TrackerRepository extends JpaRepository<Tracker,Long>{
 			@Param("progress") String progress,
 			@Param("id") Long id);
 
+	@Query("SELECT t FROM Tracker t WHERE t.user.id = :userId")
+	Page<Tracker> findAllPagedWithUserId(Pageable pageable, @Param("userId") Long id);
 	
+	@Modifying
+	@Query("DELETE FROM Tracker t WHERE t.id = :id AND t.user.id = :userId")
+	void deleteByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
 }

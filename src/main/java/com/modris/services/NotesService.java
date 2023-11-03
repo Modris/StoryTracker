@@ -23,10 +23,6 @@ public class NotesService {
 		notesRepository.save(notes);
 	}
 	
-	public List<Notes> findAll(){
-		return notesRepository.findAll();
-	}
-	
 	public List<Notes> findAllById(Long id){
 		return notesRepository.findAllById(id);
 	}
@@ -34,10 +30,17 @@ public class NotesService {
 	public Notes findById(Long id) {
 		return notesRepository.findById2(id);
 	}
-	
+	public Notes findByIdAndTrackerId(Long id, Long trackerId) {
+		return notesRepository.findByIdAndTrackerId(id,trackerId);
+	}
+
 	@Transactional
 	public void deleteById(Long id) {
 		notesRepository.deleteById(id);
+	}
+	@Transactional
+	public void deleteByTrackerId(Long trackerId) {
+		notesRepository.deleteByTrackerId(trackerId);
 	}
 	
 	@Transactional

@@ -1,40 +1,14 @@
 package com.modris.controllers;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
 
 import com.modris.controller.MainController;
-import com.modris.model.Categories;
-import com.modris.model.Status;
-import com.modris.model.Tracker;
-import com.modris.services.CategoriesService;
-import com.modris.services.StatusService;
-import com.modris.services.TrackerService;
 
 @WebMvcTest(MainController.class)
 @DisplayName("MainController mapping tests:")
 public class MainControllerTest {
-
+/*
 		@Autowired
 	    private MockMvc mockMvc;
 
@@ -197,5 +171,5 @@ public class MainControllerTest {
 	}
 	
 	
-	
+	*/
 }

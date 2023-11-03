@@ -51,7 +51,8 @@ public class Tracker {
 	
 	@NotNull
 	@JoinColumn(name = "user_id")
-	private Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Users user;
 	
 	@PreUpdate
 	public void onUpdate() {
@@ -79,17 +80,15 @@ public class Tracker {
 		this.status = status;
 		this.progress = progress;
 	}
-	
-	
 
-	public Long getUserId() {
-		return userId;
+	public Users getUser() {
+		return user;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUser(Users user) {
+		this.user = user;
 	}
-
+	
 	public LocalDateTime getLastModified() {
 		return lastModified;
 	}
