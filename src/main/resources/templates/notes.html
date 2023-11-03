@@ -122,11 +122,9 @@ button:hover {
 	            <td th:text="${notes.id}" />
 	            <td th:text="${notes.tracker.name}" />
 	            <td th:text="${notes.name}" />
-	           <td th:text="${notes.createdOn}" /> 
-	           <td th:text="${notes.lastModified}"/>
-	           <!--  <td th:text="${notes.getCreatedOnConvertedToDate}" />-->
-	           <!--  <td th:text="${notes.getLastModifiedConvertedToDate}"/> -->
-	            <td th:text="${notes.lastRead}" />
+	            <td th:text="${notes.getCreatedOnConvertedToDate}" />
+	            <td th:text="${notes.getLastModifiedConvertedToDate}"/> 
+	            <td th:text="${notes.lastRead}  + ' day(s)' " />
 	            <td class="form-container">
 	                <form th:action="@{editNote}" method="post" id="edit_form">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
@@ -146,7 +144,7 @@ button:hover {
 	            <tr>
 	                <td></td> <!-- Empty id -->
 	               
-	               <td colspan="4">
+	               <td colspan="5">
 	             		<div class="comment-cell" th:text="${notes.comments}"></div>
 	               </td>
 	            </tr>

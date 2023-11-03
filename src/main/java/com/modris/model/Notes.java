@@ -38,12 +38,12 @@ public class Notes {
 	@UpdateTimestamp
 	private LocalDateTime lastModified;
 
-	
 	@PreUpdate
 	public void onUpdate() {
 		this.lastModified = LocalDateTime.now();
 	}
-	@Formula("(SELECT timestampdiff(HOUR, t.last_modified, current_timestamp()) FROM Notes t WHERE t.id = id)")
+	
+	@Formula("(SELECT timestampdiff(DAY, t.last_modified, current_timestamp()) FROM Notes t WHERE t.id = id)")
 	private Long lastRead;
 	
 	public Notes() {}
@@ -53,6 +53,7 @@ public class Notes {
 		this.comments = comments;
 	}
 
+	
 	public LocalDateTime getLastModified() {
 		return lastModified;
 	}
