@@ -54,7 +54,10 @@ public class Tracker {
 		this.lastModified = LocalDateTime.now();
 	}
 	@Formula("(SELECT timestampdiff(HOUR, t.last_modified, current_timestamp()) FROM Tracker t WHERE t.id = id)")
-	private Long lastRead;
+	private Long lastReadHours;
+
+	@Formula("(SELECT timestampdiff(DAY, t.last_modified, current_timestamp()) FROM Tracker t WHERE t.id = id)")
+	private Long lastReadDays;
 
 	
 	//private Audit audit;
@@ -137,19 +140,20 @@ public class Tracker {
 
 	
 
-	public Long getLastRead() {
-		return lastRead;
+	public Long getLastReadHours() {
+		return lastReadHours;
 	}
 
-	public void setLastRead(Long lastRead) {
-		this.lastRead = lastRead;
+	public void setLastReadHours(Long lastReadHours) {
+		this.lastReadHours = lastReadHours;
 	}
 
-	@Override
-	public String toString() {
-		return "Tracker [id=" + id + ", name=" + name + ", category=" + category + ", status=" + status + ", progress="
-				+ progress + ", createdOn=" + createdOn + ", lastRead=" + lastRead;
-		
+	public Long getLastReadDays() {
+		return lastReadDays;
+	}
+
+	public void setLastReadDays(Long lastReadDays) {
+		this.lastReadDays = lastReadDays;
 	}
 
 	@Override
@@ -167,6 +171,13 @@ public class Tracker {
 			return false;
 		Tracker other = (Tracker) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return "Tracker [id=" + id + ", name=" + name + ", category=" + category + ", status=" + status + ", progress="
+				+ progress + ", createdOn=" + createdOn + ", lastModified=" + lastModified + ", lastReadHours="
+				+ lastReadHours + ", lastReadDays=" + lastReadDays + "]";
 	}
 	
 	
