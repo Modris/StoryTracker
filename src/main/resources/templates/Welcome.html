@@ -29,6 +29,19 @@
 .table2 th{
 	padding: 5px;
 }
+  .comment-cell {
+    max-height: 70px; /* Adjust the value as needed to set the initial fixed height */
+    max-width:200px;
+    overflow-y: auto; /* Add a vertical scrollbar when content exceeds the fixed height */
+	   white-space: normal;
+}
+   .comment-cell2 {
+    max-height: 70px; 
+    max-width:140px;
+    overflow-y: auto; 
+	   white-space: normal;
+}
+
         td, th {
             text-align: center;
             border: 1px solid black;
@@ -36,10 +49,11 @@
         }
 
         .form-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+		     display: flex;
+		    justify-content: center;
+		    align-items: center;
+
+   			 
         }
 
         /* Add vertical-align for td elements */
@@ -87,7 +101,7 @@
 .round {
   border-radius: 50%;
 }
-  
+ 
     </style>
     
     <script>
@@ -96,9 +110,9 @@
 	  var createdOn = document.getElementById("createdOn").checked;
 	  var lastModified = document.getElementById("lastModified").checked;
 	  var lastRead = document.getElementById("lastRead").checked;
-		var lastReadDays = document.getElementById("lastReadDays").checked;
-	  var currentPage = document.getElementById("currentPage").value; // Change this to the actual current page
-	  var reverseSortDir = document.getElementById("reverseSortDir").value; // Change this to the actual sort direction
+	  var lastReadDays = document.getElementById("lastReadDays").checked;
+	  var currentPage = document.getElementById("currentPage").value; 
+	  var reverseSortDir = document.getElementById("reverseSortDir").value; 
 	var pageSize = document.getElementById("pageSize").value;
 	
 		var newURL = `/page/${currentPage}?sortField=${sortField}&sortDir=${reverseSortDir}`;
@@ -358,21 +372,22 @@ console.log(newURL);
 					 <button type="button" onclick="updateURL('lastReadHours')">Last Read Hrs</button>
 				 </a> 
 			</th>
-			<th> Actions </th>
+			<th colspan="2"> Actions </th>
 			<th> Notes </th>
 		</tr>
 		<th:if "${trackerListPaged!=null}">
 				<tr th:each="tracker : ${	trackerListPaged}"> 
 					<td th:text="${tracker.id}"/>
-					<td th:text="${tracker.name}"/>
+					<td class = "comment-cell" th:text="${tracker.name}"/>
 					<td th:text="${tracker.category.name}"/>
 					<td th:text="${tracker.status.name}"/>
-					<td th:text="${tracker.progress}"/>
+					<td class = "comment-cell2" th:text="${tracker.progress}"/>
 					<td th:if="${createdOnAnswer ==  on}" th:text="${tracker.getCreatedOnConvertedToDate}"/>  
 					<td th:if="${lastModifiedAnswer ==  on}" th:text="${tracker.getLastModifiedConvertedToDate}" />
 					<td th:if="${lastReadDaysAnswer ==  on}" th:text="${tracker.lastReadDays} + ' day(s)'"/>		
 					<td th:if="${lastReadAnswer ==  on}" th:text="${tracker.lastReadHours} + ' hour(s)'"/>		
-					<td class="form-container">
+					
+					<td>
 							<form  th:action="@{/edit}" method="post" id="edit_form">
 							<input type="hidden" name = "editId" th:value="${tracker.id}">
 							
@@ -385,7 +400,9 @@ console.log(newURL);
 							<input type="hidden" name="sortDir" th:value="${sortDir}">	
 							<input type="hidden" name="pageSize" th:value="${pageSize}">
 							<input  type="submit" value="Edit">
-						</form> &nbsp;
+						</form>
+					</td>
+					<td>
 						<form  th:action="@{/delete}" method="post" id="delete_form">
 							<input type="hidden" name="idDelete" th:value="${tracker.id}">
 							

@@ -125,7 +125,7 @@ button:hover {
 	            <td th:text="${notes.getCreatedOnConvertedToDate}" />
 	            <td th:text="${notes.getLastModifiedConvertedToDate}"/> 
 	            <td th:text="${notes.lastRead}  + ' day(s)' " />
-	            <td class="form-container">
+	            <td class="comment-cell form-container">
 	                <form th:action="@{editNote}" method="post" id="edit_form">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
 	                    	<input type="hidden" name = "storyId" th:value="${storyId}">
