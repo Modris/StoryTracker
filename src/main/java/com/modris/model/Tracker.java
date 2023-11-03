@@ -49,6 +49,10 @@ public class Tracker {
 	@UpdateTimestamp
 	private LocalDateTime lastModified;
 	
+	@NotNull
+	@JoinColumn(name = "user_id")
+	private Long userId;
+	
 	@PreUpdate
 	public void onUpdate() {
 		this.lastModified = LocalDateTime.now();
@@ -77,6 +81,14 @@ public class Tracker {
 	}
 	
 	
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 
 	public LocalDateTime getLastModified() {
 		return lastModified;

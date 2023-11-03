@@ -1,6 +1,8 @@
 package com.modris.controller;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +18,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.modris.model.Categories;
 import com.modris.model.Status;
 import com.modris.model.Tracker;
+import com.modris.model.Users;
 import com.modris.services.CategoriesService;
 import com.modris.services.StatusService;
 import com.modris.services.TrackerService;
+import com.modris.services.UserService;
 
 @Controller
 public class MainController {
@@ -26,14 +30,14 @@ public class MainController {
 	private final TrackerService trackerService;
 	private final CategoriesService categoriesService;
 	private final StatusService statusService;
-	
+	private final UserService userService;
 	@Autowired
-	public MainController(TrackerService trackerService, 
-			CategoriesService categoriesService,
-			StatusService statusService) {
+	public MainController(TrackerService trackerService, CategoriesService categoriesService,
+			StatusService statusService, UserService userService) {
 		this.trackerService = trackerService;
 		this.categoriesService = categoriesService;
 		this.statusService = statusService;
+		this.userService = userService;
 	}
 
 	@GetMapping("/")
@@ -67,7 +71,8 @@ public class MainController {
 			@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir,
 			Model model) {
-
+	
+		
 	 	List<Categories> categoriesList = categoriesService.findAll();
 		List<Status> statusList = statusService.findAll();
 		
@@ -147,7 +152,13 @@ public class MainController {
 			@RequestParam(value="currentPage") String currentPage,
 			@RequestParam(value = "pageSize",required=false) String pageSize,
 			@Param("sortField") String sortField,
-			@Param("sortDir") String sortDir) {
+			@Param("sortDir") String sortDir,
+			Principal principal) {
+		
+		String username = principal.getName();
+		Optional<Users> userInRepo = userService.findByUsername(username);
+		Users userExtracted = userInRepo.get();
+		t.setUserId(userExtracted.getId());
 		
 		trackerService.addTracker(t);
 		
