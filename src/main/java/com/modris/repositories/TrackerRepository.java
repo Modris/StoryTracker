@@ -40,4 +40,6 @@ public interface TrackerRepository extends JpaRepository<Tracker,Long>{
 	@Query("DELETE FROM Tracker t WHERE t.id = :id AND t.user.id = :userId")
 	void deleteByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
+	@Query("SELECT t FROM Tracker t WHERE t.user.username = :username")
+	List<Tracker> findAllByUsername(@Param("username") String username);
 }

@@ -1,6 +1,7 @@
 package com.modris.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +100,11 @@ public class MainController {
 		
 		Page<Tracker> paged = trackerService.findAllPaged(userExtracted.getId(),pageNum, Integer.valueOf(pageSize), sortField,sortDir);
 		
+		List<Integer> indexListOfOriginal = indexList(username,paged); // for sorting purposes
+		// i get original Tracker list sorted by id in ascending order.
+		// and then this index list by which i can display the id's.
+		model.addAttribute("indexList",indexListOfOriginal );
+		
 		List<Tracker> trackerListPaged = paged.getContent();
 		model.addAttribute("currentPage", pageNum);
 		model.addAttribute("totalPages", paged.getTotalPages());
@@ -108,6 +114,19 @@ public class MainController {
 		
 		return "Welcome.html";
 	}
+	
+	public List<Integer> indexList(String username, Page<Tracker> paged){
+		
+		List<Integer> indexList = new ArrayList<>();
+		List<Tracker> original = trackerService.findAllByUsername(username);
+	
+		for(Tracker start:paged) {
+			int index = original.lastIndexOf(start);
+			indexList.add(index);
+		}
+		return indexList;
+	}
+	
 	@PostMapping("/pageSizeReq")
 	public String pageSizeReq(@RequestParam(value = "createdOn",required=false) String createdOn,
 			@RequestParam(value = "lastModified",required=false) String lastModified,

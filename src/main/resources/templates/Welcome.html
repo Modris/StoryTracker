@@ -276,7 +276,9 @@
 		</tr>
 		<th:if "${trackerListPaged!=null}">
 				<tr th:each="tracker, index : ${	trackerListPaged}"> 
-					<td th:text="${index.count}"/>
+					<td th:text="${indexList[index.count-1]}+1"/>
+					<!-- index for trackerListPaged starts from 1.But indexList starts from 0. That's why index.count-1.
+					 But i want indexing to start at 1 so the +1 after {}.-->
 					<td class = "comment-cell" th:text="${tracker.name}"/>
 					<td th:text="${tracker.category.name}"/>
 					<td th:text="${tracker.status.name}"/>
