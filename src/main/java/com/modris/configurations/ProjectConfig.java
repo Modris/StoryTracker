@@ -2,6 +2,7 @@ package com.modris.configurations;
 
 import java.security.SecureRandom;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -36,6 +37,7 @@ public class ProjectConfig {
 		http.authorizeHttpRequests(
 				c -> c.requestMatchers("/register").permitAll()
 				.requestMatchers("registerSave").permitAll()
+				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 				.anyRequest().authenticated());
 		
 		http.formLogin(

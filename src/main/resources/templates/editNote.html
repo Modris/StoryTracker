@@ -3,70 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<style>
-  body {
-    text-align: center; /* Center everything horizontally */
-        }
-
-td, th {
-	text-align: center;
-	border: 1px solid black;
-	padding: 8px;
-}
-
-table {
-	margin:auto;
-	align: center;
-	text-align: center;
-	border: 1px solid black;
-	border-collapse: collapse;
-	table-layout: fixed;
-	white-space: nowrap;
-}
-.form-container {
-	text-align: center;
-	justify-content: center; /* Center horizontally */
-	align-items: center; /* Center vertically */
-	display: flex
-	}
-td {
-    vertical-align: middle;
-    }
-    
-div {
-	text-align: center;
-}
-
-.button {
-  	background-color: #e7e7e7; /* Green */
-  	border:none;
- 	color: black;
-	padding: 10px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	border-radius:8px;
-	transition-duration: 0.4s;
-	}
-
-button:hover {
-    background-color: Gray;
-    }
-  
-.bolder{
-	font-weight: bold; 
-	 
- }
- .comment-cell {
-    max-height: 70px; /* Adjust the value as needed to set the initial fixed height */
-    max-width:500px;
-    overflow-y: auto; /* Add a vertical scrollbar when content exceeds the fixed height */
-	   white-space: normal;
-}
-
-
-		</style>
+	  <link rel="stylesheet" type="text/css" th:href="@{/css/notesStyle.css}"> 
 </head>
 
 <body>

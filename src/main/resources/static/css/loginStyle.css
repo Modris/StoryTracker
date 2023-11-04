@@ -1,0 +1,43 @@
+ body {
+     text-align: center;
+    /* Center everything horizontally */
+}
+ table {
+     margin: 0 auto;
+    /* Center the table horizontally */
+     border: none;
+     border-collapse: collapse;
+     table-layout: fixed;
+     white-space: nowrap;
+}
+ td, th {
+     text-align: center;
+     border: none;
+     padding: 8px;
+}
+ .form-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     text-align: center;
+}
+/* Add vertical-align for td elements */
+ td {
+     vertical-align: middle;
+}
+ .button {
+     background-color: #e7e7e7;
+    /* Green */
+     border:none;
+     color: black;
+     padding: 10px 26px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+     border-radius:12px;
+     transition-duration: 0.4s;
+}
+ button:hover {
+     background-color: Gray;
+}
