@@ -4,16 +4,22 @@
 <head>
 	<meta charset="UTF-8">
 	  <link rel="stylesheet" type="text/css" th:href="@{/css/notesStyle.css}"> 
+<script>
+	function logout(){
+		document.getElementById('logout').submit();
+	}
+</script>
 </head>
 
 <body>
-
+ <form th:action="@{/logout}" method="post" id="logout">
+            </form>
 <nav id="navbar"> 
     <ul>
 	  <li><a href="/home">Home</a></li>
-	  <li><a href="/register">Sign Up</a></li> 
-	  <li><a href="/login">Login</a></li>
-
+ 	  <li>
+	  	  <button class = "btn" type="submit" onclick="logout()"> Logout </button>  
+	  </li> 
 	</ul> 
   	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
  

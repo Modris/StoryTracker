@@ -135,7 +135,18 @@ tr:nth-child(odd){background-color: #f2f2f2}
  .round {
      border-radius: 50%;
 }
+ .btn { 
+     padding: 10px 20px;
+	 font-size:18px;
+	color:  color: #1864ab;
+	
+	  background-color: transparent;
+
+ }
  
+.btn:hover {
+	background-color: #fd5c63;
+}
  .bolder{
      font-weight: bold;
 }

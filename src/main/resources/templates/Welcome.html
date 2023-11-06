@@ -128,18 +128,28 @@
     }
     
 </script>
-
+<script>
+	function logout(){
+		document.getElementById('logout').submit();
+	}
+</script>
 
 	
 </head>
 
 <body>
+	
+            <form th:action="@{/logout}" method="post" id="logout">
+            </form>
+            
 <div id = "mainPageCenter">
 	
 		<nav id="navbar"> 
     <ul>
 	  <li><a href="/home">Home</a></li>
-	  <li><a href="/logout">Logout</a></li> 
+	  <li>
+	  	  <button class = "btn" type="submit" onclick="logout()"> Logout </button>  
+	  </li> 
 
 
 	</ul> 
@@ -150,7 +160,6 @@
 	<div id ="mainPageCenter">
 		
 	<h3> Make a new Story to track! </h3>
-	
 	<table class = "table">
 		<tr>
 			<th>Story Name</th>
@@ -211,7 +220,6 @@
 			<th> Last Read Days </th>
 			<th> Last Read Hr </th>
 			<th>  </th>
-			<th> Logout </th>
 		</tr>
 		<tr>
 			<form th:action = "@{/show}" method = "post">
@@ -227,11 +235,8 @@
 		<td> <input type="checkbox" id="lastRead"  name="lastRead" th:checked="${lastReadAnswer != null}" /></td> 
 		<td> 		<input  type="submit" value="Apply"> </td> 
 		</form>
-		    <td>
-            <form th:action="@{/logout}" method="post" id="logout">
-                <input type="submit" value="Logout" />
-            </form>
-        </td>
+
+
 		</tr>
 	</table>
 	</div>
