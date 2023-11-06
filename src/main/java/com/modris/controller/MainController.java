@@ -67,7 +67,7 @@ public class MainController {
 				lastReadDays,pageSize, "id", "asc",principal,model);
 	}
 	
-	@GetMapping("/page/{pageNum}")
+	@GetMapping("/home/page/{pageNum}")
 	public String viewPage(@PathVariable(name = "pageNum") int pageNum,
 			@RequestParam(value = "createdOn",required=false) String createdOnAnswer,
 			@RequestParam(value = "lastModified",required=false) String lastModifiedAnswer,

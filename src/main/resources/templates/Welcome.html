@@ -16,7 +16,7 @@
         var reverseSortDir = document.getElementById("reverseSortDir").value;
         var pageSize = document.getElementById("pageSize").value;
 
-        var newURL = `/page/${currentPage}?sortField=${sortField}&sortDir=${reverseSortDir}`;
+        var newURL = `/home/page/${currentPage}?sortField=${sortField}&sortDir=${reverseSortDir}`;
 
         newURL += "&pageSize=" + pageSize;
 
@@ -67,7 +67,7 @@
         currentPage = +currentPage - +1;
         var sortDir = document.getElementById("sortDir").value; // Change this to the actual sort direction
         var sortField = document.getElementById("sortField").value;
-        var newURL = `/page/${currentPage}?sortField=${sortField}&sortDir=${sortDir}`;
+        var newURL = `/home/page/${currentPage}?sortField=${sortField}&sortDir=${sortDir}`;
 
 
         var pageSize = document.getElementById("pageSize").value;
@@ -104,7 +104,7 @@
 
         var sortDir = document.getElementById("sortDir").value; // Change this to the actual sort direction
         var sortField = document.getElementById("sortField").value;
-        var newURL = `/page/${currentPage}?sortField=${sortField}&sortDir=${sortDir}`;
+        var newURL = `/home/page/${currentPage}?sortField=${sortField}&sortDir=${sortDir}`;
 
         var pageSize = document.getElementById("pageSize").value;
 
@@ -134,14 +134,24 @@
 </head>
 
 <body>
-<nav></nav>
 <div id = "mainPageCenter">
 	
- <h1> Story Tracker Test </h1>
-	
+		<nav id="navbar"> 
+    <ul>
+	  <li><a href="/home">Home</a></li>
+	  <li><a href="/logout">Logout</a></li> 
+
+
+	</ul> 
+  	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
+ 
+    </nav> 
+    
+	<div id ="mainPageCenter">
+		
 	<h3> Make a new Story to track! </h3>
 	
-	<table>
+	<table class = "table">
 		<tr>
 			<th>Story Name</th>
 			<th>Category</th>
@@ -192,6 +202,7 @@
 	
 					
 		<br>
+	<div class = "table_background">
 	<table class = "table2">
 		<tr> 
 			<th> </th>		
@@ -223,10 +234,11 @@
         </td>
 		</tr>
 	</table>
+	</div>
 
 
 	
-	
+	<div class = "table_background">
 			<table class = "table">
 		<tr>
 			<th>
@@ -322,7 +334,7 @@
 						</form>
 					</td>
 					<td> 
-						<form action="notes" method="get" id="notes_form">
+						<form action="/home/notes" method="get" id="notes_form">
 							<input type="hidden" name = "storyId" th:value="${tracker.id}">
 							<input type="hidden" name = "trackerName" th:value="${tracker.name}">			
 							<input type="submit" value="Notes"/>
@@ -331,9 +343,11 @@
 				</tr>
 				
 		</table>
+			</div>
 		<br>
-	
+		<div class = "sizeUp">
 		<span class="form-container"> 
+			
 			<span> Items per page: </span>
 
 			<form  th:action="@{/pageSizeReq}" method="post" id="myForm">
@@ -349,8 +363,7 @@
 			    	<input type="submit" value="Confirm"/>
 			</form>
 		</span>
-		<br>
-		
+	
 		<span><i>Sorted by [[${sortField}]] in [[${sortDir}]] order</i></span>
 		&nbsp;&nbsp;
 		<span> Total items: [[${totalItems}]]</span> 
@@ -361,23 +374,14 @@
 					<button type="button" onclick="updateURLNext()">Next</button>
 				 </a>
 				<br>
-		
+		</div>
   <!--
 		<br> <br>
 			<input type="text" th:value="${currentPage}"/>
 	<input type="text" th:value="${totalPages}"/>
 		<input type="text" th:value="${totalItems}"/>
 	-->
-		
+</div>		
 </body>
-<header> 
 
-	<div class = "nav5">
-		
-	<ul> 
-		<li> <a href="#"> Home </a> </li> 
-		
-	</ul>
-	</div>
-	</header>
 </html>

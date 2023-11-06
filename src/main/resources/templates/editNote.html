@@ -8,7 +8,19 @@
 
 <body>
 
+<nav id="navbar"> 
+    <ul>
+	  <li><a href="/home">Home</a></li>
+	  <li><a href="/register">Sign Up</a></li> 
+	  <li><a href="/login">Login</a></li>
 
+	</ul> 
+  	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
+ 
+    </nav> 
+    
+	<div id ="mainPageCenter">
+		
 	<h1> Edit specific Note </h1>
 	<table class ="table">
 		<tr>
@@ -18,7 +30,7 @@
 			<th> Save changes </th>
 		</tr>
 		<tr>
-			<form th:action="@{/updateNote}" method="post">
+			<form th:action="@{/home/updateNote}" method="post">
 				<td>
 					<label class="bolder" th:text="${trackerName}"/>
 		 		</td>
@@ -40,7 +52,7 @@
 		</table>
 
 
-		
+		</div>
 	
 </body>
 </html>

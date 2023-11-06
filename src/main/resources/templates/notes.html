@@ -7,7 +7,18 @@
 </head>
 
 <body>
+<nav id="navbar"> 
+    <ul>
+	  <li><a href="/home">Home</a></li>
+	  <li><a href="/register">Sign Up</a></li> 
+	  <li><a href="/login">Login</a></li>
 
+	</ul> 
+  	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
+ 
+    </nav> 
+    
+	<div id ="mainPageCenter">
 
 	<h1> Add notes to your Story! </h1>
 	<p> The main idea here is to capture the moment. </p>
@@ -20,7 +31,7 @@
 			<th> Submit </th>
 		</tr>
 		<tr>
-			<form th:action="@{/addNotes}" method="post">
+			<form th:action="@{/home/addNotes}" method="post">
 				<td>
 					<label class="bolder" th:text="${trackerName}"/>
 		 		</td>
@@ -63,7 +74,7 @@
 	            <td th:text="${notes.getLastModifiedConvertedToDate}"/> 
 	            <td th:text="${notes.lastRead}  + ' day(s)' " />
 	            <td class="comment-cell form-container">
-	                <form th:action="@{editNote}" method="post" id="edit_form">
+	                <form th:action="@{/home/editNote}" method="post" id="edit_form">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
 	                    	<input type="hidden" name = "storyId" th:value="${storyId}">
 						<input type="hidden" name = "trackerName" th:value="${trackerName}">
@@ -71,7 +82,7 @@
 	                   <input type="hidden" name="notesName" th:value="${notes.name}" />
 	                    <input type="submit" value="Edit" />
 	                </form> &nbsp;
-	                <form th:action="@{deleteNote}" method="post" id="delete_form">
+	                <form th:action="@{/deleteNote}" method="post" id="delete_form">
 						<input type="hidden" name = "storyId" th:value="${storyId}">
 						<input type="hidden" name = "trackerName" th:value="${trackerName}">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
@@ -84,6 +95,7 @@
 	               <td colspan="5">
 	             		<div class="comment-cell" th:text="${notes.comments}"></div>
 	               </td>
+	               <td> </td>
 	            </tr>
 	        </tr>
        </th:block>
@@ -96,6 +108,6 @@
 
 
 		
-	
+</div>	
 </body>
 </html>

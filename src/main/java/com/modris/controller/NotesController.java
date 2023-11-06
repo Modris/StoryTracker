@@ -34,7 +34,7 @@ public class NotesController {
 	}
 	
 	
-	@GetMapping("/notes")
+	@GetMapping("/home/notes")
 	public String goToNotesPage( @RequestParam("storyId") Long trackerId,
 			@RequestParam("trackerName") String trackerName,
 			Model model,
@@ -56,7 +56,7 @@ public class NotesController {
 		return "notes.html"; //notes.html
 		}
 	}
-	@GetMapping("/page/notes")
+	@GetMapping("/home/page/notes")
 	public String goToNotesPage2( @RequestParam("storyId") Long trackerId,
 			@RequestParam("trackerName") String trackerName,
 			Model model,
@@ -66,10 +66,10 @@ public class NotesController {
 		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		redirectAttributes.addAttribute("trackerName", trackerName); //display trackerName as hard embedded value.
 
-		return "redirect:/notes"; //notes.html
+		return "redirect:/home/notes"; //notes.html
 	}
 
-	@PostMapping("/addNotes")
+	@PostMapping("/home/addNotes")
 	public String addNotes( @RequestParam("name") String name,
 							@RequestParam("comments") String comments,
 							@RequestParam("storyId") Long trackerId,
@@ -94,7 +94,7 @@ public class NotesController {
 		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		redirectAttributes.addAttribute("trackerName",trackerName);
 
-		return "redirect:/notes";
+		return "redirect:/home/notes";
 		}
 	}
 	
@@ -118,11 +118,11 @@ public class NotesController {
 		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		redirectAttributes.addAttribute("trackerName",trackerName);
 		
-		return "redirect:/notes";
+		return "redirect:/home/notes";
 		}
 	}
 
-	@PostMapping("editNote")
+	@PostMapping("/home/editNote")
 	public String editNote(@RequestParam("notesId") Long id, Model model, Principal principal) {
 		
 
@@ -147,7 +147,7 @@ public class NotesController {
 		return "editNote.html";
 		}
 	}
-	@PostMapping("/updateNote")
+	@PostMapping("/home/updateNote")
 	public String updateNote(   @RequestParam("notesName") String notesName,
 								@RequestParam("notesComment") String notesComment,
 								@RequestParam("notesId") Long notesId,
@@ -173,7 +173,7 @@ public class NotesController {
 		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		redirectAttributes.addAttribute("trackerName",trackerName);
 		
-		return "redirect:/notes";
+		return "redirect:/home/notes";
 		}
 	}
 	

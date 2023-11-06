@@ -6,6 +6,19 @@
 </head>
 
 <body>
+	<nav id="navbar"> 
+    <ul>
+	  <li><a href="/">Home</a></li>
+	  <li><a href="/register">Sign Up</a></li> 
+	  <li><a href="/login">Login</a></li>
+
+	</ul> 
+  	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
+ 
+    </nav> 
+    
+	<div id ="mainPageCenter">
+		
 		<h1>Please Log In</h1>
 		<div th:if="${param.error}">
 			Invalid username and password.</div>
@@ -31,6 +44,7 @@
 				 </form>
 			</table>
 
+</div>
 
 </body>
 </html>
