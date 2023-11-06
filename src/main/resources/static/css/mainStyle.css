@@ -2,6 +2,48 @@
      text-align: center;
     /* Center everything horizontally */
 }
+
+nav {
+     margin-top: 45x;
+}
+     .nav5 ul {
+  font-family: Tahoma;
+  text-align: center;
+  padding: 20px;
+  font-size: 30px;
+  display: inline;
+
+
+}
+header{
+position: fixed;
+background-color:SlateGrey;
+width:100%;
+height:45px;
+top:0px;
+left:0px;
+float:left;
+text-align:center;
+}
+div#mainPageCenter{
+position:absolute;
+top:30%;
+width:100%;
+text-align:center;
+}
+ .nav5 ul li {
+	 top:0.3em;
+		padding:0.6em;
+        display: inline;
+        position: relative;
+    }
+
+     .nav5 ul li a:hover{
+         color: #fff;
+    background-color: #369;
+    
+    }
+
  table {
      margin: 0 auto;
     /* Center the table horizontally */
