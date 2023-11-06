@@ -42,6 +42,10 @@ public class MainController {
 	}
 
 	@GetMapping("/")
+	public String defaultPage() {
+		return "defaultPage.html";
+	}
+	@GetMapping("/home")
 	public String mainPage(@RequestParam(value = "createdOn",required=false) String createdOn,
 			@RequestParam(value = "lastModified",required=false) String lastModified,
 			@RequestParam(value = "lastRead",required=false) String lastRead,
@@ -290,7 +294,7 @@ public class MainController {
 			String lastReadDays) {
 	
 		
-		String url = "redirect:/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
+		String url = "redirect:/home/page/"+currentPage+"?sortField="+sortField+"&sortDir="+sortDir;
 		if(createdOn !=null && (createdOn.equals("true") || createdOn.equals("on"))) {
 			url+="&createdOn=on";
 		}

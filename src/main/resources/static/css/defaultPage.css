@@ -3,9 +3,54 @@
   background-image: url('calligraphy.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: 100% 100%;
+ background-size: cover;
+ overflow-x: hidden;
 }
 
+#navbar { 
+	    position: fixed;
+            width: 100vw; 
+            height: 45px; 
+	    top:0px;
+	    left:0px;
+	    background-color: rgba(217, 194, 162,0.5);
+        } 
+  
+        #navbar div { 
+            display: block; 
+            margin: auto; 
+  
+        } 
+
+
+div#mainPageCenter{
+position:absolute;
+top:10%;
+width:100%;
+text-align:center;
+}
+a {
+  font-size: 80px; 
+  text-decoration: none; 
+  color: YellowGreen;
+}
+
+a:hover {
+  color: #fff; 
+}
+h1 {
+  font-size: 110px;
+  color:#25404B;
+}
+
+h2 {
+  font-size: 40px;
+color:white;
+}
+h1, h2 {
+  margin: 10;
+  padding: 10;
+}
  table {
      margin: 0 auto;
     /* Center the table horizontally */
