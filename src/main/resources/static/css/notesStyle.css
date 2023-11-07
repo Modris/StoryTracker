@@ -17,6 +17,7 @@ body {
      display: flex;
      justify-content: center;
      align-items: center;
+	  z-index: 1000;
 }
  #navbar ul {
      list-style-type: none;
@@ -29,7 +30,7 @@ body {
 }
  #navbar li a {
      text-decoration: none;
-     padding: 8px;
+     padding: 12px;
      font-size:20px;
      color: black;
 }
@@ -72,17 +73,17 @@ tr:nth-child(odd){background-color: #f2f2f2}
 }
  .comment-cell {
      max-height: 70px;
-    /* Adjust the value as needed to set the initial fixed height */
-     max-width:200px;
+     max-width:470px;
      overflow-y: auto;
-    /* Add a vertical scrollbar when content exceeds the fixed height */
      white-space: normal;
+	 word-wrap: break-word; 
 }
  .comment-cell2 {
      max-height: 70px;
      max-width:140px;
      overflow-y: auto;
      white-space: normal;
+	 word-wrap: break-word; 
 }
  td, th {
      text-align: center;
@@ -94,13 +95,11 @@ tr:nth-child(odd){background-color: #f2f2f2}
      justify-content: center;
      align-items: center;
 }
-/* Add vertical-align for td elements */
  td {
      vertical-align: middle;
 }
  .button {
      background-color: #e7e7e7;
-    /* Green */
      border:none;
      color: black;
      padding: 10px 26px;
@@ -135,25 +134,27 @@ tr:nth-child(odd){background-color: #f2f2f2}
  .round {
      border-radius: 50%;
 }
- .btn { 
+ .btn {
      padding: 10px 20px;
-	 font-size:18px;
-	color:  color: #1864ab;
-	
-	  background-color: transparent;
-
- }
- 
-.btn:hover {
-	background-color: #fd5c63;
+     font-size:18px;
+     color: color: #1864ab;
+     background-color: rgba(217, 194, 162, 0.85);;
+}
+ .btn:hover {
+     background-color: #fd5c63;
 }
  .bolder{
      font-weight: bold;
 }
- .comment-cell {
-     max-height: 70px;
-     max-width:500px;
-     overflow-y: auto;
-     white-space: normal;
+
+  .home{
+     font-size:18px;
+     color: color: #1864ab;
+     background-color: rgba(217, 194, 162, 0.85);
+	 height:100%;
+	 width:100%;
+	
 }
- 
+ .home:hover {
+     background-color: #ACE1AF;
+}

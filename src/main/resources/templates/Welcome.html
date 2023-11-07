@@ -138,15 +138,10 @@
 </head>
 
 <body>
-	
-            <form th:action="@{/logout}" method="post" id="logout">
-            </form>
-            
-<div id = "mainPageCenter">
-	
-		<nav id="navbar"> 
+<header>
+	<nav id="navbar"> 
     <ul>
-	  <li><a href="/home">Home</a></li>
+	  <li><a class= "home" href="/home">Home</a></li>
 	  <li>
 	  	  <button class = "btn" type="submit" onclick="logout()"> Logout </button>  
 	  </li> 
@@ -156,10 +151,20 @@
   	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
  
     </nav> 
+</header>
+            <form th:action="@{/logout}" method="post" id="logout">
+            </form>
+            
+<div id = "mainPageCenter">
+	
+		
     
 	<div id ="mainPageCenter">
 		
-	<h3> Make a new Story to track! </h3>
+	<div class = "container2">
+		<h3 class="intro"> Make a new Story to track! </h3>
+	</div>
+	
 	<table class = "table">
 		<tr>
 			<th>Story Name</th>
@@ -180,7 +185,7 @@
 				<input type="hidden" id="pageSize" name="pageSize" th:value="${pageSize}">
 			
 			<td>
-	 			<input name = "name" pattern=".{1,100}" required title="1 characters minimum, 100 maximum">
+	 			<input placeholder="Make a new Story to track" name = "name" pattern=".{1,100}" required title="1 characters minimum, 100 maximum">
 			</td>
 			<td>	
 					<select  name = "category">
@@ -200,7 +205,7 @@
 				<input name = "progress" pattern=".{1,40}" required title="1 character minimum, 40 maximum" placeholder="Progress tracking">
 			</td>
 			<td>
-				<button  class = "button" type="Add">Add a Story</button>	
+				<button  class = "home"  type="Add">Add a Story</button>	
 			</td>
 			
 			</form>
@@ -233,7 +238,7 @@
 		<td> <input type="checkbox" id="lastModified"  name="lastModified" th:checked="${lastModifiedAnswer != null}" /></td> 
 		<td> <input type="checkbox" id="lastReadDays"  name="lastReadDays" th:checked="${lastReadDaysAnswer != null}" /></td> 
 		<td> <input type="checkbox" id="lastRead"  name="lastRead" th:checked="${lastReadAnswer != null}" /></td> 
-		<td> 		<input  type="submit" value="Apply"> </td> 
+		<td class="padded"> 		<input  class = "homeApply"  type="submit" value="Apply"> </td> 
 		</form>
 
 
@@ -248,47 +253,47 @@
 		<tr>
 			<th>
 				<a id="dynamicLink">
-					 <button type="button" onclick="updateURL('id')">id</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('id')">id</button>
 				 </a>
 				</th>
 			<th>
 				<a id="dynamicLink1">
-					 <button type="button" onclick="updateURL('name')">Name</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('name')">Name</button>
 				 </a>
 			</th>
 			<th>
 				<a id="dynamicLink2">
-					 <button type="button" onclick="updateURL('category')">Category</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('category')">Category</button>
 				 </a>
 			</th>
 			<th>
 			<a id="dynamicLink3">
-					 <button type="button" onclick="updateURL('status')">Status</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('status')">Status</button>
 				 </a>
 			</th>
 			<th>
 				<a id="dynamicLink4">
-					 <button type="button" onclick="updateURL('progress')">Progress</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('progress')">Progress</button>
 				 </a>
 			</th>
 			<th th:if="${createdOnAnswer == on}">
 				<a id="dynamicLink5">
-					 <button type="button" onclick="updateURL('createdOn')">Created On</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('createdOn')">Created On</button>
 				 </a>
 			</th>
 			<th th:if="${lastModifiedAnswer == on}"> 
 				<a id="dynamicLink6">
-					 <button type="button" onclick="updateURL('lastModified')">Last Modified</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('lastModified')">Last Modified</button>
 				 </a>
 			</th>
 			<th th:if="${lastReadDaysAnswer == on}">
 				<a id="dynamicLink88">
-					 <button type="button" onclick="updateURL('lastReadDays')">Last Read Days</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('lastReadDays')">Last Read Days</button>
 				 </a>
 			</th>
 			<th th:if="${lastReadAnswer == on}">
 				<a id="dynamicLink7">
-					 <button type="button" onclick="updateURL('lastReadHours')">Last Read Hrs</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('lastReadHours')">Last Read Hrs</button>
 				 </a> 
 			</th>
 			<th colspan="2"> Actions </th>
@@ -308,7 +313,7 @@
 					<td th:if="${lastReadDaysAnswer ==  on}" th:text="${tracker.lastReadDays} + ' day(s)'"/>		
 					<td th:if="${lastReadAnswer ==  on}" th:text="${tracker.lastReadHours} + ' hour(s)'"/>		
 					
-					<td>
+					<td class="padded">
 							<form  th:action="@{/edit}" method="post" id="edit_form">
 							<input type="hidden" name = "editId" th:value="${tracker.id}">
 							
@@ -320,10 +325,10 @@
 							<input type="hidden" name="sortField" th:value="${sortField}">
 							<input type="hidden" name="sortDir" th:value="${sortDir}">	
 							<input type="hidden" name="pageSize" th:value="${pageSize}">
-							<input  type="submit" value="Edit">
+							<input  class = "homeEdit" type="submit" value="Edit">
 						</form>
 					</td>
-					<td>
+					<td class="padded"> 
 						<form  th:action="@{/delete}" method="post" id="delete_form">
 							<input type="hidden" name="idDelete" th:value="${tracker.id}">
 							
@@ -335,14 +340,14 @@
 							<input type="hidden" name="sortField" th:value="${sortField}">
 							<input type="hidden" name="sortDir" th:value="${sortDir}">	
 							<input type="hidden" name="pageSize" th:value="${pageSize}">
-							<input  type="submit" value="Delete">
+							<input class = "homeDelete"  type="submit" value="Delete">
 						</form>
 					</td>
-					<td> 
+					<td class="padded"> 
 						<form action="/home/notes" method="get" id="notes_form">
 							<input type="hidden" name = "storyId" th:value="${tracker.id}">
 							<input type="hidden" name = "trackerName" th:value="${tracker.name}">			
-							<input type="submit" value="Notes"/>
+							<input class = "homeNotes" type="submit" value="Notes"/>
 						</form>
 					</td>
 				</tr>
@@ -365,7 +370,7 @@
 							<input type="hidden" name="sortDir" th:value="${sortDir}">	
 							
 					<input size="1" name = "pageSize" pattern="^[1-9][0-9]?$|^100$" required title="1 pages minimum, 100 maximum" th:value="${pageSize}"}>
-			    	<input type="submit" value="Confirm"/>
+			    	<input class = "btnNext" type="submit" value="Confirm"/>
 			</form>
 		</span>
 	
@@ -373,10 +378,10 @@
 		&nbsp;&nbsp;
 		<span> Total items: [[${totalItems}]]</span> 
 			<a id="dynamicLinkPrevious" th:if="${currentPage>1}" >
-					<button type="button" onclick="updateURLPrevious()">Previous</button>
+					<button class = "btnNext" type="button" onclick="updateURLPrevious()">Previous</button>
 				 </a>
 				 	<a id="dynamicLinkNext" th:if="${currentPage<totalPages}">
-					<button type="button" onclick="updateURLNext()">Next</button>
+					<button class = "btnNext" type="button" onclick="updateURLNext()">Next</button>
 				 </a>
 				<br>
 		</div>
