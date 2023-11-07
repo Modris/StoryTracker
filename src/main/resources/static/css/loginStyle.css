@@ -37,9 +37,8 @@ body {
 }
  div#mainPageCenter{
      position:absolute;
-     top:10%;
+     top:19%;
      width:100%;
-     text-align:center;
 }
  table {
      margin: 0 auto;
@@ -47,11 +46,63 @@ body {
      table-layout: fixed;
      white-space: nowrap;
 }
-
  td, th {
      text-align: center;
      padding: 8px;
 }
  td {
      vertical-align: middle;
+}
+ .container{
+     position:relative;
+     left:38%;
+     height:60%;
+     width:23%;
+     border-radius:25px;
+     background-color: rgba(217, 194, 162, 0.72);
+}
+ .containerRegister{
+     position:relative;
+     left:37%;
+     height:60%;
+     width:27%;
+     border-radius:25px;
+     background-color: rgba(217, 194, 162, 0.72);
+}
+ .left {
+     text-align: start;
+     margin:0;
+}
+ .container2{
+     position:relative;
+     left:21%;
+     color:#123650;
+     font-size: 18px;
+     padding:5px;
+     font-weight: bold;
+}
+ .container2Register{
+     position:relative;
+     left:25%;
+     color:#123650;
+     font-size: 18px;
+     padding:5px;
+     font-weight: bold;
+}
+ h1{
+     color:#123650;
+     font-size:40px;
+}
+ .input2{
+     padding: 7px 3px;
+     background-color: rgba(217, 194, 162, 0.8);
+}
+ .btn {
+     padding: 10px 20px;
+     font-size:18px;
+     color: #123650;
+    background-color: rgba(217, 194, 162, 0.8);
+}
+ .btn:hover {
+     background-color: #ACE1AF;
 }

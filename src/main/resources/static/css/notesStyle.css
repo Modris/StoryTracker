@@ -152,10 +152,8 @@ tr:nth-child(odd){background-color: #f2f2f2}
 }
  .comment-cell {
      max-height: 70px;
-    /* Adjust the value as needed to set the initial fixed height */
      max-width:500px;
      overflow-y: auto;
-    /* Add a vertical scrollbar when content exceeds the fixed height */
      white-space: normal;
 }
  

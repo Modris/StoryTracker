@@ -18,8 +18,9 @@
     </nav> 
     
 	<div id ="mainPageCenter">
-		
-		<h1>Please Log In</h1>
+		<article class = "container">
+			<br> 
+		<h1>Login Here</h1>
 		<div th:if="${param.error}">
 			Invalid username and password.</div>
 		<div th:if="${param.logout}">
@@ -28,22 +29,29 @@
 			<p th:text="${registration}"/>
 		</th:if>
 		<form th:action="@{/login}" method="post">
-			<br>
-			<input type="text" name="username" placeholder="Username"/>
-			<br><br>
-			<input type="password" name="password" placeholder="Password"/>
+			
+			<div class="container2">
+				<p class="left"> Username</p>
+			</div>
+				<input class = "input2" type="text" name="username" placeholder="Unique Username"/>
+				<br><br>
+			<div class="container2">
+				<p class="left"> Password </p>
+			</div>
+				<input class = "input2" type="password" name="password" placeholder="Password"/>
 			<br><br> 
 			
 			<table>
-				<th> 	<input type="submit" value="Log in" /> </th>
+				<th> 	<input class="btn" type="submit" value="Login" /> </th>
 				</form>
 				<form th:action="@{/register}" method="get">
 				<th>
-							<input type="submit" value="Register" />
+							<input class = "btn" type="submit" value="Register" />
 				 </th>
 				 </form>
 			</table>
-
+			<br> <br> <br> 
+		</article>
 </div>
 
 </body>

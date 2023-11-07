@@ -6,7 +6,6 @@ body {
      background-size: cover;
      overflow-x: hidden;
 }
-
  #navbar {
      position: fixed;
      width: 100%;
@@ -44,31 +43,30 @@ body {
 }
  .table {
      margin: 0 auto;
-    /* Center the table horizontally */
      border: 1px solid black;
      border-collapse: collapse;
      table-layout: fixed;
      white-space: nowrap;
 }
-tr:nth-child(even){background-color: #f2f2f2}
-tr:nth-child(odd){background-color: #f2f2f2}
+ tr:nth-child(even){
+    background-color: #f2f2f2
+}
+ tr:nth-child(odd){
+    background-color: #f2f2f2
+}
  .table th{
      padding: 5px;
-	 background-color: #B9D9EB;
+     background-color: #B9D9EB;
 }
-.btn { 
+ .btn {
      padding: 10px 20px;
-	 font-size:18px;
-	color:  color: #1864ab;
-	
-	  background-color: transparent;
-
- }
- 
-.btn:hover {
-	background-color: #fd5c63;
+     font-size:18px;
+     color: color: #1864ab;
+     background-color: transparent;
 }
-	
+ .btn:hover {
+     background-color: #fd5c63;
+}
  .table2{
      margin: 0 auto;
      border: 1px solid black;
@@ -81,14 +79,12 @@ tr:nth-child(odd){background-color: #f2f2f2}
 }
  .table2 th{
      padding: 5px;
-	 background-color: #B9D9EB;
+     background-color: #B9D9EB;
 }
  .comment-cell {
      max-height: 70px;
-    /* Adjust the value as needed to set the initial fixed height */
      max-width:200px;
      overflow-y: auto;
-    /* Add a vertical scrollbar when content exceeds the fixed height */
      white-space: normal;
 }
  .comment-cell2 {
@@ -107,12 +103,9 @@ tr:nth-child(odd){background-color: #f2f2f2}
      justify-content: center;
      align-items: center;
 }
-/* Add vertical-align for td elements */
  td {
      vertical-align: middle;
 }
-
-
  .previous {
      background-color: #f1f1f1;
      color: black;
@@ -124,9 +117,7 @@ tr:nth-child(odd){background-color: #f2f2f2}
  .round {
      border-radius: 50%;
 }
- 
-.sizeUp{
+ .sizeUp{
      font-size: 22px;
      color:white;
-	
 }
