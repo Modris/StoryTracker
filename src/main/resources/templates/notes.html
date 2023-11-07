@@ -23,15 +23,20 @@
 	  	  <button class = "btn" type="submit" onclick="logout()"> Logout </button>  
 	  </li> 
 	</ul> 
-  	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
+  	<img src="/images/logo4.png" height="101" width="110" alt="Logo image"> 
  
     </nav> 
     
 	<div id ="mainPageCenter">
-
-	<h1> Add notes to your Story! </h1>
-	<p> The main idea here is to capture the moment. </p>
-	<p> Thoughts/Speculation/Refresher for when you come back!</p>
+		
+	<div class = "containerNotes">
+		
+		<h1> Add notes to your Story! </h1>
+		<p> The main idea here is to capture the moment. </p>
+		<p> The exact feelings at this chapter.</p>
+		
+	</div>
+	
 	<table class ="table">
 		<tr>
 			<th>Story Name</th>
@@ -50,10 +55,10 @@
 				<td>
 						  <input size="40" name = "comments" pattern=".{1,}" required title="1 character minimum">
 				</td>
-				<td>
+				<td class="padded">
 					<input type="hidden" name = "storyId" th:value="${storyId}">
 					<input type="hidden" name = "trackerName" th:value="${trackerName}">
-					<button  class = "button" type="Add">Add Note</button>	
+					<button  class = "homeApply" type="Add">Add Note</button>	
 				</td>
 				</form>
 		</tr>
@@ -70,7 +75,7 @@
 		<th> Created On </th>
 		<th> Last Modified </th>
 		<th> Last Read </th>
-		<th> Actions </th>
+		<th colspan="2"> Actions </th>
 	</tr>
 	
     <th:if="${notesList != null}">
@@ -82,20 +87,22 @@
 	            <td th:text="${notes.getCreatedOnConvertedToDate}" />
 	            <td th:text="${notes.getLastModifiedConvertedToDate}"/> 
 	            <td th:text="${notes.lastRead}  + ' day(s)' " />
-	            <td class="comment-cell form-container">
+	            <td class="padded">
 	                <form th:action="@{/home/editNote}" method="post" id="edit_form">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
 	                    	<input type="hidden" name = "storyId" th:value="${storyId}">
 						<input type="hidden" name = "trackerName" th:value="${trackerName}">
 	                    <input type="hidden" name="notesComment" th:value="${notes.comments}" />
 	                   <input type="hidden" name="notesName" th:value="${notes.name}" />
-	                    <input type="submit" value="Edit" />
-	                </form> &nbsp;
+	                    <input class="homeEdit" type="submit" value="Edit" />
+	                </form>
+	             </td>
+	             <td class="padded">
 	                <form th:action="@{/deleteNote}" method="post" id="delete_form">
 						<input type="hidden" name = "storyId" th:value="${storyId}">
 						<input type="hidden" name = "trackerName" th:value="${trackerName}">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
-	                    <input type="submit" value="Delete" />
+	                    <input class="homeDelete" type="submit" value="Delete" />
 	                </form>
 	            </td>
 	            <tr>
@@ -104,7 +111,7 @@
 	               <td colspan="5">
 	             		<div class="comment-cell" th:text="${notes.comments}"></div>
 	               </td>
-	               <td> </td>
+	               <td> </td> <td> </td>
 	            </tr>
 	        </tr>
        </th:block>

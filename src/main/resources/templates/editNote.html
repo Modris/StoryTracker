@@ -21,13 +21,16 @@
 	  	  <button class = "btn" type="submit" onclick="logout()"> Logout </button>  
 	  </li> 
 	</ul> 
-  	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
+  	<img src="/images/logo4.png" height="101" width="110" alt="Logo image"> 
  
     </nav> 
     
 	<div id ="mainPageCenter">
 		
-	<h1> Edit specific Note </h1>
+	<div class = "container2EditNote">
+		<h3 class = "intro"> Edit Specific Note </h3>
+	</div>
+	
 	<table class ="table">
 		<tr>
 			<th>Story Name</th>
@@ -46,11 +49,11 @@
 				<td>
 						  <input th:value="${notesComment}" size="40" name = "notesComment" pattern=".{1,}" required title="1 character minimum">
 				</td>
-				<td>
+				<td class="padded">
 					<input type="hidden" name = "notesId" th:value="${notesId}">
 					<input type="hidden" name = "storyId" th:value="${storyId}">
 					<input type="hidden" name = "trackerName" th:value="${trackerName}">
-					<button  class = "button" type="Add">Save</button>	
+					<button class = "homeApply" type="Add">Save</button>	
 				</td>
 				</form>
 		</tr>

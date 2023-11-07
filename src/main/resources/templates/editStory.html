@@ -23,12 +23,15 @@
 	  </li> 
 
 	</ul> 
-  	<img src="/css/logo4.png" height="101" width="110" alt="Logo image"> 
+  	<img src="/images/logo4.png" height="101" width="110" alt="Logo image"> 
  
     </nav> 
     
 	<div id ="mainPageCenter">
-<h3> Edit Story. </h3>
+			
+	<div class = "container2EditStory">
+		<h3 class = "intro"> Edit Story </h3>
+	</div>
 	
 	<table class = "table">
 		<tr>
@@ -67,8 +70,8 @@
 				<input th:value="${tracker.progress}"name = "progress" pattern=".{1,40}" required title="1 character minimum, 40 maximum">
 				
 			</td>
-			<td>
-				<button  class = "button" type="Add">Save</button>	
+			<td class="padded">
+				<button  class = "homeApply" type="Add">Save</button>	
 			</td>
 				<input type="hidden" name="createdOnNoTrackerBind" th:value="${createdOnAnswer}" />
 		 		<input type="hidden" name="lastModifiedNoTrackerBind" th:value="${lastModifiedAnswer}" />

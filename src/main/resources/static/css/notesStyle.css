@@ -1,6 +1,6 @@
 body {
      text-align: center;
-     background-image: url('calligraphy.jpg');
+     background-image: url('../images/calligraphy.jpg');
      background-repeat: no-repeat;
      background-attachment: fixed;
      background-size: cover;
@@ -88,7 +88,6 @@ tr:nth-child(odd){background-color: #f2f2f2}
  td, th {
      text-align: center;
      border: 1px solid black;
-     padding: 8px;
 }
  .form-container {
      display: flex;
@@ -157,4 +156,69 @@ tr:nth-child(odd){background-color: #f2f2f2}
 }
  .home:hover {
      background-color: #ACE1AF;
+}
+
+ .containerNotes{
+     position:relative;
+     left:30%;
+	 width:39%;
+	 background-color: rgba(217, 194, 162, 0.65);
+	 padding:8px;
+}
+ .containerNotes p {
+	 font-size:24px;
+ }
+ .homeApply{
+     font-size:16px;
+     color: color: #1864ab;
+     background-color: rgba(217, 194, 162, 0.85);
+	 height:100%;
+	 width:100%;
+	 padding:8px;
+	
+}
+ .homeApply:hover {
+     background-color: #ACE1AF;
+}
+ .homeDelete{
+     font-size:14px;
+     color: color: #1864ab;
+     background-color: rgba(173, 141, 97, 0.85);
+	 height:100%;
+	 width:100%;
+	padding:8px;
+}
+ .homeDelete:hover {
+     background-color: #fd5c63;
+}
+ .homeEdit{
+     font-size:14px;
+     color: black;
+     background-color: rgba(173, 141, 97, 0.55);
+	 height:100%;
+	 width:100%;
+	 padding:8px;
+	
+}
+ .homeEdit:hover {
+     background-color: #6eb572;
+}
+
+ .container2EditNote{
+     position:relative;
+     left:44%;
+	 width:15%;
+	 background-color: rgba(217, 194, 162, 0.65);
+}
+.intro{
+     color:#123650;
+     font-size:24px;
+	
+}
+
+ .container2Error{
+     position:relative;
+     left:30%;
+	 width:44%;
+	 background-color: rgba(217, 194, 162, 0.65);
 }

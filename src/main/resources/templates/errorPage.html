@@ -4,12 +4,39 @@
 <head>
 <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" th:href="@{/css/notesStyle.css}"> 
-</head>
-<body>
+  
+<script>
+	function logout(){
+		document.getElementById('logout').submit();
+	}
+</script>
 
-	<h3> Error page </h3>
-	<th:if "${errorMsg !=null}">
-	<h1 th:text="${errorMsg}"/> 
-	</th:if>
+</head>
+
+<body>
+	<form th:action="@{/logout}" method="post" id="logout">
+            </form>
+            
+<nav id="navbar"> 
+    <ul>
+	  <li><a class="home" href="/home">Home</a></li>
+  	  <li>
+	  	  <button class = "btn" type="submit" onclick="logout()"> Logout </button>  
+	  </li> 
+	</ul> 
+  	<img src="/images/logo4.png" height="101" width="110" alt="Logo image"> 
+ 
+    </nav> 
+    
+	<div id ="mainPageCenter">
+		<br>
+		<div class = "container2Error">
+			<br>
+			<h1 class="intro"> Error page </h1>
+			<th:if "${errorMsg !=null}">
+				<h1 class="intro" th:text="${errorMsg}"/> 
+			</th:if>
+			<br>
+		</div>
 </body>
 </html>

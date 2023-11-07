@@ -1,9 +1,9 @@
 body {
      text-align: center;
-     background-image: url('library.jpg');
+     background-image: url('../images/ship.jpg');
      background-repeat: no-repeat;
      background-attachment: fixed;
-     background-size: cover;
+     background-size: 100% 100%;
      overflow-x: hidden;
 }
 /* Styles for the navigation bar */
@@ -47,7 +47,7 @@ body {
      text-align:center;
 }
 a {
-     font-size: 80px;
+     font-size: 60px;
      text-decoration: none;
      color: #18453B;
 }
@@ -55,33 +55,18 @@ a {
      color: #fff;
 }
  h1 {
-     font-size: 110px;
+     font-size: 90px;
      color:#25404B;
 }
  h2 {
-     font-size: 40px;
+     font-size: 32px;
      color:#002D62;
 }
  h1, h2 {
-     margin: 10;
-     padding: 10;
+     margin: 5px;
+     padding: 5px;
 }
 
-.container{
-	   position:relative;
-	   left:30%;
-	   width:36%;
-	   border-radius:15px;
-	  
-	   background-color: rgba(217, 194, 162, 0.5);
-	}
-.container2{
-	   position:relative;
-	   left:35%;
-	   width:25%;
-	   border-radius:15px;
-	   background-color: rgba(217, 194, 162, 0.5);
-	}
  .home{
      font-size:18px;
      color: color: #1864ab;
