@@ -8,7 +8,9 @@ CREATE TABLE tracker(
     progress varchar(40),
     created_on DATETIME,
     last_modified DATETIME,
-    user_id smallint UNSIGNED,
+    last_read_days smallint UNSIGNED,
+    last_read_hours smallint UNSIGNED,
+    user_id smallint UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (category) REFERENCES categories(id),
     FOREIGN KEY (status) REFERENCES status(id),
@@ -50,8 +52,7 @@ CREATE TABLE notes(
     comments TEXT,
     created_on DATETIME,
     last_modified  DATETIME,
-    last_read DATETIME,
-    tracker_id int UNSIGNED,
+    tracker_id int UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (tracker_id) REFERENCES tracker(id)
 );

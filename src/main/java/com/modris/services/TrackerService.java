@@ -40,7 +40,7 @@ public class TrackerService {
 	}
 	
 	public List<Tracker> findAllByUsername(String username){
-		return trackerRepository.findAllByUsername(username);
+		return trackerRepository.findAllByUsernameNative(username);
 	}
 	@Transactional
 	public void deleteByIdAndUserId(Long id, Long userId) {

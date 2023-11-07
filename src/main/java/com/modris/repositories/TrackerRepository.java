@@ -40,6 +40,15 @@ public interface TrackerRepository extends JpaRepository<Tracker,Long>{
 	@Query("DELETE FROM Tracker t WHERE t.id = :id AND t.user.id = :userId")
 	void deleteByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
-	@Query("SELECT t FROM Tracker t WHERE t.user.username = :username")
-	List<Tracker> findAllByUsername(@Param("username") String username);
+	@Query(value = """
+			SELECT t.id,name,category,status,progress,created_on,last_modified, last_read_days,last_read_hours,t.user_id FROM tracker t
+			JOIN users u ON t.user_id = u.id 
+			WHERE u.username = :username
+			""", nativeQuery = true)
+	List<Tracker> findAllByUsernameNative(@Param("username") String username);
 }
+	// Generates very long query. I don't want to use Projections then convert that into Tracker object.
+	// So i will use native query.
+	//@Query("SELECT t FROM Tracker t WHERE t.user.username = :username")
+	//List<Tracker> findAllByUsername(@Param("username") String username);
+	//}
