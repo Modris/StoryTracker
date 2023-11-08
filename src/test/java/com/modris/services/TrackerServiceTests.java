@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.data.domain.Page;
 import org.testcontainers.containers.MySQLContainer;
 
 import com.modris.model.Categories;
@@ -57,20 +58,18 @@ public class TrackerServiceTests {
 	void beforeAll() {
 		Users user = new Users("John", "123");
 		userRepository.save(user);
+		Categories c = categoriesRepository.findByIdReturnCategories(1L); // Movies
+		Status s = statusRepository.findByIdReturnStatus(3L); // Completed
 
-		var c = new Categories("Movie");
-		var s = new Status("Completed");
 		Tracker pulp = new Tracker("Pulp Fiction", c, s, "Finished");
 		pulp.setUser(user);
-		var c2 = new Categories("Comic Book");
-		var s2 = new Status("Ongoing");
+		
+		Categories c2 = categoriesRepository.findByIdReturnCategories(4L); // Comic books
+		Status s2 = statusRepository.findByIdReturnStatus(1L); // Ongoing
 		Tracker piece = new Tracker("One Piece", c2, s2, "Chapter 1030");
+		
 		piece.setUser(user);
 		
-		categoriesRepository.save(c);
-		categoriesRepository.save(c2);
-		statusRepository.save(s);
-		statusRepository.save(s2);
 		trackerService.addTracker(pulp);
 		trackerService.addTracker(piece);
 	}
@@ -80,13 +79,13 @@ public class TrackerServiceTests {
 	@DisplayName("TrackerService method addTracker + findAllByUsername happy flow. Saving into DB successful. TestContainers.")
 	public void beforeAllIsSavingDataIntoDB() {
 	
-		List<Tracker> trackerList = trackerService.findAllByUsername("John");
+		List<Tracker> trackerList = trackerService.findAllByUsernameNative("John");
 		assertAll(() -> assertEquals(2, trackerList.size()),
 				() -> assertEquals("Pulp Fiction", trackerList.get(0).getName()),
-				() -> assertEquals("Movie", trackerList.get(0).getCategory().getName()),
+				() -> assertEquals("Movies", trackerList.get(0).getCategory().getName()),
 				() -> assertEquals("Completed", trackerList.get(0).getStatus().getName()),
 				() -> assertEquals("One Piece", trackerList.get(1).getName()),
-				() -> assertEquals("Comic Book", trackerList.get(1).getCategory().getName()));
+				() -> assertEquals("Comic books", trackerList.get(1).getCategory().getName()));
 
 	}
 
@@ -101,33 +100,83 @@ public class TrackerServiceTests {
 		Tracker tNull = trackerService.findByIdAndUserId(1L,99L); // 99L doesn't exist.
  
 		assertAll(
-				() -> assertEquals(2, sizeBefore), () -> assertEquals(1, sizeAfter),
+				() -> assertEquals(2, sizeBefore),
+				() -> assertEquals(1, sizeAfter),
 				() -> assertEquals("Pulp Fiction", t.getName()),
 				() -> assertTrue(tNull == null)
 				);
 	}
-	
 	@Test
 	@Transactional
-	@DisplayName("TrackerService.editSaved method works. Happy flow.")
-	public void trackerServiceEditSavedTest() {
+	@DisplayName("TrackerService.editSaved method works. Happy flow no changes.")
+	public void trackerServiceEditSavedTestNoChanges() {
 		
 		 
 			Tracker original = trackerRepository.findByIdAndUserIdReturnTracker(2L, 1L);
-			original.setName("One Piece 2");
-			var c = new Categories("Movies");
-			var s = new Status("Dropped");
-			original.setCategory(c);
-			original.setStatus(s);
-			original.setProgress("Now2");
-			trackerRepository.save(original);
 
-		assertAll(() -> assertEquals("One Piece 2", trackerRepository.findByIdAndUserIdReturnTracker(2L,2L).getName()),
-				() -> assertEquals("Movies", trackerRepository.findByIdAndUserIdReturnTracker(2L,2L).getCategory().getName()),
-				() -> assertEquals("Dropped", trackerRepository.findByIdAndUserIdReturnTracker(2L,2L).getStatus().getName()),
-				() -> assertEquals("Now2", trackerRepository.findByIdAndUserIdReturnTracker(2L,2L).getProgress()));
+			trackerService.editSavedHibernate(original, 2L,1L);
+
+		assertAll(
+				() -> assertEquals("One Piece", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getName()),
+				() -> assertEquals("Comic books", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getCategory().getName()),
+				() -> assertEquals("Ongoing", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getStatus().getName()),
+				() -> assertEquals("Chapter 1030", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getProgress()));
 		
 	
+	}
+	
+	@Test
+	@Transactional
+	@DisplayName("TrackerService.editSaved method works. Happy flow Edited..")
+	public void trackerServiceEditSavedTest() {
+		//public void editSavedHibernate(Tracker tEdited,Long id, Long userId) {
+		 
+			Tracker tEdited = trackerRepository.findByIdAndUserIdReturnTracker(2L, 1L);
+			tEdited.setName("One Piece 2");
+			Categories c = categoriesRepository.findByIdReturnCategories(1L); // Movies
+			Status s = statusRepository.findByIdReturnStatus(4L); // Dropped
+			tEdited.setCategory(c);
+			tEdited.setStatus(s);
+			tEdited.setProgress("Now2");
+			trackerService.editSavedHibernate(tEdited, 2L,1L);
+
+		assertAll(
+				() -> assertEquals("One Piece 2", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getName()),
+				() -> assertEquals("Movies", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getCategory().getName()),
+				() -> assertEquals("Dropped", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getStatus().getName()),
+				() -> assertEquals("Now2", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getProgress()));
+	}
+	@Test
+	@Transactional
+	@DisplayName("findAllPagedWithUserId method happy flow test.")
+	public void findAllPagedWithUserIdTest() {
+		
+		/*public Page<Tracker> findAllPagedWithUserId(Long userId, int pageNumber, int pageSize, String sortField, String sortDirection){
+			Pageable pageable = PageRequest.of(pageNumber-1, pageSize,
+					sortDirection.equals("asc") ? Sort.by(sortField).ascending()
+							: Sort.by(sortField).descending());
+			
+			return trackerRepository.findAllPagedWithUserId(pageable,userId);
+		*/
+		//null doesn't matter because it won't display the table on thymeleaf page that's all.
+		Page<Tracker> pagedAsc = trackerService.findAllPagedWithUserId(1L, 1, 1,"id" , "asc");
+		List<Tracker> trackerList = pagedAsc.getContent();
+		
+		Page<Tracker> pagedDesc = trackerService.findAllPagedWithUserId(1L, 1, 1,"id" , "desc");
+		List<Tracker> trackerListDesc = pagedDesc.getContent();
+		
+		Page<Tracker> pagedAll = trackerService.findAllPagedWithUserId(1L, 1, 10,"id" , "desc");
+		List<Tracker> trackerListAll = pagedAll.getContent();
+		assertAll(
+				() -> assertEquals(1, trackerList.size()),
+				() -> assertEquals("Pulp Fiction", trackerList.get(0).getName()),
+				() -> assertEquals(1, trackerListDesc.size()),
+				() -> assertEquals("One Piece", trackerListDesc.get(0).getName()),
+				() -> assertEquals(2, trackerListAll.size()),
+				() -> assertEquals("One Piece", trackerListAll.get(0).getName()),
+				() -> assertEquals("Pulp Fiction", trackerListAll.get(1).getName())
+				);
+		
 	}
 
 }

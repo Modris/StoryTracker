@@ -31,7 +31,7 @@ public class TrackerService {
 	}
 	
 	
-	public Page<Tracker> findAllPaged(Long userId, int pageNumber, int pageSize, String sortField, String sortDirection){
+	public Page<Tracker> findAllPagedWithUserId(Long userId, int pageNumber, int pageSize, String sortField, String sortDirection){
 		Pageable pageable = PageRequest.of(pageNumber-1, pageSize,
 				sortDirection.equals("asc") ? Sort.by(sortField).ascending()
 						: Sort.by(sortField).descending());
@@ -39,7 +39,7 @@ public class TrackerService {
 		return trackerRepository.findAllPagedWithUserId(pageable,userId);
 	}
 	
-	public List<Tracker> findAllByUsername(String username){
+	public List<Tracker> findAllByUsernameNative(String username){
 		return trackerRepository.findAllByUsernameNative(username);
 	}
 	@Transactional

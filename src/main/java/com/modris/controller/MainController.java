@@ -102,7 +102,7 @@ public class MainController {
 		Optional<Users> userInRepo = userService.findByUsername(username);
 		Users userExtracted = userInRepo.get();
 		
-		Page<Tracker> paged = trackerService.findAllPaged(userExtracted.getId(),pageNum, Integer.valueOf(pageSize), sortField,sortDir);
+		Page<Tracker> paged = trackerService.findAllPagedWithUserId(userExtracted.getId(),pageNum, Integer.valueOf(pageSize), sortField,sortDir);
 		
 		List<Integer> indexListOfOriginal = indexList(username,paged); // for sorting purposes
 		// i get original Tracker list sorted by id in ascending order.
@@ -122,7 +122,7 @@ public class MainController {
 	public List<Integer> indexList(String username, Page<Tracker> paged){
 		
 		List<Integer> indexList = new ArrayList<>();
-		List<Tracker> original = trackerService.findAllByUsername(username);
+		List<Tracker> original = trackerService.findAllByUsernameNative(username);
 	
 		for(Tracker start:paged) {
 			int index = original.lastIndexOf(start);
