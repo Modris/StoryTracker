@@ -48,7 +48,7 @@ public class NotesController {
 			model.addAttribute("errorMsg", "Error. Can't access other people data.");
 			return "errorPage.html";
 		} else {
-		List<Notes> notesList = notesService.findAllById(trackerId);
+		List<Notes> notesList = notesService.findAllByTrackerId(trackerId);
 		model.addAttribute("notesList", notesList); //listAll 
 		model.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		model.addAttribute("trackerName", trackerName); //display trackerName as hard embedded value.
@@ -61,7 +61,7 @@ public class NotesController {
 			@RequestParam("trackerName") String trackerName,
 			Model model,
 			RedirectAttributes redirectAttributes) {
-		List<Notes> notesList = notesService.findAllById(trackerId);
+		List<Notes> notesList = notesService.findAllByTrackerId(trackerId);
 		redirectAttributes.addAttribute("notesList", notesList); //listAll 
 		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		redirectAttributes.addAttribute("trackerName", trackerName); //display trackerName as hard embedded value.

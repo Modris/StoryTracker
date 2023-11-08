@@ -15,7 +15,7 @@ public interface NotesRepository extends JpaRepository<Notes,Long> {
 
 	
 	@Query("SELECT n FROM Notes n WHERE n.tracker.id = :id")
-	List<Notes> findAllById(@Param("id") Long tracker_id);
+	List<Notes> findAllByTrackerId(@Param("id") Long tracker_id);
 	
 	@Modifying
 	@Query("UPDATE Notes n SET n.name = :notesName,n.comments = :notesComment WHERE n.id = :notesId")

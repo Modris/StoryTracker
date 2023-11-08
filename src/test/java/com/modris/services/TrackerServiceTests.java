@@ -19,11 +19,9 @@ import org.testcontainers.containers.MySQLContainer;
 import com.modris.model.Categories;
 import com.modris.model.Status;
 import com.modris.model.Tracker;
-import com.modris.model.Users;
 import com.modris.repositories.CategoriesRepository;
 import com.modris.repositories.StatusRepository;
 import com.modris.repositories.TrackerRepository;
-import com.modris.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -33,9 +31,6 @@ public class TrackerServiceTests {
 
 	@Autowired
 	private TrackerRepository trackerRepository;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	@Autowired
 	private CategoriesRepository categoriesRepository;
@@ -56,7 +51,7 @@ public class TrackerServiceTests {
 
 	@BeforeAll
 	void beforeAll() {
-		Users user = new Users("John", "123");
+		/*Users user = new Users("John", "123");
 		userRepository.save(user);
 		Categories c = categoriesRepository.findByIdReturnCategories(1L); // Movies
 		Status s = statusRepository.findByIdReturnStatus(3L); // Completed
@@ -72,6 +67,23 @@ public class TrackerServiceTests {
 		
 		trackerService.addTracker(pulp);
 		trackerService.addTracker(piece);
+		
+		data.sql will add the data required: 
+		INSERT INTO categories VALUES
+		(NULL,"Movies"),
+		(NULL,"Books"),
+		(NULL,"TV-Shows"),
+		(NULL,"Comic books");
+		
+		INSERT INTO status VALUES(NULL,"Ongoing"),(NULL,"Hiatus"),
+		(NULL,"Completed"),(NULL,"Dropped");
+		
+		INSERT INTO users VALUES(NULL,"John","123");
+		INSERT INTO users VALUES(NULL,"Jake","123");
+		
+		INSERT INTO tracker VALUES(NULL, "Pulp Fiction", 1,3,"Finished",'2022-02-05 10:12:11','2022-02-05 10:12:11', 1);
+		INSERT INTO tracker VALUES(NULL, "One Piece", 4,1,"Chapter 1030",'2022-02-05 10:12:11','2022-02-05 10:12:11', 1);
+		*/
 	}
 
 	@Test

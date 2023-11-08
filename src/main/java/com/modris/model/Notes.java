@@ -43,7 +43,7 @@ public class Notes {
 		this.lastModified = LocalDateTime.now();
 	}
 	
-	@Formula("(SELECT timestampdiff(DAY, t.last_modified, current_timestamp()) FROM notes n WHERE n.id = id)")
+	@Formula("(SELECT timestampdiff(DAY, n.last_modified, current_timestamp()) FROM notes n WHERE n.id = id)")
 	private Long lastRead;
 	
 	public Notes() {}
@@ -52,7 +52,11 @@ public class Notes {
 		this.name = name;
 		this.comments = comments;
 	}
-
+	public Notes(String name, String comments, Tracker tracker) {
+		this.name = name;
+		this.comments = comments;
+		this.tracker = tracker;
+	}
 	
 	public LocalDateTime getLastModified() {
 		return lastModified;

@@ -23,8 +23,8 @@ public class NotesService {
 		notesRepository.save(notes);
 	}
 	
-	public List<Notes> findAllById(Long id){
-		return notesRepository.findAllById(id);
+	public List<Notes> findAllByTrackerId(Long id){
+		return notesRepository.findAllByTrackerId(id);
 	}
 	
 	public Notes findById(Long id) {

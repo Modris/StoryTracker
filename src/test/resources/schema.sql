@@ -35,8 +35,6 @@ CREATE TABLE tracker(
     progress varchar(40),
     created_on DATETIME,
     last_modified DATETIME,
-    last_read_days smallint UNSIGNED,
-    last_read_hours smallint UNSIGNED,
     user_id smallint UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (category) REFERENCES categories(id),
