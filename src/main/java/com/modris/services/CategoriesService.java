@@ -38,4 +38,8 @@ public class CategoriesService {
 	public List<Categories> findAll(){
 		return categoriesRepository.findAll();
 	}
+	
+	public Categories findByIdReturnCategories(Long id) {
+		return categoriesRepository.findByIdReturnCategories(id);
+	}
 }

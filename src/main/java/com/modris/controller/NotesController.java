@@ -114,7 +114,7 @@ public class NotesController {
 			model.addAttribute("errorMsg", "Error. Can't delete notes for other people.");
 			 return "errorPage.html";
 		} else {
-		notesService.deleteById(notesId);
+		notesService.deleteByIdAndTrackerId(notesId, trackerId);
 		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		redirectAttributes.addAttribute("trackerName",trackerName);
 		

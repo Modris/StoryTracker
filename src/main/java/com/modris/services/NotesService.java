@@ -34,15 +34,16 @@ public class NotesService {
 		return notesRepository.findByIdAndTrackerId(id,trackerId);
 	}
 
-	@Transactional
-	public void deleteById(Long id) {
-		notesRepository.deleteById(id);
-	}
+
 	@Transactional
 	public void deleteByTrackerId(Long trackerId) {
 		notesRepository.deleteByTrackerId(trackerId);
 	}
 	
+	@Transactional
+	public void deleteByIdAndTrackerId(Long id, Long trackerId) {
+		notesRepository.deleteByIdAndTrackerId(id,trackerId);
+	}
 	@Transactional
 	public void updateNoteHibernate(Long notesId,String notesNameEdited, String notesCommentEdited) {
 		Notes original = notesRepository.findById2(notesId);

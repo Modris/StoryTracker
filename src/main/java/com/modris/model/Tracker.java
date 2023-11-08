@@ -2,13 +2,12 @@ package com.modris.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -61,28 +59,13 @@ public class Tracker {
 		this.lastModified = LocalDateTime.now();
 	}
 
-//	@Formula("(SELECT timestampdiff(HOUR, t.last_modified, current_timestamp()) FROM Tracker t WHERE t.id = id)")
-	@Column(name = "last_read_hours")
+	@Formula("(SELECT timestampdiff(HOUR, t.last_modified, current_timestamp()) FROM tracker t WHERE t.id = id)")
 	private Long lastReadHours;
 
-	//@Formula("(SELECT timestampdiff(DAY, t.last_modified, current_timestamp()) FROM Tracker t WHERE t.id = id)")
-	@Column(name = "last_read_days")
+	@Formula("(SELECT timestampdiff(DAY, t.last_modified, current_timestamp()) FROM tracker t WHERE t.id = id)")
 	private Long lastReadDays;
-	
-	@PrePersist
-	public void onPersist() {
-		LocalDateTime now = LocalDateTime.now();
-		if(lastModified == null) {
-			this.lastModified = LocalDateTime.now();
-		}
-		Long hrs = lastModified.until(now, ChronoUnit.HOURS);
-		this.lastReadHours = hrs;
-		
-		Long days = lastModified.until(now, ChronoUnit.DAYS);
-		this.lastReadDays = days;
-	}
-	
-	//private Audit audit;
+
+
 	
 	
 	public Tracker() {}

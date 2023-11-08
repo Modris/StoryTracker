@@ -19,6 +19,8 @@ public interface TrackerRepository extends JpaRepository<Tracker,Long>{
 	@Query("SELECT t FROM Tracker t")
 	List<Tracker> findAll();
 	
+	//save All id1 id 2.
+	//future method?
 	
 	@Query("SELECT t FROM Tracker t WHERE t.id = :id AND t.user.id = :userId")
 	Tracker findByIdAndUserIdReturnTracker(@Param("id") Long id,  @Param("userId") Long userId);
@@ -39,16 +41,19 @@ public interface TrackerRepository extends JpaRepository<Tracker,Long>{
 	@Modifying
 	@Query("DELETE FROM Tracker t WHERE t.id = :id AND t.user.id = :userId")
 	void deleteByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
-
+/*
 	@Query(value = """
-			SELECT t.id,name,category,status,progress,created_on,last_modified, last_read_days,last_read_hours,t.user_id FROM tracker t
+			SELECT t.id,name,category,status,progress,created_on,last_modified,last_read_days,last_read_hours,t.user_id FROM tracker t
 			JOIN users u ON t.user_id = u.id 
 			WHERE u.username = :username
 			""", nativeQuery = true)
 	List<Tracker> findAllByUsernameNative(@Param("username") String username);
+*/
+	// Generates very long query. But if i use native Query then i have to do many extra steps.
+	// Hard to say if fetching list + updating last_read values, then saving them into database.
+	// is more performant than 1 long query.
+	@Query("SELECT t FROM Tracker t WHERE t.user.username = :username")
+	List<Tracker> findAllByUsername(@Param("username") String username);
+	
 }
-	// Generates very long query. I don't want to use Projections then convert that into Tracker object.
-	// So i will use native query.
-	//@Query("SELECT t FROM Tracker t WHERE t.user.username = :username")
-	//List<Tracker> findAllByUsername(@Param("username") String username);
-	//}
+	

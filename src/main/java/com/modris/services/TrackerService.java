@@ -19,10 +19,12 @@ public class TrackerService {
 	
 	private final TrackerRepository trackerRepository;
 	private final NotesService notesService;
+	private final UserService userService;
 	@Autowired
-	public TrackerService(TrackerRepository trackerRepository, NotesService notesService) {
+	public TrackerService(TrackerRepository trackerRepository, NotesService notesService, UserService userService) {
 		this.trackerRepository = trackerRepository;
 		this.notesService = notesService;
+		this.userService = userService;
 	}
 	
 	@Transactional
@@ -35,13 +37,17 @@ public class TrackerService {
 		Pageable pageable = PageRequest.of(pageNumber-1, pageSize,
 				sortDirection.equals("asc") ? Sort.by(sortField).ascending()
 						: Sort.by(sortField).descending());
-		
+	
 		return trackerRepository.findAllPagedWithUserId(pageable,userId);
+		
 	}
 	
 	public List<Tracker> findAllByUsernameNative(String username){
-		return trackerRepository.findAllByUsernameNative(username);
+		List<Tracker> tList = trackerRepository.findAllByUsername(username);
+		return tList;
 	}
+	
+
 	@Transactional
 	public void deleteByIdAndUserId(Long id, Long userId) {
 		notesService.deleteByTrackerId(id);
