@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,7 @@ public class MainController {
 	private final CategoriesService categoriesService;
 	private final StatusService statusService;
 	private final UserService userService;
+	
 	@Autowired
 	public MainController(TrackerService trackerService, CategoriesService categoriesService,
 			StatusService statusService, UserService userService) {
@@ -42,29 +45,20 @@ public class MainController {
 	}
 
 	@GetMapping("/")
-	public String defaultPage() {
+	public String defaultPageAuthorized() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() 
+        						   && !"anonymousUser".equals(authentication.getPrincipal())) {
+			return "redirect:/home";
+		} else {
 		return "defaultPage.html";
+		}
 	}
 	@GetMapping("/home")
-	public String mainPage(@RequestParam(value = "createdOn",required=false) String createdOn,
-			@RequestParam(value = "lastModified",required=false) String lastModified,
-			@RequestParam(value = "lastRead",required=false) String lastRead,
-			@RequestParam(value = "lastReadDays",required=false) String lastReadDays,
-			@RequestParam(value="pageNum", required=false) String pageNum,
-			@RequestParam(value = "pageSize",required=false) String pageSize,
-			Model model,
-			Principal principal,
-		 RedirectAttributes redirectAttributes) {
+	public String mainPage(Model model, Principal principal) { 
 		
-		if(pageNum == null) {
-			pageNum="1";
-		}
-		if(pageSize == null) {
-			pageSize = "5";
-		}
+		return viewPage(1,null,null,null,null,"5", "id", "asc",principal,model);
 
-		return viewPage(Integer.valueOf(pageNum),createdOn, lastModified, lastRead, 
-				lastReadDays,pageSize, "id", "asc",principal,model);
 	}
 	
 	@GetMapping("/home/page/{pageNum}")
@@ -274,7 +268,10 @@ public class MainController {
 			@Param("sortDir") String sortDir,
 			Principal principal,
 			Model model) {
-								
+		if(id == null) {
+			model.addAttribute("errorMsg", "Error. Id can't be null.");
+			return "errorPage.html";
+		}
 		String username = principal.getName();
 		Optional<Users> userInRepo = userService.findByUsername(username);
 		Users userExtracted = userInRepo.get();
