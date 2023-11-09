@@ -56,18 +56,6 @@ public class NotesController {
 		return "notes.html"; //notes.html
 		}
 	}
-	@GetMapping("/home/page/notes")
-	public String goToNotesPage2( @RequestParam("storyId") Long trackerId,
-			@RequestParam("trackerName") String trackerName,
-			Model model,
-			RedirectAttributes redirectAttributes) {
-		List<Notes> notesList = notesService.findAllByTrackerId(trackerId);
-		redirectAttributes.addAttribute("notesList", notesList); //listAll 
-		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
-		redirectAttributes.addAttribute("trackerName", trackerName); //display trackerName as hard embedded value.
-
-		return "redirect:/home/notes"; //notes.html
-	}
 
 	@PostMapping("/home/addNotes")
 	public String addNotes( @RequestParam("name") String name,
@@ -134,6 +122,7 @@ public class NotesController {
 		Long trackerId = note.getTracker().getId();
 		Tracker tracker = trackerService.findByIdAndUserId(trackerId, userExtracted.getId());
 		Notes n = notesService.findByIdAndTrackerId(id,trackerId);
+		
 		if(tracker == null || n == null) {
 			model.addAttribute("errorMsg", "Error. Can't edit notes from other people.");
 			 return "errorPage.html";
