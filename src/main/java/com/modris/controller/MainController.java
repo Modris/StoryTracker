@@ -209,6 +209,9 @@ public class MainController {
 			List<Status> statusList = statusService.findAll();
 			List<Categories> categoriesList = categoriesService.findAll();
 			
+
+			model.addAttribute("createdOnDate", t.getCreatedOn());
+			model.addAttribute("lastModifiedDate", t.getLastModified());
 			model.addAttribute("createdOnAnswer", createdOn);
 			model.addAttribute("lastModifiedAnswer", lastModified);
 			model.addAttribute("lastReadAnswer", lastRead);
@@ -226,7 +229,7 @@ public class MainController {
 		}
 	
 	@PostMapping("editSaved")
-	public String editSaved(Tracker t, @RequestParam("id") Long id,
+	public String editSaved(Tracker tracker, @RequestParam("id") Long id,
 			@RequestParam(value = "createdOnNoTrackerBind",required=false) String createdOn,
 			@RequestParam(value = "lastModifiedNoTrackerBind",required=false) String lastModified,
 			@RequestParam(value = "lastReadNoTrackerBind",required=false) String lastRead,
@@ -239,7 +242,8 @@ public class MainController {
 			Model model)
 			
 			 {
-		
+		System.out.println("=============");
+		System.out.println(tracker.getCreatedOn());
 		String username = principal.getName();
 		Optional<Users> userInRepo = userService.findByUsername(username);
 		Users userExtracted = userInRepo.get();
@@ -248,7 +252,8 @@ public class MainController {
 			model.addAttribute("errorMsg", "Error. Can't edit other people data.");
 			return "errorPage.html";
 		} else {
-		trackerService.editSavedHibernate(t,id,userExtracted.getId());
+		
+		trackerService.editSavedHibernate(tracker,id,userExtracted.getId());
 		
 		return pagedUrl(currentPage,sortField,sortDir,pageSize, createdOn,lastModified,lastRead,lastReadDays);
 			}

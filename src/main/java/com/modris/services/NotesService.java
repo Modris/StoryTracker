@@ -1,5 +1,6 @@
 package com.modris.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class NotesService {
 	}
 	@Transactional
 	public void addNotes(Notes notes) {
+		notes.setLastModified(LocalDateTime.now());
 		notesRepository.save(notes);
 	}
 	
@@ -44,14 +46,19 @@ public class NotesService {
 	public void deleteByIdAndTrackerId(Long id, Long trackerId) {
 		notesRepository.deleteByIdAndTrackerId(id,trackerId);
 	}
+	
 	@Transactional
-	public void updateNoteHibernate(Long notesId,String notesNameEdited, String notesCommentEdited) {
+	public void updateNoteHibernate(Long notesId,String notesNameEdited, String notesCommentEdited,
+									String createdOn, String lastModified) {
 		Notes original = notesRepository.findById2(notesId);
 		original.setName(notesNameEdited);
 		original.setComments(notesCommentEdited);
-		
+		original.setCreatedOn(LocalDateTime.parse(createdOn));
+		original.setLastModified(LocalDateTime.parse(lastModified));
 		notesRepository.save(original);
 	}
+
+	
 	@Transactional
 	public void updateNote(Long notesId,String notesName, String notesComment) {
 		notesRepository.updateNote(notesId,notesName,notesComment);

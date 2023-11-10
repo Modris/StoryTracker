@@ -56,8 +56,15 @@
 					<input type="hidden" name = "trackerName" th:value="${trackerName}">
 					<button class = "homeApply" type="Add">Save</button>	
 				</td>
+				</tr>
+				<tr>
+			<td class="paddedv2"> Created on: </td>
+			<td class="paddedv2"> <input type="datetime-local" th:value="${createdOn}" name="createdOn"></td>
+			<td class="paddedv2"> Last Read Date: </td>
+			<td class="paddedv2">  <input type="datetime-local"th:value="${lastModified}"  name="lastModified"></td>
+				<tr>
 				</form>
-		</tr>
+		
 
 		</table>
 

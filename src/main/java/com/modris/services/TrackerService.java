@@ -1,5 +1,6 @@
 package com.modris.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class TrackerService {
 	
 	@Transactional
 	public void addTracker(Tracker tracker) {
+		tracker.setLastModified(LocalDateTime.now());
 		trackerRepository.save(tracker);
 	}
 	
@@ -64,6 +66,8 @@ public class TrackerService {
 		original.setCategory(tEdited.getCategory());
 		original.setStatus(tEdited.getStatus());
 		original.setProgress(tEdited.getProgress());
+		original.setCreatedOn(tEdited.getCreatedOn());
+		original.setLastModified(tEdited.getLastModified());
 		trackerRepository.save(original);
 	}
 	

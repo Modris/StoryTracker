@@ -73,8 +73,8 @@
 		<th>Story Name</th>
 		<th>Notes name</th>
 		<th> Created On </th>
-		<th> Last Modified </th>
 		<th> Last Read </th>
+		<th> Days </th>
 		<th colspan="2"> Actions </th>
 	</tr>
 	
@@ -82,15 +82,15 @@
         <th:block th:each="notes, index : ${notesList}">
 			<tr>
 	            <td th:text="${index.count}" />
-	            <td th:text="${notes.tracker.name}" />
-	            <td th:text="${notes.name}" />
-	            <td th:text="${notes.getCreatedOnConvertedToDate}" />
-	            <td th:text="${notes.getLastModifiedConvertedToDate}"/> 
-	            <td th:text="${notes.lastRead}  + ' day(s)' " />
+	            <td class="pad" th:text="${notes.tracker.name}" />
+	            <td class="pad" th:text="${notes.name}" />
+	            <td class="pad" th:text="${notes.getCreatedOnConvertedToDate}" />
+	            <td class="pad" th:text="${notes.getLastModifiedConvertedToDate}"/> 
+	            <td class="pad" th:text="${notes.lastRead}  + ' day(s)' " />
 	            <td class="padded">
 	                <form th:action="@{/home/editNote}" method="post" id="edit_form">
 	                    <input type="hidden" name="notesId" th:value="${notes.id}" />
-	                    	<input type="hidden" name = "storyId" th:value="${storyId}">
+	                    <input type="hidden" name = "storyId" th:value="${storyId}">
 						<input type="hidden" name = "trackerName" th:value="${trackerName}">
 	                    <input type="hidden" name="notesComment" th:value="${notes.comments}" />
 	                   <input type="hidden" name="notesName" th:value="${notes.name}" />
@@ -106,7 +106,7 @@
 	                </form>
 	            </td>
 	            <tr>
-	                <td></td> <!-- Empty id -->
+	                <td class="pad"> Comment:</td> <!-- Empty id -->
 	               
 	               <td colspan="5">
 	             		<div class="comment-cell" th:text="${notes.comments}"></div>

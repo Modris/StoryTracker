@@ -1,6 +1,5 @@
 CREATE DATABASE story_tracker;
 use story_tracker;
-use story_tracker;
 CREATE TABLE tracker(
 	id int UNSIGNED AUTO_INCREMENT,
     name VARCHAR(100),

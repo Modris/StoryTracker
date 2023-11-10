@@ -1,8 +1,11 @@
 package com.modris.services;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -47,7 +50,8 @@ public class NotesServiceTests {
 		Tracker t = trackerRepository.findByIdAndUserIdReturnTracker(1L, 1L); // John user, Pulp Fiction
 		Notes n = new Notes("Default","Good movie.",t );
 		Notes n2 = new Notes("Default2","Recommend",t );
-		
+		n.setLastModified(LocalDateTime.now());
+		n2.setLastModified(LocalDateTime.now());
 		notesRepository.save(n);
 		notesRepository.save(n2);
 		
@@ -60,13 +64,18 @@ public class NotesServiceTests {
 	@DisplayName("findAllById method test. Happy flow.")
 	void findAllByIdTest() {
 		List<Notes> notesList = notesService.findAllByTrackerId(1L);
-		
+		LocalDateTime createdOn = notesList.get(0).getCreatedOn();
+		LocalDateTime lastModified = notesList.get(0).getLastModified();
+		int createdOnYear = createdOn.getYear();
+		int lastModifiedYear = lastModified.getYear();
 		assertAll(
 				() -> assertEquals(2, notesList.size()),
 				() -> assertEquals("Default", notesList.get(0).getName()),
 				() -> assertEquals("Default2", notesList.get(1).getName()),
 				() -> assertEquals("Good movie.", notesList.get(0).getComments()),
-				() -> assertEquals("Recommend", notesList.get(1).getComments())
+				() -> assertEquals("Recommend", notesList.get(1).getComments()),
+				() -> assertTrue(createdOnYear>2000),
+				() -> assertTrue(lastModifiedYear>2000)
 				);
 	}
 	
@@ -117,12 +126,18 @@ public class NotesServiceTests {
 	@Transactional
 	@DisplayName("updateNoteHibernate method test. Happy flow.")
 	void updateNoteHibernate() {
-		
-		notesService.updateNoteHibernate(1L, "Notes1", "Bad movie.");
+		Notes original = notesRepository.findById2(1L);
+		assertTrue(original.getCreatedOn().getYear() > 2022);
+		notesService.updateNoteHibernate(1L, "Notes1", "Bad movie.","2000-11-10T12:18:03","2003-11-10T12:18:03" );
 		Notes updated = notesRepository.findById2(1L);
+		int createdOnYear = updated.getCreatedOn().getYear();
+		int lastModifiedYear  = updated.getLastModified().getYear();;
+
 		assertAll(
 				()-> assertEquals("Notes1", updated.getName()),
-				()-> assertEquals("Bad movie.", updated.getComments())
+				()-> assertEquals("Bad movie.", updated.getComments()),
+				() -> assertTrue(createdOnYear == 2000),
+				() -> assertTrue(lastModifiedYear == 2003)
 				);
 		
 	}

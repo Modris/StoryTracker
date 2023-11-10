@@ -111,7 +111,8 @@ public class NotesController {
 	}
 
 	@PostMapping("/home/editNote")
-	public String editNote(@RequestParam("notesId") Long id, Model model, Principal principal) {
+	public String editNote(@RequestParam("notesId") Long id,
+			Model model, Principal principal) {
 		
 
 		String username = principal.getName();
@@ -127,7 +128,9 @@ public class NotesController {
 			model.addAttribute("errorMsg", "Error. Can't edit notes from other people.");
 			 return "errorPage.html";
 		} else {
-		
+			
+		model.addAttribute("createdOn", note.getCreatedOn());
+		model.addAttribute("lastModified", note.getLastModified());
 		model.addAttribute("notesName", note.getName());
 		model.addAttribute("notesId", note.getId());
 		model.addAttribute("storyId", note.getTracker().getId());
@@ -137,7 +140,9 @@ public class NotesController {
 		}
 	}
 	@PostMapping("/home/updateNote")
-	public String updateNote(   @RequestParam("notesName") String notesName,
+	public String updateNote(   @RequestParam("createdOn") String createdOn,
+								@RequestParam("lastModified") String lastModified,
+								@RequestParam("notesName") String notesName,
 								@RequestParam("notesComment") String notesComment,
 								@RequestParam("notesId") Long notesId,
 								@RequestParam("storyId") Long trackerId,
@@ -156,8 +161,8 @@ public class NotesController {
 			model.addAttribute("errorMsg", "Error. Can't update notes from other people.");
 			 return "errorPage.html";
 		} else {
-			
-		notesService.updateNoteHibernate(notesId,notesName,notesComment);
+
+		notesService.updateNoteHibernate(notesId,notesName,notesComment, createdOn,lastModified);
 		
 		redirectAttributes.addAttribute("storyId", trackerId); //id for when i'm gonna save later
 		redirectAttributes.addAttribute("trackerName",trackerName);

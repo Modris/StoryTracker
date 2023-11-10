@@ -1,9 +1,11 @@
 package com.modris.services;
 
-import static org.junit.Assert.assertTrue;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -22,6 +24,7 @@ import com.modris.model.Tracker;
 import com.modris.repositories.CategoriesRepository;
 import com.modris.repositories.StatusRepository;
 import com.modris.repositories.TrackerRepository;
+import com.modris.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -40,6 +43,9 @@ public class TrackerServiceTests {
 
 	@Autowired
 	private TrackerService trackerService;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	@ServiceConnection
 	static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.0").withDatabaseName("testcontainers2")
@@ -51,23 +57,8 @@ public class TrackerServiceTests {
 
 	@BeforeAll
 	void beforeAll() {
-		/*Users user = new Users("John", "123");
-		userRepository.save(user);
-		Categories c = categoriesRepository.findByIdReturnCategories(1L); // Movies
-		Status s = statusRepository.findByIdReturnStatus(3L); // Completed
-
-		Tracker pulp = new Tracker("Pulp Fiction", c, s, "Finished");
-		pulp.setUser(user);
 		
-		Categories c2 = categoriesRepository.findByIdReturnCategories(4L); // Comic books
-		Status s2 = statusRepository.findByIdReturnStatus(1L); // Ongoing
-		Tracker piece = new Tracker("One Piece", c2, s2, "Chapter 1030");
-		
-		piece.setUser(user);
-		
-		trackerService.addTracker(pulp);
-		trackerService.addTracker(piece);
-		
+		/*
 		data.sql will add the data required: 
 		INSERT INTO categories VALUES
 		(NULL,"Movies"),
@@ -83,12 +74,46 @@ public class TrackerServiceTests {
 		
 		INSERT INTO tracker VALUES(NULL, "Pulp Fiction", 1,3,"Finished",'2022-02-05 10:12:11','2022-02-05 10:12:11', 1);
 		INSERT INTO tracker VALUES(NULL, "One Piece", 4,1,"Chapter 1030",'2022-02-05 10:12:11','2022-02-05 10:12:11', 1);
+		
+		// OLD DATE before data.sql 
+		userRepository.save(user);
+		Categories c = categoriesRepository.findByIdReturnCategories(1L); // Movies
+		Status s = statusRepository.findByIdReturnStatus(3L); // Completed
+
+		Tracker pulp = new Tracker("Pulp Fiction", c, s, "Finished");
+		pulp.setUser(user);
+		
+		Categories c2 = categoriesRepository.findByIdReturnCategories(4L); // Comic books
+		Status s2 = statusRepository.findByIdReturnStatus(1L); // Ongoing
+		Tracker piece = new Tracker("One Piece", c2, s2, "Chapter 1030");
+		
+		piece.setUser(user);
+		
+		trackerService.addTracker(pulp);
+		trackerService.addTracker(piece);
 		*/
 	}
-
 	@Test
 	@Transactional
-	@DisplayName("TrackerService method addTracker + findAllByUsername happy flow. Saving into DB successful. TestContainers.")
+	@DisplayName("TrackerService method addTracker test.")
+	public void addTrackerTest() {
+		Categories c = categoriesRepository.findByIdReturnCategories(1L); // Movies
+		Status s = statusRepository.findByIdReturnStatus(3L); // Completed
+		
+		Tracker pulp = new Tracker("Pulp FictionX2", c, s, "FinishedX2");
+		pulp.setUser(userRepository.findById(2L).get()); // Jake
+		trackerService.addTracker(pulp);
+		
+		List<Tracker> trackerList = trackerService.findAllByUsernameNative("John");
+		List<Tracker> trackerListJake = trackerService.findAllByUsernameNative("Jake");
+		assertAll(
+				() -> assertEquals(1, trackerListJake.size()),
+				() -> assertTrue(trackerListJake.get(0).getCreatedOn().getYear() > 2000)
+				);
+	}
+	@Test
+	@Transactional
+	@DisplayName("data.sql + findAllByUsername happy flow. Saving into DB successful. TestContainers.")
 	public void beforeAllIsSavingDataIntoDB() {
 	
 		List<Tracker> trackerList = trackerService.findAllByUsernameNative("John");
@@ -142,21 +167,27 @@ public class TrackerServiceTests {
 	@DisplayName("TrackerService.editSaved method works. Happy flow Edited..")
 	public void trackerServiceEditSavedTest() {
 		//public void editSavedHibernate(Tracker tEdited,Long id, Long userId) {
-		 
 			Tracker tEdited = trackerRepository.findByIdAndUserIdReturnTracker(2L, 1L);
+			assertTrue(tEdited.getCreatedOn().getYear() == 2022);
+			
+			
 			tEdited.setName("One Piece 2");
 			Categories c = categoriesRepository.findByIdReturnCategories(1L); // Movies
 			Status s = statusRepository.findByIdReturnStatus(4L); // Dropped
 			tEdited.setCategory(c);
 			tEdited.setStatus(s);
 			tEdited.setProgress("Now2");
+			tEdited.setCreatedOn(LocalDateTime.parse("2000-11-10T12:49:41"));
+			tEdited.setLastModified(LocalDateTime.parse("2003-11-10T12:49:41"));
 			trackerService.editSavedHibernate(tEdited, 2L,1L);
-
+			Tracker updated = trackerRepository.findByIdAndUserIdReturnTracker(2L,1L);
 		assertAll(
-				() -> assertEquals("One Piece 2", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getName()),
-				() -> assertEquals("Movies", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getCategory().getName()),
-				() -> assertEquals("Dropped", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getStatus().getName()),
-				() -> assertEquals("Now2", trackerRepository.findByIdAndUserIdReturnTracker(2L,1L).getProgress()));
+				() -> assertTrue(updated.getCreatedOn().getYear() == 2000),
+				() -> assertTrue(updated.getLastModified().getYear() == 2003),
+				() -> assertEquals("One Piece 2", updated.getName()),
+				() -> assertEquals("Movies", updated.getCategory().getName()),
+				() -> assertEquals("Dropped", updated.getStatus().getName()),
+				() -> assertEquals("Now2", updated.getProgress()));
 	}
 	@Test
 	@Transactional

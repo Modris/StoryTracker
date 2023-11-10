@@ -49,6 +49,7 @@ body {
      table-layout: fixed;
      white-space: nowrap;
 }
+
  tr:nth-child(even){
     background-color: #f2f2f2
 }
@@ -81,6 +82,7 @@ body {
      background-color: #B9D9EB;
 }
  .comment-cell {
+	 padding:4px;
      max-height: 70px;
      max-width:140px;
      overflow-y: auto;
@@ -88,6 +90,7 @@ body {
 	 word-wrap: break-word; 
 }
  .comment-cell2 {
+	 padding:4px;
      max-height: 70px;
      max-width:140px;
      overflow-y: auto;
@@ -223,5 +226,14 @@ body {
 .padded{
 	 padding: 0;
 	 margin: 0;
-	  box-sizing: border-box;
+	 box-sizing: border-box;
+}
+.paddedv2{
+	 padding:18px;
+	margin: 18px;
+	font-size:16px;
+}	
+	
+.pad{
+	padding:4px;
 }

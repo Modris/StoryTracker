@@ -223,7 +223,7 @@
 		<tr> 
 			<th> </th>		
 			<th> Created on </th>
-			<th> Last Modified </th>
+			<th> Last Read </th>
 			<th> Last Read Days </th>
 			<th> Last Read Hr </th>
 			<th>  </th>
@@ -285,17 +285,17 @@
 			</th>
 			<th th:if="${lastModifiedAnswer == on}"> 
 				<a id="dynamicLink6">
-					 <button class = "homeTh" type="button" onclick="updateURL('lastModified')">Last Modified</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('lastModified')">Last Read</button>
 				 </a>
 			</th>
 			<th th:if="${lastReadDaysAnswer == on}">
 				<a id="dynamicLink88">
-					 <button class = "homeTh" type="button" onclick="updateURL('lastReadDays')">Last Read Days</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('lastReadDays')">Days</button>
 				 </a>
 			</th>
 			<th th:if="${lastReadAnswer == on}">
 				<a id="dynamicLink7">
-					 <button class = "homeTh" type="button" onclick="updateURL('lastReadHours')">Last Read Hrs</button>
+					 <button class = "homeTh" type="button" onclick="updateURL('lastReadHours')">Hours</button>
 				 </a> 
 			</th>
 			<th colspan="2"> Actions </th>
@@ -306,19 +306,18 @@
 					<td th:text="${indexList[index.count-1]}+1"/>
 					<!-- index for trackerListPaged starts from 1.But indexList starts from 0. That's why index.count-1.
 					 But i want indexing to start at 1 so the +1 after {}.-->
-					<td class = "comment-cell" th:text="${tracker.name}"/>
-					<td th:text="${tracker.category.name}"/>
-					<td th:text="${tracker.status.name}"/>
-					<td class = "comment-cell2" th:text="${tracker.progress}"/>
-					<td th:if="${createdOnAnswer ==  on}" th:text="${tracker.getCreatedOnConvertedToDate}"/>  
-					<td th:if="${lastModifiedAnswer ==  on}" th:text="${tracker.getLastModifiedConvertedToDate}" />
-					<td th:if="${lastReadDaysAnswer ==  on}" th:text="${tracker.lastReadDays} + ' day(s)'"/>		
-					<td th:if="${lastReadAnswer ==  on}" th:text="${tracker.lastReadHours} + ' hour(s)'"/>		
+					<td  class = "comment-cell" th:text="${tracker.name}"/>
+					<td class="pad" th:text="${tracker.category.name}"/>
+					<td class="pad" th:text="${tracker.status.name}"/>
+					<td  class = "comment-cell2" th:text="${tracker.progress}"/>
+					<td class="pad" th:if="${createdOnAnswer ==  on}" th:text="${tracker.getCreatedOnConvertedToDate}"/>  
+					<td class="pad" th:if="${lastModifiedAnswer ==  on}" th:text="${tracker.getLastModifiedConvertedToDate}" />
+					<td class="pad"th:if="${lastReadDaysAnswer ==  on}" th:text="${tracker.lastReadDays} + ' day(s)'"/>		
+					<td class="pad" th:if="${lastReadAnswer ==  on}" th:text="${tracker.lastReadHours} + ' hour(s)'"/>		
 					
 					<td class="padded">
 							<form  th:action="@{/edit}" method="post" id="edit_form">
 							<input type="hidden" name = "editId" th:value="${tracker.id}">
-							
 							<input type="hidden" name="createdOn" th:value="${createdOnAnswer}" />
 					 		<input type="hidden" name="lastModified" th:value="${lastModifiedAnswer}" />
 							<input type="hidden" name="lastRead" th:value="${lastReadAnswer}" />

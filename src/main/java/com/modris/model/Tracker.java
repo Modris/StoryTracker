@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -46,18 +44,12 @@ public class Tracker {
 	@CreationTimestamp
 	private LocalDateTime createdOn;
 
-	@UpdateTimestamp
 	private LocalDateTime lastModified;
 	
 	@NotNull
 	@JoinColumn(name = "user_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Users user;
-	
-	@PreUpdate
-	public void onUpdate() {
-		this.lastModified = LocalDateTime.now();
-	}
 
 	@Formula("(SELECT timestampdiff(HOUR, t.last_modified, current_timestamp()) FROM tracker t WHERE t.id = id)")
 	private Long lastReadHours;

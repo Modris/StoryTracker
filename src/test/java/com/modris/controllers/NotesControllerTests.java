@@ -296,7 +296,9 @@ public class NotesControllerTests {
 						.param("notesComment", "Good movie.")
 						.param("notesId", "1")
 						.param("storyId", "1")
-						.param("trackerName", "Pulp Fiction"))
+						.param("trackerName", "Pulp Fiction")
+						.param("createdOn", "2023-11-10T13:02:20")
+						.param("lastModified","2023-11-10T13:02:20"))
 						.andExpect(status().isOk())
 						.andExpect(view().name("errorPage.html"))
 						.andExpect(model().attribute("errorMsg","Error. Can't update notes from other people."));
@@ -322,7 +324,9 @@ public class NotesControllerTests {
 						.param("notesComment", "Good movie.")
 						.param("notesId", "1")
 						.param("storyId", "1")
-						.param("trackerName", "Pulp Fiction"))
+						.param("trackerName", "Pulp Fiction")
+						.param("createdOn", "2023-11-10T13:02:20")
+						.param("lastModified","2023-11-10T13:02:20"))
 						.andExpect(status().isOk())
 						.andExpect(view().name("errorPage.html"))
 						.andExpect(model().attribute("errorMsg","Error. Can't update notes from other people."));
@@ -349,7 +353,9 @@ public class NotesControllerTests {
 						.param("notesComment", "Good movie.")
 						.param("notesId", "1")
 						.param("storyId", "1")
-						.param("trackerName", "Pulp Fiction"))
+						.param("trackerName", "Pulp Fiction")
+						.param("createdOn", "2023-11-10T13:02:20")
+						.param("lastModified","2023-11-10T13:02:20"))
 						.andExpect(status().is3xxRedirection())
 						.andExpect(redirectedUrl("/home/notes?storyId=1&trackerName=Pulp+Fiction"));
 	}
