@@ -24,10 +24,6 @@ public class LoginAndRegisterController {
 	public String loginpage() {
 		return "login.html";
 	}
-	@PostMapping("/logout")
-	public String logout() {
-		return "redirect:/login?logout";
-	}
 	
 	@GetMapping("/register")
 	public String register(@RequestParam(value = "usernameTaken",required=false) String taken, Model model) {

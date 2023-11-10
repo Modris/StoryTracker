@@ -36,7 +36,7 @@ public class ProjectConfig {
 
 		http.authorizeHttpRequests(
 				c -> c.requestMatchers("/register").permitAll()
-				.requestMatchers("registerSave").permitAll()
+				.requestMatchers("/registerSave").permitAll()
 				.requestMatchers("/").permitAll()
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 				.anyRequest().authenticated());
