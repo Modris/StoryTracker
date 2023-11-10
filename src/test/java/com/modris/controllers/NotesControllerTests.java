@@ -45,6 +45,7 @@ public class NotesControllerTests {
 	@MockBean
 	JpaUserDetailsService jpaUserDetailsService;
 	
+	
 	@MockBean
 	private  NotesService notesService;
 	

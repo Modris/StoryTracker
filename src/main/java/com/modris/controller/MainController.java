@@ -242,8 +242,6 @@ public class MainController {
 			Model model)
 			
 			 {
-		System.out.println("=============");
-		System.out.println(tracker.getCreatedOn());
 		String username = principal.getName();
 		Optional<Users> userInRepo = userService.findByUsername(username);
 		Users userExtracted = userInRepo.get();

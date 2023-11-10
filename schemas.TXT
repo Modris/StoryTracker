@@ -1,5 +1,5 @@
 CREATE DATABASE story_tracker;
-use story_tracker;
+use story_tracker; 
 CREATE TABLE users(
 	id smallint UNSIGNED AUTO_INCREMENT,
     username VARCHAR(40),
